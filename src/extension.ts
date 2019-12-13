@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 
+import { Modification, Code, determineModificationFrom } from "./modification";
+
 const COMMAND_ID = "hocusPocus.createFunction";
 const SUPPORTED_LANGUAGES = [
   "javascript",
@@ -41,18 +43,24 @@ export function activate(context: vscode.ExtensionContext) {
   });
 }
 
+export function deactivate() {}
+
 class ActionProvider implements vscode.CodeActionProvider {
   provideCodeActions(
     document: vscode.TextDocument,
     selection: vscode.Range | vscode.Selection,
-    context: vscode.CodeActionContext,
-    token: vscode.CancellationToken
+    _context: vscode.CodeActionContext,
+    _token: vscode.CancellationToken
   ): vscode.ProviderResult<(vscode.Command | vscode.CodeAction)[]> {
     let canPerformAction = false;
     const code = document.getText();
 
-    const modification = determineModificationFrom(code, selection);
-    modification.execute(() => (canPerformAction = true));
+    try {
+      const modification = determineModificationFrom(code, selection);
+      modification.execute(() => (canPerformAction = true));
+    } catch (_) {
+      // Silently fail (typically, code can't be parsed)
+    }
 
     if (!canPerformAction) return [];
 
@@ -87,86 +95,6 @@ function currentSelection(): vscode.Selection {
   return editor.selection;
 }
 
-// TODO: extract domain and start testing
-import { parse } from "@babel/parser";
-import traverse, { NodePath } from "@babel/traverse";
-import * as t from "@babel/types";
-
-function determineModificationFrom(
-  code: Code,
-  selection: vscode.Range | vscode.Selection
-): Modification {
-  const ast = parse(code);
-  let match: (t.CallExpression & { callee: t.Identifier }) | undefined;
-  traverse(ast, {
-    CallExpression(path) {
-      const loc = nodeLoc(path.node);
-      const nodeRange = new vscode.Range(
-        new vscode.Position(loc.start.line - 1, loc.start.column),
-        new vscode.Position(loc.end.line - 1, loc.end.column)
-      );
-
-      if (
-        nodeRange.contains(selection) &&
-        t.isIdentifier(path.node.callee) &&
-        !hasBindings(path)
-      ) {
-        match = path.node as t.CallExpression & { callee: t.Identifier };
-      }
-    }
-  });
-
-  if (!match) {
-    return new NoModification();
-  }
-
-  const loc = nodeLoc(match);
-  return new CreateFunction(
-    match.callee.name,
-    new vscode.Position(loc.end.line, 0)
-  );
-}
-
-function hasBindings(path: NodePath) {
-  return Object.keys(path.scope.getAllBindings()).length > 0;
-}
-
-class CreateFunction implements Modification {
-  private name: string;
-  private position: vscode.Position;
-
-  constructor(name: string, position: vscode.Position) {
-    this.name = name;
-    this.position = position;
-  }
-
-  execute(update: Update) {
-    // TODO: handle params
-    // TODO: respect indentation
-    update(`\nfunction ${this.name}() {\n  // Implement\n}`, this.position);
-  }
-}
-
-class NoModification implements Modification {
-  execute() {
-    // Do nothing
-  }
-}
-
-interface Modification {
-  execute(update: Update): void;
-}
-
-type Update = (code: Code, position: vscode.Position) => void;
-
-function nodeLoc(node: t.Node): t.SourceLocation {
-  const TOP_LEFT = {
-    start: { line: 0, column: 0 },
-    end: { line: 0, column: 0 }
-  };
-  return node.loc || TOP_LEFT;
-}
-
 function apply(modification: Modification) {
   const editor = getActiveEditor();
   const edit = new vscode.WorkspaceEdit();
@@ -177,7 +105,3 @@ function apply(modification: Modification) {
 
   vscode.workspace.applyEdit(edit);
 }
-
-type Code = string;
-
-export function deactivate() {}

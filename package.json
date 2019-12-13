@@ -1,0 +1,79 @@
+{
+  "name": "hocus-pocus",
+  "displayName": "Hocus Pocus",
+  "description": "Make useful things appear out of the void",
+  "version": "0.0.1",
+  "publisher": "nicoespeon",
+  "author": "Nicolas Carlo <nicolascarlo.espeon@gmail.com>",
+  "license": "MIT",
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "galleryBanner": {
+    "color": "#34223A",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.40.0"
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "pretest": "yarn run compile",
+    "test": "node ./out/test/runTest.js",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "yarn run compile",
+    "package": "vsce package",
+    "postpackage": "mkdir -p dist && mv *.vsix dist",
+    "package:install": "code --install-extension dist/*.vsix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "dependencies": {
+    "@babel/parser": "7.7.5",
+    "@babel/traverse": "7.7.4"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "7.0.8",
+    "@types/glob": "7.1.1",
+    "@types/mocha": "5.2.6",
+    "@types/node": "10.12.21",
+    "@types/vscode": "1.40.0",
+    "glob": "7.1.4",
+    "husky": "3.1.0",
+    "mocha": "6.1.4",
+    "prettier": "1.19.1",
+    "pretty-quick": "2.0.1",
+    "tslint": "5.12.1",
+    "typescript": "3.3.1",
+    "vsce": "1.71.0",
+    "vscode-test": "1.2.0"
+  },
+  "activationEvents": [
+    "onCommand:hocusPocus.createFunction",
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "hocusPocus.createFunction",
+        "title": "Create Function",
+        "category": "Hocus Pocus"
+      }
+    ]
+  },
+  "keybindings": [
+    {
+      "command": "hocusPocus.quickFix",
+      "key": "alt+enter",
+      "when": "editorTextFocus"
+    }
+  ]
+}

@@ -1,7 +1,9 @@
 .vscode/**
 .vscode-test/**
+adrs/**
 out/test/**
 src/**
+.adr-dir
 .gitignore
 **/tsconfig.json
 **/tslint.json

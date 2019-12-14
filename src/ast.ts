@@ -23,7 +23,7 @@ interface Position {
   column: number;
 }
 
-type Selectable<T extends t.Node> = T & { loc: t.SourceLocation };
+type Selectable<T = t.Node> = T & { loc: t.SourceLocation };
 type SelectableNode = Selectable<t.Node>;
 type SelectablePath<T = t.Node> = NodePath<Selectable<T>>;
 

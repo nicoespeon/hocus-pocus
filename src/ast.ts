@@ -1,5 +1,5 @@
 import { parse } from "@babel/parser";
-import traverse, { TraverseOptions } from "@babel/traverse";
+import traverse, { TraverseOptions, Binding } from "@babel/traverse";
 import { NodePath } from "@babel/traverse";
 import * as t from "@babel/types";
 
@@ -42,5 +42,11 @@ function traverseCode(code: Code, opts: TraverseOptions) {
 }
 
 function hasBindings(path: NodePath): boolean {
-  return Object.keys(path.scope.getAllBindings()).length > 0;
+  const bindings = path.scope.getAllBindings("hoisted") as {
+    [key: string]: Binding;
+  };
+
+  return Object.keys(bindings).reduce<boolean>((result, key) => {
+    return result || bindings[key].references > 0;
+  }, false);
 }

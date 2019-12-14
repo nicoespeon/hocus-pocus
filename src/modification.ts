@@ -81,7 +81,11 @@ class CreateFunction implements Modification {
   }
 
   private get args(): string {
-    return this.match.node.arguments.map((_, i) => `param${i + 1}`).join(", ");
+    return this.match.node.arguments
+      .map((argument, i) =>
+        t.isIdentifier(argument) ? argument.name : `param${i + 1}`
+      )
+      .join(", ");
   }
 
   private get body(): string {

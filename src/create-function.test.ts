@@ -97,7 +97,7 @@ function write(code) {}`;
 
     shouldUpdateCodeFor(code, selection, {
       code: `
-function readCode(param1, param2, param3) {
+function readCode(selection, param2, param3) {
   // Implement
 }`,
       name: "readCode"

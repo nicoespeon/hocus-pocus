@@ -22,10 +22,10 @@ function determineModification(code: Code, selection: Selection): Modification {
   t.traverseCode(code, {
     CallExpression(path) {
       if (!selection.isInsidePath(path)) return;
-      if (!isMatch(path.node)) return;
+      if (!isMatch(path)) return;
       if (t.isDeclared(path.node.callee, path)) return;
 
-      match = path.node;
+      match = path;
     }
   });
 
@@ -33,32 +33,50 @@ function determineModification(code: Code, selection: Selection): Modification {
     return new NoModification();
   }
 
-  return new CreateFunction(
-    match.callee.name,
-    Position.fromAST(match.loc.end)
-      .putAtNextLine()
-      .putAtStartOfLine()
-  );
+  return new CreateFunction(match, code);
 }
 
-function isMatch(node: t.CallExpression): node is Match {
-  return t.isIdentifier(node.callee);
+function isMatch(path: t.NodePath<t.CallExpression>): path is Match {
+  return t.isIdentifier(path.node.callee);
 }
 
-type Match = t.Selectable<t.CallExpression> & { callee: t.Identifier };
+type Match = t.NodePath<
+  t.Selectable<t.CallExpression> & { callee: t.Identifier }
+>;
 
 class CreateFunction implements Modification {
-  private name: string;
-  private position: Position;
+  private match: Match;
+  private code: Code;
 
-  constructor(name: string, position: Position) {
-    this.name = name;
-    this.position = position;
+  constructor(match: Match, code: Code) {
+    this.match = match;
+    this.code = code;
+  }
+
+  private get name(): string {
+    return this.match.node.callee.name;
+  }
+
+  private get position(): Position {
+    return Position.fromAST(this.match.node.loc.end)
+      .putAtNextLine()
+      .putAtStartOfLine();
+  }
+
+  private get after(): string {
+    const codeAfterPosition = this.code.split("\n").slice(this.position.line);
+    const hasCodeAfterPosition = codeAfterPosition.length > 0;
+
+    if (!hasCodeAfterPosition) return "";
+    if (codeAfterPosition[0].trim() !== "") return "\n\n";
+    if (codeAfterPosition[1].trim() !== "") return "\n";
+
+    return "";
   }
 
   execute(update: Update) {
     update({
-      code: `\nfunction ${this.name}() {\n  // Implement\n}`,
+      code: `\nfunction ${this.name}() {\n  // Implement\n}${this.after}`,
       position: this.position,
       name: this.name
     });

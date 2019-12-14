@@ -3,7 +3,6 @@ import { determineModification, UpdateOptions } from "./modification";
 
 // TODO: handle params
 // TODO: respect indentation
-// TODO: handle if code on line after insert
 
 describe("create function declaration from a call expression", () => {
   it("with nothing else", () => {
@@ -36,6 +35,39 @@ function readCode() {
 
   it("with assigned value referenced later", () => {
     const code = `const code = readCode();
+write(code);`;
+    const selection = Selection.cursorAt(0, 13);
+
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+function readCode() {
+  // Implement
+}
+
+`
+    });
+  });
+
+  it("doesn't add unnecessary blank lines (1 blank line in-between)", () => {
+    const code = `const code = readCode();
+
+write(code);`;
+    const selection = Selection.cursorAt(0, 13);
+
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+function readCode() {
+  // Implement
+}
+`
+    });
+  });
+
+  it("doesn't add unnecessary blank lines (2+ blank lines in-between)", () => {
+    const code = `const code = readCode();
+
+
+
 write(code);`;
     const selection = Selection.cursorAt(0, 13);
 

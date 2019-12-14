@@ -13,6 +13,7 @@ type Update = (options: UpdateOptions) => void;
 type UpdateOptions = {
   code: Code;
   position: Position;
+  name: string;
 };
 
 function determineModification(code: Code, selection: Selection): Modification {
@@ -58,7 +59,8 @@ class CreateFunction implements Modification {
   execute(update: Update) {
     update({
       code: `\nfunction ${this.name}() {\n  // Implement\n}`,
-      position: this.position
+      position: this.position,
+      name: this.name
     });
   }
 }

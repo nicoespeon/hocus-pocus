@@ -13,7 +13,8 @@ it("should create function declaration from a call expression", () => {
 function readCode() {
   // Implement
 }`,
-    position: new Position(1, 0)
+    position: new Position(1, 0),
+    name: "readCode"
   });
 });
 
@@ -26,7 +27,8 @@ it("should create function declaration from a call expression assigned to a vari
 function readCode() {
   // Implement
 }`,
-    position: new Position(1, 0)
+    position: new Position(1, 0),
+    name: "readCode"
   });
 });
 
@@ -39,7 +41,8 @@ it("should create function declaration from a call expression param of another c
 function readCode() {
   // Implement
 }`,
-    position: new Position(1, 0)
+    position: new Position(1, 0),
+    name: "readCode"
   });
 });
 

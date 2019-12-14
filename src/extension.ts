@@ -52,20 +52,20 @@ class ActionProvider implements vscode.CodeActionProvider {
     _context: vscode.CodeActionContext,
     _token: vscode.CancellationToken
   ): vscode.ProviderResult<(vscode.Command | vscode.CodeAction)[]> {
-    let canPerformAction = false;
+    let modificationName = null;
     const code = document.getText();
     const selection = fromVSCodeSelectionOrRange(selectionOrRange);
 
     try {
       const modification = determineModification(code, selection);
-      modification.execute(() => (canPerformAction = true));
+      modification.execute(({ name }) => (modificationName = name));
     } catch (_) {
       // Silently fail (typically, code can't be parsed)
     }
 
-    if (!canPerformAction) return [];
+    if (modificationName === null) return [];
 
-    const title = "🔮 Create function";
+    const title = `🔮 Create function "${modificationName}"`;
     const action = new vscode.CodeAction(title);
     action.command = {
       command: COMMAND_ID,

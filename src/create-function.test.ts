@@ -47,6 +47,21 @@ function readCode() {
       name: "readCode"
     });
   });
+
+  it("with assigned value referenced later", () => {
+    const code = `const code = readCode();
+write(code);`;
+    const selection = Selection.cursorAt(0, 13);
+
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+function readCode() {
+  // Implement
+}`,
+      position: new Position(1, 0),
+      name: "readCode"
+    });
+  });
 });
 
 function shouldUpdateCodeFor(
@@ -75,6 +90,14 @@ it("should not update code if selection is not on call expression", () => {
   const code = `const hello = "world";
 readCode();`;
   const selection = Selection.cursorAt(0, 0);
+
+  shouldNotUpdateCodeFor(code, selection);
+});
+
+it("should not update code if declared in a const", () => {
+  const code = `const readCode = () => "hello";
+readCode();`;
+  const selection = Selection.cursorAt(1, 0);
 
   shouldNotUpdateCodeFor(code, selection);
 });

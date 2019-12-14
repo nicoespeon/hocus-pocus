@@ -1,5 +1,5 @@
 import { parse } from "@babel/parser";
-import traverse, { TraverseOptions, Binding } from "@babel/traverse";
+import traverse, { TraverseOptions, Scope } from "@babel/traverse";
 import { NodePath } from "@babel/traverse";
 import * as t from "@babel/types";
 
@@ -42,11 +42,25 @@ function traverseCode(code: Code, opts: TraverseOptions) {
 }
 
 function hasBindings(path: NodePath): boolean {
-  const bindings = path.scope.getAllBindings("hoisted") as {
-    [key: string]: Binding;
-  };
+  const bindings = path.scope.getAllBindings("hoisted") as AllBindings;
 
   return Object.keys(bindings).reduce<boolean>((result, key) => {
-    return result || bindings[key].references > 0;
+    return result || bindings[key].kind === "hoisted";
   }, false);
+}
+
+interface AllBindings {
+  [key: string]: {
+    identifier: t.Identifier;
+    scope: Scope;
+    path: NodePath;
+    // The original Binding type doesn't have the `"hoisted"` kind
+    // `getAllBindings()` return type is a sloppy `object`… not helpful!
+    kind: "var" | "let" | "const" | "module" | "hoisted";
+    referenced: boolean;
+    references: number;
+    referencePaths: NodePath[];
+    constant: boolean;
+    constantViolations: NodePath[];
+  };
 }

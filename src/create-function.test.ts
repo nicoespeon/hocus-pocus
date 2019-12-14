@@ -24,28 +24,14 @@ function readCode() {
     const code = "const code = readCode();";
     const selection = Selection.cursorAt(0, 13);
 
-    shouldUpdateCodeFor(code, selection, {
-      code: `
-function readCode() {
-  // Implement
-}`,
-      position: new Position(1, 0),
-      name: "readCode"
-    });
+    shouldUpdateCodeFor(code, selection);
   });
 
   it("param of another call", () => {
     const code = "console.log(readCode());";
     const selection = Selection.cursorAt(0, 13);
 
-    shouldUpdateCodeFor(code, selection, {
-      code: `
-function readCode() {
-  // Implement
-}`,
-      position: new Position(1, 0),
-      name: "readCode"
-    });
+    shouldUpdateCodeFor(code, selection);
   });
 
   it("with assigned value referenced later", () => {
@@ -53,28 +39,25 @@ function readCode() {
 write(code);`;
     const selection = Selection.cursorAt(0, 13);
 
-    shouldUpdateCodeFor(code, selection, {
-      code: `
-function readCode() {
-  // Implement
-}`,
-      position: new Position(1, 0),
-      name: "readCode"
-    });
+    shouldUpdateCodeFor(code, selection);
   });
 });
 
 function shouldUpdateCodeFor(
   code: Code,
   selection: Selection,
-  expected: UpdateOptions
+  expected?: Partial<UpdateOptions> // TODO: toto
 ) {
   const update = jest.fn();
 
   const modification = determineModification(code, selection);
   modification.execute(update);
 
-  expect(update).toBeCalledWith(expected);
+  expect(update).toBeCalled();
+
+  if (expected) {
+    expect(update).toBeCalledWith(expected);
+  }
 }
 
 it("should not update code if call expression is already declared", () => {

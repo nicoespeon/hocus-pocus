@@ -74,18 +74,19 @@ class CreateFunction implements Modification {
 
   private get after(): string {
     const codeAfterPosition = this.code.split("\n").slice(this.position.line);
-    const hasCodeAfterPosition = codeAfterPosition.length > 0;
 
-    if (!hasCodeAfterPosition) return "";
-    if (codeAfterPosition[0].trim() !== "") return "\n\n";
-    if (codeAfterPosition[1].trim() !== "") return "\n";
-
+    if (isEmpty(codeAfterPosition[0])) return "\n\n";
+    if (isEmpty(codeAfterPosition[1])) return "\n";
     return "";
   }
 
   private get args(): string {
     return this.match.node.arguments.map((_, i) => `param${i + 1}`).join(", ");
   }
+}
+
+function isEmpty(code: Code | undefined): boolean {
+  return !!code && code.trim() !== "";
 }
 
 class NoModification implements Modification {

@@ -3,46 +3,49 @@ import { determineModification, UpdateOptions } from "./modification";
 
 // TODO: handle params
 // TODO: respect indentation
+// TODO: handle if code on line after insert
 
-it("should create function declaration from a call expression", () => {
-  const code = "readCode();";
-  const selection = Selection.cursorAt(0, 0);
+describe("create function declaration from a call expression", () => {
+  it("with nothing else", () => {
+    const code = "readCode();";
+    const selection = Selection.cursorAt(0, 0);
 
-  shouldUpdateCodeFor(code, selection, {
-    code: `
+    shouldUpdateCodeFor(code, selection, {
+      code: `
 function readCode() {
   // Implement
 }`,
-    position: new Position(1, 0),
-    name: "readCode"
+      position: new Position(1, 0),
+      name: "readCode"
+    });
   });
-});
 
-it("should create function declaration from a call expression assigned to a variable, cursor on call expression", () => {
-  const code = "const code = readCode();";
-  const selection = Selection.cursorAt(0, 13);
+  it("assigned to a variable", () => {
+    const code = "const code = readCode();";
+    const selection = Selection.cursorAt(0, 13);
 
-  shouldUpdateCodeFor(code, selection, {
-    code: `
+    shouldUpdateCodeFor(code, selection, {
+      code: `
 function readCode() {
   // Implement
 }`,
-    position: new Position(1, 0),
-    name: "readCode"
+      position: new Position(1, 0),
+      name: "readCode"
+    });
   });
-});
 
-it("should create function declaration from a call expression param of another call, cursor on call expression", () => {
-  const code = "console.log(readCode());";
-  const selection = Selection.cursorAt(0, 13);
+  it("param of another call", () => {
+    const code = "console.log(readCode());";
+    const selection = Selection.cursorAt(0, 13);
 
-  shouldUpdateCodeFor(code, selection, {
-    code: `
+    shouldUpdateCodeFor(code, selection, {
+      code: `
 function readCode() {
   // Implement
 }`,
-    position: new Position(1, 0),
-    name: "readCode"
+      position: new Position(1, 0),
+      name: "readCode"
+    });
   });
 });
 

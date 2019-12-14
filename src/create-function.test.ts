@@ -36,6 +36,22 @@ function readCode() {
   expect(update).toBeCalledWith(expectedCode, expectedPosition);
 });
 
+it("should create function declaration from a call expression param of another call, cursor on call expression", () => {
+  const code = "console.log(readCode());";
+  const selection = Selection.cursorAt(0, 13);
+  const update = jest.fn();
+
+  const modification = determineModification(code, selection);
+  modification.execute(update);
+
+  const expectedCode = `
+function readCode() {
+  // Implement
+}`;
+  const expectedPosition = new Position(1, 0);
+  expect(update).toBeCalledWith(expectedCode, expectedPosition);
+});
+
 it("should not update code if call expression is already declared", () => {
   const code = `readCode();
 

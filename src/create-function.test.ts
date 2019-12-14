@@ -21,7 +21,12 @@ function readCode() {
     const code = "const code = readCode();";
     const selection = Selection.cursorAt(0, 13);
 
-    shouldUpdateCodeFor(code, selection);
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+function readCode() {
+  return undefined;
+}`
+    });
   });
 
   it("param of another call", () => {
@@ -39,7 +44,7 @@ write(code);`;
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  // Implement
+  return undefined;
 }
 
 `
@@ -55,7 +60,7 @@ write(code);`;
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  // Implement
+  return undefined;
 }
 `
     });
@@ -72,7 +77,7 @@ write(code);`;
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  // Implement
+  return undefined;
 }`
     });
   });
@@ -111,7 +116,7 @@ function readCode(param1, param2, param3) {
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  // Implement
+  return undefined;
 }`,
       position: new Position(5, 0)
     });
@@ -121,7 +126,7 @@ function readCode() {
 function shouldUpdateCodeFor(
   code: Code,
   selection: Selection,
-  expected?: Partial<UpdateOptions> // TODO: toto
+  expected?: Partial<UpdateOptions>
 ) {
   const update = jest.fn();
 

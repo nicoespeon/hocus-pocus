@@ -55,7 +55,7 @@ class CreateFunction implements Modification {
 
   execute(update: Update) {
     update({
-      code: `\nfunction ${this.name}(${this.args}) {\n  // Implement\n}${this.after}`,
+      code: `\nfunction ${this.name}(${this.args}) {\n  ${this.body}\n}${this.after}`,
       position: this.position,
       name: this.name
     });
@@ -82,6 +82,11 @@ class CreateFunction implements Modification {
 
   private get args(): string {
     return this.match.node.arguments.map((_, i) => `param${i + 1}`).join(", ");
+  }
+
+  private get body(): string {
+    const isReturned = this.match.parentPath.isVariableDeclarator();
+    return isReturned ? "return undefined;" : "// Implement";
   }
 }
 

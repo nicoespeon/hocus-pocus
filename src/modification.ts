@@ -27,7 +27,12 @@ function determineModification(code: Code, selection: Selection): Modification {
     return new NoModification();
   }
 
-  return new CreateFunction(match.callee.name, Position.fromAST(match.loc.end));
+  return new CreateFunction(
+    match.callee.name,
+    Position.fromAST(match.loc.end)
+      .putAtNextLine()
+      .putAtStartOfLine()
+  );
 }
 
 function isMatch(node: t.CallExpression): node is Match {

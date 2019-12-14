@@ -1,7 +1,6 @@
 import { Selection, Position } from "./editor";
 import { determineModification } from "./modification";
 
-// TODO: fix cursor position
 // TODO: handle params
 // TODO: respect indentation
 
@@ -17,6 +16,6 @@ it("should create function declaration from a call expression", () => {
 function readCode() {
   // Implement
 }`;
-  const expectedPosition = new Position(0, 10);
+  const expectedPosition = new Position(1, 0);
   expect(update).toBeCalledWith(expectedCode, expectedPosition);
 });

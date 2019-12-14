@@ -66,7 +66,8 @@ class CreateFunction implements Modification {
   }
 
   private get position(): Position {
-    return Position.fromAST(this.match.node.loc.end)
+    const ancestor = t.getTopLevelAncestor(this.match);
+    return Position.fromAST(ancestor.node.loc.end)
       .putAtNextLine()
       .putAtStartOfLine();
   }

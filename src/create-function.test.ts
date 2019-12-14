@@ -1,7 +1,6 @@
 import { Selection, Position, Code } from "./editor";
 import { determineModification, UpdateOptions } from "./modification";
 
-// TODO: respect indentation
 
 describe("create function declaration from a call expression", () => {
   it("with nothing else", () => {
@@ -97,6 +96,24 @@ function readCode(param1, param2, param3) {
   // Implement
 }`,
       name: "readCode"
+    });
+  });
+
+  it("nested in expression statements", () => {
+    const code = `it("should read code", () => {
+  const code = readCode();
+
+  expect(code).toBe("hello");
+});
+`;
+    const selection = Selection.cursorAt(1, 15);
+
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+function readCode() {
+  // Implement
+}`,
+      position: new Position(5, 0)
     });
   });
 });

@@ -12,6 +12,7 @@ export { Selectable, SelectableNode, SelectablePath };
 export { isSelectablePath, isSelectableNode };
 export { traverseCode };
 export { isDeclared };
+export { getTopLevelAncestor };
 
 interface Selection {
   start: Position;
@@ -63,4 +64,13 @@ interface AllBindings {
     constant: boolean;
     constantViolations: NodePath[];
   };
+}
+
+function getTopLevelAncestor(path: NodePath): SelectablePath {
+  const ancestors = path
+    .getAncestry()
+    .filter(ancestor => !ancestor.isProgram())
+    .filter(isSelectablePath);
+
+  return ancestors[ancestors.length - 1] || path;
 }

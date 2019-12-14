@@ -2,7 +2,7 @@ import { Position, Selection, Code } from "./editor";
 import * as t from "./ast";
 
 export { Modification, Update };
-export { determineModificationFrom };
+export { determineModification };
 
 interface Modification {
   execute(update: Update): void;
@@ -10,10 +10,7 @@ interface Modification {
 
 type Update = (code: Code, position: Position) => void;
 
-function determineModificationFrom(
-  code: Code,
-  selection: Selection
-): Modification {
+function determineModification(code: Code, selection: Selection): Modification {
   let match: Match | undefined;
 
   t.traverseCode(code, {

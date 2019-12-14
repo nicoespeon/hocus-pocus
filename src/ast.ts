@@ -42,6 +42,8 @@ function traverseCode(code: Code, options: TraverseOptions) {
   traverse(
     parse(code, {
       sourceType: "module",
+      allowImportExportEverywhere: true,
+      allowReturnOutsideFunction: true,
       startLine: 1,
       plugins: [
         "asyncGenerators",

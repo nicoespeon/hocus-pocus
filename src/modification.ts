@@ -1,9 +1,7 @@
-import { Range, Selection, Position } from "vscode";
-import { parse } from "@babel/parser";
-import traverse, { NodePath } from "@babel/traverse";
-import * as t from "@babel/types";
+import { Position, Selection, Code } from "./editor";
+import * as t from "./ast";
 
-export { Modification, Update, Code };
+export { Modification, Update };
 export { determineModificationFrom };
 
 interface Modification {
@@ -12,30 +10,19 @@ interface Modification {
 
 type Update = (code: Code, position: Position) => void;
 
-type Code = string;
-
 function determineModificationFrom(
   code: Code,
-  selection: Range | Selection
+  selection: Selection
 ): Modification {
-  const ast = parse(code);
+  let match: Match | undefined;
 
-  let match: (t.CallExpression & { callee: t.Identifier }) | undefined;
-  traverse(ast, {
+  t.traverseCode(code, {
     CallExpression(path) {
-      const loc = nodeLoc(path.node);
-      const nodeRange = new Range(
-        new Position(loc.start.line - 1, loc.start.column),
-        new Position(loc.end.line - 1, loc.end.column)
-      );
+      if (!selection.isInsidePath(path)) return;
+      if (t.hasBindings(path)) return;
+      if (!isMatch(path.node)) return;
 
-      if (
-        nodeRange.contains(selection) &&
-        t.isIdentifier(path.node.callee) &&
-        !hasBindings(path)
-      ) {
-        match = path.node as t.CallExpression & { callee: t.Identifier };
-      }
+      match = path.node;
     }
   });
 
@@ -43,13 +30,14 @@ function determineModificationFrom(
     return new NoModification();
   }
 
-  const loc = nodeLoc(match);
-  return new CreateFunction(match.callee.name, new Position(loc.end.line, 0));
+  return new CreateFunction(match.callee.name, Position.fromAST(match.loc.end));
 }
 
-function hasBindings(path: NodePath) {
-  return Object.keys(path.scope.getAllBindings()).length > 0;
+function isMatch(node: t.CallExpression): node is Match {
+  return t.isIdentifier(node.callee);
 }
+
+type Match = t.Selectable<t.CallExpression> & { callee: t.Identifier };
 
 class CreateFunction implements Modification {
   private name: string;
@@ -61,8 +49,6 @@ class CreateFunction implements Modification {
   }
 
   execute(update: Update) {
-    // TODO: handle params
-    // TODO: respect indentation
     update(`\nfunction ${this.name}() {\n  // Implement\n}`, this.position);
   }
 }
@@ -71,12 +57,4 @@ class NoModification implements Modification {
   execute() {
     // Do nothing
   }
-}
-
-function nodeLoc(node: t.Node): t.SourceLocation {
-  const TOP_LEFT = {
-    start: { line: 0, column: 0 },
-    end: { line: 0, column: 0 }
-  };
-  return node.loc || TOP_LEFT;
 }

@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 
-import { Modification, Code, determineModificationFrom } from "./modification";
+import { Position, Selection, Code } from "./editor";
+import { Modification, determineModificationFrom } from "./modification";
 
 const COMMAND_ID = "hocusPocus.createFunction";
 const SUPPORTED_LANGUAGES = [
@@ -48,12 +49,13 @@ export function deactivate() {}
 class ActionProvider implements vscode.CodeActionProvider {
   provideCodeActions(
     document: vscode.TextDocument,
-    selection: vscode.Range | vscode.Selection,
+    selectionOrRange: vscode.Range | vscode.Selection,
     _context: vscode.CodeActionContext,
     _token: vscode.CancellationToken
   ): vscode.ProviderResult<(vscode.Command | vscode.CodeAction)[]> {
     let canPerformAction = false;
     const code = document.getText();
+    const selection = fromVSCodeSelectionOrRange(selectionOrRange);
 
     try {
       const modification = determineModificationFrom(code, selection);
@@ -90,9 +92,9 @@ function getActiveEditor(): vscode.TextEditor {
   return editor;
 }
 
-function currentSelection(): vscode.Selection {
+function currentSelection(): Selection {
   const editor = getActiveEditor();
-  return editor.selection;
+  return fromVSCodeSelectionOrRange(editor.selection);
 }
 
 function apply(modification: Modification) {
@@ -100,8 +102,21 @@ function apply(modification: Modification) {
   const edit = new vscode.WorkspaceEdit();
 
   modification.execute((code, position) =>
-    edit.insert(editor.document.uri, position, code)
+    edit.insert(editor.document.uri, toVSCodePosition(position), code)
   );
 
   vscode.workspace.applyEdit(edit);
+}
+
+function fromVSCodeSelectionOrRange(
+  selection: vscode.Selection | vscode.Range
+): Selection {
+  return new Selection(
+    [selection.start.line, selection.start.character],
+    [selection.end.line, selection.end.character]
+  );
+}
+
+function toVSCodePosition(position: Position): vscode.Position {
+  return new vscode.Position(position.line, position.character);
 }

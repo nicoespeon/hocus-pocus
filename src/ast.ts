@@ -38,8 +38,36 @@ function isSelectableNode(node: t.Node | null): node is SelectableNode {
   return !!node && !!node.loc;
 }
 
-function traverseCode(code: Code, opts: TraverseOptions) {
-  traverse(parse(code), opts);
+function traverseCode(code: Code, options: TraverseOptions) {
+  traverse(
+    parse(code, {
+      plugins: [
+        "asyncGenerators",
+        "bigInt",
+        "classPrivateMethods",
+        "classPrivateProperties",
+        "classProperties",
+        "decorators-legacy",
+        "doExpressions",
+        "dynamicImport",
+        "exportDefaultFrom",
+        "exportNamespaceFrom",
+        "functionBind",
+        "functionSent",
+        "importMeta",
+        "nullishCoalescingOperator",
+        "numericSeparator",
+        "objectRestSpread",
+        "optionalCatchBinding",
+        "optionalChaining",
+        ["pipelineOperator", { proposal: "minimal" }],
+        "throwExpressions",
+        "jsx",
+        "typescript"
+      ]
+    }),
+    options
+  );
 }
 
 function isDeclared(id: t.Identifier, path: NodePath): boolean {

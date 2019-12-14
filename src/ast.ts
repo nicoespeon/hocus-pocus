@@ -41,6 +41,8 @@ function isSelectableNode(node: t.Node | null): node is SelectableNode {
 function traverseCode(code: Code, options: TraverseOptions) {
   traverse(
     parse(code, {
+      sourceType: "module",
+      startLine: 1,
       plugins: [
         "asyncGenerators",
         "bigInt",

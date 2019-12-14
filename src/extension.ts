@@ -100,7 +100,7 @@ function apply(modification: Modification) {
   const editor = getActiveEditor();
   const edit = new vscode.WorkspaceEdit();
 
-  modification.execute((code, position) =>
+  modification.execute(({ code, position }) =>
     edit.insert(editor.document.uri, toVSCodePosition(position), code)
   );
 

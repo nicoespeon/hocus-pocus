@@ -1,14 +1,19 @@
 import { Position, Selection, Code } from "./editor";
 import * as t from "./ast";
 
-export { Modification, Update };
+export { Modification, Update, UpdateOptions };
 export { determineModification };
 
 interface Modification {
   execute(update: Update): void;
 }
 
-type Update = (code: Code, position: Position) => void;
+type Update = (options: UpdateOptions) => void;
+
+type UpdateOptions = {
+  code: Code;
+  position: Position;
+};
 
 function determineModification(code: Code, selection: Selection): Modification {
   let match: Match | undefined;
@@ -51,7 +56,10 @@ class CreateFunction implements Modification {
   }
 
   execute(update: Update) {
-    update(`\nfunction ${this.name}() {\n  // Implement\n}`, this.position);
+    update({
+      code: `\nfunction ${this.name}() {\n  // Implement\n}`,
+      position: this.position
+    });
   }
 }
 

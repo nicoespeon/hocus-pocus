@@ -1,5 +1,5 @@
 import { Selection, Position, Code } from "./editor";
-import { determineModification } from "./modification";
+import { determineModification, UpdateOptions } from "./modification";
 
 // TODO: handle params
 // TODO: respect indentation
@@ -46,21 +46,15 @@ function readCode() {
 function shouldUpdateCodeFor(
   code: Code,
   selection: Selection,
-  expected: Expected
+  expected: UpdateOptions
 ) {
   const update = jest.fn();
 
   const modification = determineModification(code, selection);
   modification.execute(update);
 
-  expect(update).toBeCalledWith(expected.code, expected.position);
+  expect(update).toBeCalledWith(expected);
 }
-
-type Expected = {
-  code: Code;
-  position: Position;
-  // name: string;
-};
 
 it("should not update code if call expression is already declared", () => {
   const code = `readCode();

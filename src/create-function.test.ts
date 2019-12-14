@@ -39,7 +39,12 @@ function readCode() {
 write(code);`;
     const selection = Selection.cursorAt(0, 13);
 
-    shouldUpdateCodeFor(code, selection);
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+function readCode() {
+  // Implement
+}`
+    });
   });
 });
 
@@ -56,7 +61,7 @@ function shouldUpdateCodeFor(
   expect(update).toBeCalled();
 
   if (expected) {
-    expect(update).toBeCalledWith(expected);
+    expect(update).toBeCalledWith(expect.objectContaining(expected));
   }
 }
 

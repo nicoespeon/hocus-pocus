@@ -46,6 +46,15 @@ function readCode() {
 }`
     });
   });
+
+  it("with other function declarations in the code", () => {
+    const code = `readCode();
+
+function write(code) {}`;
+    const selection = Selection.cursorAt(0, 0);
+
+    shouldUpdateCodeFor(code, selection);
+  });
 });
 
 function shouldUpdateCodeFor(
@@ -95,4 +104,6 @@ function shouldNotUpdateCodeFor(code: Code, selection: Selection) {
 
   const modification = determineModification(code, selection);
   modification.execute(update);
+
+  expect(update).not.toBeCalled();
 }

@@ -22,8 +22,8 @@ function determineModification(code: Code, selection: Selection): Modification {
   t.traverseCode(code, {
     CallExpression(path) {
       if (!selection.isInsidePath(path)) return;
-      if (t.hasBindings(path)) return;
       if (!isMatch(path.node)) return;
+      if (t.isDeclared(path.node.callee, path)) return;
 
       match = path.node;
     }

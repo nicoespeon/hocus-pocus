@@ -11,7 +11,7 @@ export { Selection, Position };
 export { Selectable, SelectableNode, SelectablePath };
 export { isSelectablePath, isSelectableNode };
 export { traverseCode };
-export { hasBindings };
+export { isDeclared };
 
 interface Selection {
   start: Position;
@@ -41,11 +41,11 @@ function traverseCode(code: Code, opts: TraverseOptions) {
   traverse(parse(code), opts);
 }
 
-function hasBindings(path: NodePath): boolean {
-  const bindings = path.scope.getAllBindings("hoisted") as AllBindings;
+function isDeclared(id: t.Identifier, path: NodePath): boolean {
+  const bindings = path.scope.getAllBindings() as AllBindings;
 
   return Object.keys(bindings).reduce<boolean>((result, key) => {
-    return result || bindings[key].kind === "hoisted";
+    return result || bindings[key].identifier.name === id.name;
   }, false);
 }
 

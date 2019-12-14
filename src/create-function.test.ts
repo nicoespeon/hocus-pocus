@@ -1,7 +1,6 @@
 import { Selection, Position, Code } from "./editor";
 import { determineModification, UpdateOptions } from "./modification";
 
-// TODO: handle params
 // TODO: respect indentation
 
 describe("create function declaration from a call expression", () => {
@@ -86,6 +85,19 @@ function write(code) {}`;
     const selection = Selection.cursorAt(0, 0);
 
     shouldUpdateCodeFor(code, selection);
+  });
+
+  it("with params", () => {
+    const code = `readCode(selection, "hello", 12);`;
+    const selection = Selection.cursorAt(0, 0);
+
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+function readCode(param1, param2, param3) {
+  // Implement
+}`,
+      name: "readCode"
+    });
   });
 });
 

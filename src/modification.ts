@@ -55,7 +55,7 @@ class CreateFunction implements Modification {
 
   execute(update: Update) {
     update({
-      code: `\nfunction ${this.name}() {\n  // Implement\n}${this.after}`,
+      code: `\nfunction ${this.name}(${this.args}) {\n  // Implement\n}${this.after}`,
       position: this.position,
       name: this.name
     });
@@ -80,6 +80,10 @@ class CreateFunction implements Modification {
     if (codeAfterPosition[1].trim() !== "") return "\n";
 
     return "";
+  }
+
+  private get args(): string {
+    return this.match.node.arguments.map((_, i) => `param${i + 1}`).join(", ");
   }
 }
 

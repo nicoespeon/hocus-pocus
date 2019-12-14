@@ -53,6 +53,14 @@ class CreateFunction implements Modification {
     this.code = code;
   }
 
+  execute(update: Update) {
+    update({
+      code: `\nfunction ${this.name}() {\n  // Implement\n}${this.after}`,
+      position: this.position,
+      name: this.name
+    });
+  }
+
   private get name(): string {
     return this.match.node.callee.name;
   }
@@ -72,14 +80,6 @@ class CreateFunction implements Modification {
     if (codeAfterPosition[1].trim() !== "") return "\n";
 
     return "";
-  }
-
-  execute(update: Update) {
-    update({
-      code: `\nfunction ${this.name}() {\n  // Implement\n}${this.after}`,
-      position: this.position,
-      name: this.name
-    });
   }
 }
 

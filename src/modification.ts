@@ -85,12 +85,14 @@ class CreateFunction implements Modification {
       .map((argument, i) =>
         t.isIdentifier(argument) ? argument.name : `param${i + 1}`
       )
+      .map((argument, i) => `\${${i + 1}:${argument}}`)
       .join(", ");
   }
 
   private get body(): string {
     const isReturned = this.match.parentPath.isVariableDeclarator();
-    return isReturned ? "return undefined;" : "// Implement";
+    const body = isReturned ? "return undefined;" : "// Implement";
+    return `\${0:${body}}`;
   }
 }
 

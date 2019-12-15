@@ -1,7 +1,6 @@
 import { Selection, Position, Code } from "./editor";
 import { determineModification, UpdateOptions } from "./modification";
 
-
 describe("create function declaration from a call expression", () => {
   it("with nothing else", () => {
     const code = "readCode();";
@@ -10,7 +9,7 @@ describe("create function declaration from a call expression", () => {
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  // Implement
+  \${0:// Implement}
 }`,
       position: new Position(1, 0),
       name: "readCode"
@@ -24,7 +23,7 @@ function readCode() {
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  return undefined;
+  \${0:return undefined;}
 }`
     });
   });
@@ -44,7 +43,7 @@ write(code);`;
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  return undefined;
+  \${0:return undefined;}
 }
 
 `
@@ -60,7 +59,7 @@ write(code);`;
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  return undefined;
+  \${0:return undefined;}
 }
 `
     });
@@ -77,7 +76,7 @@ write(code);`;
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  return undefined;
+  \${0:return undefined;}
 }`
     });
   });
@@ -97,8 +96,8 @@ function write(code) {}`;
 
     shouldUpdateCodeFor(code, selection, {
       code: `
-function readCode(selection, param2, param3) {
-  // Implement
+function readCode(\${1:selection}, \${2:param2}, \${3:param3}) {
+  \${0:// Implement}
 }`,
       name: "readCode"
     });
@@ -116,7 +115,7 @@ function readCode(selection, param2, param3) {
     shouldUpdateCodeFor(code, selection, {
       code: `
 function readCode() {
-  return undefined;
+  \${0:return undefined;}
 }`,
       position: new Position(5, 0)
     });

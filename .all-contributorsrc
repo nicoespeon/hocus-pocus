@@ -1,0 +1,28 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "nicoespeon",
+      "name": "Nicolas Carlo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1094774?v=3",
+      "profile": "https://github.com/nicoespeon",
+      "contributions": [
+        "question",
+        "code",
+        "documentation",
+        "review",
+        "ideas"
+      ]
+    },
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "hocus-pocus",
+  "projectOwner": "nicoespeon",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

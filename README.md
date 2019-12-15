@@ -1,65 +1,107 @@
-# hocus-pocus README
+# 🔮‍ Hocus Pocus
 
-This is the README for your extension "hocus-pocus". After writing up a brief description, we recommend including the following sections.
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+[> Give a feedback][create-new-issue]
+
+Hocus Pocus is a Visual Studio Code extension that creates useful things for you, in JavaScript and TypeScript.
+
+Our goal is to make you more productive by creating boilerplate code faster.
+
+![Gif showing what the extension can do][demo-extension]
+
+Related projects:
+
+- [Abracadabra][abracadabra], a VS Code extension that does automated refactorings in JavaScript and TypeScript
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+All features are available through VS Code [VS Code Quick Fixes][vscode-quick-fixes].
 
-For example if there is an image subfolder under your extension project workspace:
+Click on the lightbulb that appears next to the code 💡 or use the shortcut `Alt ↵`.
 
-\!\[feature X\]\(images/feature-x.png\)
+### Create Function
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Create a function declaration from its call expression.
 
-## Requirements
+If you're the kind of developer who writes a function call as you'd like it exist, before implementing the function, then you'll love this. It's called [program by wishful thinking][todo: link]. It's very common when you practice outside-in TDD.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-- `myExtension.enable`: enable/disable this extension
-- `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+![][demo-create-function]
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+[Have a look at our CHANGELOG][changelog] to get the details of all changes between versions.
 
-### 1.0.0
+### Versioning
 
-Initial release of ...
+We follow [SemVer][semver] convention for versionning.
 
-### 1.0.1
+That means our releases use the following format:
 
-Fixed issue #.
+```
+<major>.<minor>.<patch>
+```
 
-### 1.1.0
+- Breaking changes bump `<major>` (and reset `<minor>` & `<patch>`)
+- Backward compatible changes bump `<minor>` (and reset `<patch>`)
+- Bug fixes bump `<patch>`
 
-Added features X, Y, and Z.
+## Contributing
+
+### [Contributing Guide][contributing]
+
+Read our [contributing guide][contributing] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Hocus Pocus.
+
+### [Good First Issues][good-first-issues]
+
+To help you get your feet wet and become familiar with our contribution process, we have a list of [good first issues][good-first-issues] that contains things with a relatively limited scope. This is a great place to get started!
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key][all-contributors-emoji]):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://nicoespeon.com"><img src="https://avatars.githubusercontent.com/u/1094774?v=3" width="100px;" alt="Nicolas Carlo"/><br /><sub><b>Nicolas Carlo</b></sub></a><br /><a href="#question-nicoespeon" title="Answering Questions">💬</a> <a href="https://github.com/nicoespeon/hocus-pocus/commits?author=nicoespeon" title="Code">💻</a> <a href="https://github.com/nicoespeon/hocus-pocus/commits?author=nicoespeon" title="Documentation">📖</a><br /><a href="#review-nicoespeon" title="Reviewed Pull Requests">👀</a> <a href="#ideas-nicoespeon" title="Ideas">🤔</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors][all-contributors] specification.
+
+Contributions of any kind are welcome!
 
 ---
 
-## Working with Markdown
+## License
 
-**Note:** You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+💁 [MIT][license]
 
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-- Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-- Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
+<!-- Links -->
 
-### For more information
+[abracadabra]: https://marketplace.visualstudio.com/items?itemName=nicoespeon.abracadabra
+[vscode-quick-fixes]: https://code.visualstudio.com/docs/editor/refactoring#_code-actions-quick-fixes-and-refactorings
+[changelog]: https://github.com/nicoespeon/hocus-pocus/blob/master/CHANGELOG.md
+[contributing]: https://github.com/nicoespeon/hocus-pocus/blob/master/CONTRIBUTING.md
+[license]: https://github.com/nicoespeon/hocus-pocus/blob/master/LICENSE.md
+[good-first-issues]: https://github.com/nicoespeon/hocus-pocus/issues?q=is%3Aissue+is%3Aopen+label%3A%22%3Awave%3A+Good+first+issue%22
+[semver]: http://semver.org/
+[all-contributors]: https://allcontributors.org
+[all-contributors-emoji]: https://allcontributors.org/docs/en/emoji-key
+[create-new-issue]: https://github.com/nicoespeon/hocus-pocus/issues/new/choose
 
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+<!-- Demos -->
 
-**Enjoy!**
+[demo-extension]: https://github.com/nicoespeon/abracadabra/blob/master/assets/showcase.gif?raw=true
+[demo-create-function]: https://github.com/nicoespeon/abracadabra/blob/master/assets/features/create-function.gif?raw=true

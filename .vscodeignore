@@ -9,7 +9,9 @@ node_modules/**
 src/**
 
 .adr-dir
+.all-contributorsrc
 .gitignore
+.travis.yml
 wallaby.js
 jest.config.js
 yarn-error.log

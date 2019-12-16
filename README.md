@@ -84,8 +84,6 @@ This project follows the [all-contributors][all-contributors] specification.
 
 Contributions of any kind are welcome!
 
----
-
 ## License
 
 💁 [MIT][license]
@@ -111,4 +109,4 @@ Contributions of any kind are welcome!
 
 <!-- Logo -->
 
-[logo-hocus-pocus]: https://github.com/nicoespeon/hocus-pocus/blob/master/docs/logo/hocus-pocus-logo.png?raw=true
+[logo-hocus-pocus]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/logo/banner.png?raw=true

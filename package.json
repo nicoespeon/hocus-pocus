@@ -22,7 +22,7 @@
     "Programming Languages",
     "Other"
   ],
-  "icon": "docs/logo/vignette.png",
+  "icon": "assets/logo/vignette.png",
   "galleryBanner": {
     "color": "#34223A",
     "theme": "dark"

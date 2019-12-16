@@ -6,10 +6,23 @@
   "publisher": "nicoespeon",
   "author": "Nicolas Carlo <nicolascarlo.espeon@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicoespeon/hocus-pocus.git"
+  },
+  "homepage": "https://github.com/nicoespeon/hocus-pocus",
+  "bugs": "https://github.com/nicoespeon/hocus-pocus/issues",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "react"
+  ],
   "categories": [
+    "Formatters",
     "Programming Languages",
     "Other"
   ],
+  "icon": "docs/logo/vignette.png",
   "galleryBanner": {
     "color": "#34223A",
     "theme": "dark"

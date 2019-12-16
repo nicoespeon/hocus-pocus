@@ -6,6 +6,8 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+![][logo-hocus-pocus]
+
 [> Give a feedback][create-new-issue]
 
 Hocus Pocus is a Visual Studio Code extension that creates useful things for you, in JavaScript and TypeScript.
@@ -103,5 +105,9 @@ Contributions of any kind are welcome!
 
 <!-- Demos -->
 
-[demo-extension]: https://github.com/nicoespeon/abracadabra/blob/master/assets/showcase.gif?raw=true
-[demo-create-function]: https://github.com/nicoespeon/abracadabra/blob/master/assets/features/create-function.gif?raw=true
+[demo-extension]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/showcase.gif?raw=true
+[demo-create-function]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-function.gif?raw=true
+
+<!-- Logo -->
+
+[logo-hocus-pocus]: https://github.com/nicoespeon/hocus-pocus/blob/master/docs/logo/hocus-pocus-logo.png?raw=true

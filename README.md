@@ -30,7 +30,7 @@ Click on the lightbulb that appears next to the code 💡 or use the shortcut `A
 
 Create a function declaration from its call expression.
 
-If you're the kind of developer who writes a function call as you'd like it exist, before implementing the function, then you'll love this. It's called [program by wishful thinking][todo: link]. It's very common when you practice outside-in TDD.
+If you're the kind of developer who writes a function call as you'd like it exist, before implementing the function, then you'll love this. It's called [program by wishful thinking][wishful-thinking]. It's very common when you practice outside-in TDD.
 
 ![][demo-create-function]
 
@@ -102,6 +102,7 @@ Contributions of any kind are welcome!
 [all-contributors]: https://allcontributors.org
 [all-contributors-emoji]: https://allcontributors.org/docs/en/emoji-key
 [create-new-issue]: https://github.com/nicoespeon/hocus-pocus/issues/new/choose
+[wishful-thinking]: https://wiki.c2.com/?WishfulThinking
 
 <!-- Demos -->
 

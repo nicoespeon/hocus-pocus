@@ -4,7 +4,9 @@ import { createFunction } from "./create-function";
 import { Position, Selection, Code } from "./editor";
 import { Modification } from "./modification";
 
-const COMMAND_ID = "hocusPocus.createFunction";
+const COMMANDS = {
+  createFunction: "hocusPocus.createFunction"
+};
 const SUPPORTED_LANGUAGES = [
   "javascript",
   "javascriptreact",
@@ -19,14 +21,17 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  let disposable = vscode.commands.registerCommand(COMMAND_ID, () => {
-    try {
-      const modification = createFunction(readCode(), currentSelection());
-      apply(modification);
-    } catch (err) {
-      vscode.window.showErrorMessage(`Something went wrong: ${err}`);
+  let disposable = vscode.commands.registerCommand(
+    COMMANDS.createFunction,
+    () => {
+      try {
+        const modification = createFunction(readCode(), currentSelection());
+        apply(modification);
+      } catch (err) {
+        vscode.window.showErrorMessage(`Something went wrong: ${err}`);
+      }
     }
-  });
+  );
 
   context.subscriptions.push(disposable);
 
@@ -66,7 +71,7 @@ class ActionProvider implements vscode.CodeActionProvider {
     const title = `🔮 Create function "${modificationName}"`;
     const action = new vscode.CodeAction(title);
     action.command = {
-      command: COMMAND_ID,
+      command: COMMANDS.createFunction,
       title
     };
 

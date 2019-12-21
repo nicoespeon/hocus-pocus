@@ -1,5 +1,6 @@
+import { createFunction } from "./create-function";
 import { Selection, Position, Code } from "./editor";
-import { determineModification, UpdateOptions } from "./modification";
+import { UpdateOptions } from "./modification";
 
 describe("create function declaration from a call expression", () => {
   it("with nothing else", () => {
@@ -129,7 +130,7 @@ function shouldUpdateCodeFor(
 ) {
   const update = jest.fn();
 
-  const modification = determineModification(code, selection);
+  const modification = createFunction(code, selection);
   modification.execute(update);
 
   expect(update).toBeCalled();
@@ -167,7 +168,7 @@ readCode();`;
 function shouldNotUpdateCodeFor(code: Code, selection: Selection) {
   const update = jest.fn();
 
-  const modification = determineModification(code, selection);
+  const modification = createFunction(code, selection);
   modification.execute(update);
 
   expect(update).not.toBeCalled();

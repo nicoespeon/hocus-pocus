@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
 
+import { createFunction } from "./create-function";
 import { Position, Selection, Code } from "./editor";
-import { Modification, determineModification } from "./modification";
+import { Modification } from "./modification";
 
 const COMMAND_ID = "hocusPocus.createFunction";
 const SUPPORTED_LANGUAGES = [
@@ -20,10 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   let disposable = vscode.commands.registerCommand(COMMAND_ID, () => {
     try {
-      const modification = determineModification(
-        readCode(),
-        currentSelection()
-      );
+      const modification = createFunction(readCode(), currentSelection());
       apply(modification);
     } catch (err) {
       vscode.window.showErrorMessage(`Something went wrong: ${err}`);
@@ -57,7 +55,7 @@ class ActionProvider implements vscode.CodeActionProvider {
     const selection = fromVSCodeSelectionOrRange(selectionOrRange);
 
     try {
-      const modification = determineModification(code, selection);
+      const modification = createFunction(code, selection);
       modification.execute(({ name }) => (modificationName = name));
     } catch (_) {
       // Silently fail (typically, code can't be parsed)

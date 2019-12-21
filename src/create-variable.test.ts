@@ -16,7 +16,7 @@ it("should create variable if cursor is on an undeclared variable", () => {
     code: `const someVariable = $1;$0
 `,
     position: new Position(0, 0),
-    name: "someVariable"
+    name: 'Create variable "someVariable"'
   });
 });
 

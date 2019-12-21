@@ -34,7 +34,7 @@ class CreateVariable implements Modification {
       code: `const ${name} = $1;$0
 ${this.indentation}`,
       position: this.position,
-      name
+      name: `Create variable "${name}"`
     });
   }
 

@@ -1,6 +1,12 @@
 import { createFunction } from "./create-function";
-import { Selection, Position, Code } from "./editor";
-import { UpdateOptions } from "./modification";
+import { Selection, Position } from "./editor";
+import {
+  createShouldUpdateCodeFor,
+  createShouldNotUpdateCodeFor
+} from "./test-helpers";
+
+const shouldUpdateCodeFor = createShouldUpdateCodeFor(createFunction);
+const shouldNotUpdateCodeFor = createShouldNotUpdateCodeFor(createFunction);
 
 describe("create function declaration from a call expression", () => {
   it("with nothing else", () => {
@@ -123,23 +129,6 @@ function readCode() {
   });
 });
 
-function shouldUpdateCodeFor(
-  code: Code,
-  selection: Selection,
-  expected?: Partial<UpdateOptions>
-) {
-  const update = jest.fn();
-
-  const modification = createFunction(code, selection);
-  modification.execute(update);
-
-  expect(update).toBeCalled();
-
-  if (expected) {
-    expect(update).toBeCalledWith(expect.objectContaining(expected));
-  }
-}
-
 it("should not update code if call expression is already declared", () => {
   const code = `readCode();
 
@@ -164,12 +153,3 @@ readCode();`;
 
   shouldNotUpdateCodeFor(code, selection);
 });
-
-function shouldNotUpdateCodeFor(code: Code, selection: Selection) {
-  const update = jest.fn();
-
-  const modification = createFunction(code, selection);
-  modification.execute(update);
-
-  expect(update).not.toBeCalled();
-}

@@ -12,7 +12,7 @@ export { Selectable, SelectableNode, SelectablePath };
 export { isSelectablePath, isSelectableNode };
 export { traverseCode };
 export { isDeclared };
-export { getTopLevelAncestor };
+export { topLevelAncestor, earliestLinkedExpression };
 
 interface Selection {
   start: Position;
@@ -98,7 +98,7 @@ interface AllBindings {
   };
 }
 
-function getTopLevelAncestor(path: NodePath): SelectablePath {
+function topLevelAncestor(path: NodePath): SelectablePath {
   const ancestors = path
     .getAncestry()
     .filter(ancestor => !ancestor.isProgram())

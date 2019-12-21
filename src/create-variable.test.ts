@@ -56,3 +56,10 @@ console.log(someVariable)`;
 
   shouldNotUpdateCodeFor(code, selection);
 });
+
+it("should not create a variable if it's a member expression property", () => {
+  const code = `console.log(someVariable)`;
+  const selection = Selection.cursorAt(0, 9);
+
+  shouldNotUpdateCodeFor(code, selection);
+});

@@ -11,7 +11,7 @@ export { Selection, Position };
 export { Selectable, SelectableNode, SelectablePath };
 export { isSelectablePath, isSelectableNode };
 export { traverseCode };
-export { isDeclared };
+export { isDeclared, isMemberExpressionProperty };
 export { topLevelAncestor, earliestLinkedExpression };
 
 interface Selection {
@@ -80,6 +80,13 @@ function isDeclared(id: t.Identifier, path: NodePath): boolean {
   return Object.keys(bindings).reduce<boolean>((result, key) => {
     return result || bindings[key].identifier.name === id.name;
   }, false);
+}
+
+function isMemberExpressionProperty(path: NodePath): boolean {
+  return (
+    path.parentPath.isMemberExpression() &&
+    path.node === path.parentPath.node.property
+  );
 }
 
 interface AllBindings {

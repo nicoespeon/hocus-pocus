@@ -12,6 +12,7 @@ function createVariable(code: Code, selection: Selection): Modification {
       if (!t.isSelectablePath(path)) return;
       if (!selection.isInsidePath(path)) return;
       if (t.isDeclared(path.node, path)) return;
+      if (t.isMemberExpressionProperty(path)) return;
 
       result = new CreateVariable(path);
     }

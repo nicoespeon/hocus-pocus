@@ -106,3 +106,19 @@ function topLevelAncestor(path: NodePath): SelectablePath {
 
   return ancestors[ancestors.length - 1] || path;
 }
+
+function earliestLinkedExpression(path: SelectablePath): SelectablePath {
+  const ancestors = path.getAncestry();
+  let result: SelectablePath = path;
+
+  for (let ancestor of ancestors) {
+    // Break the link at the first ancestor that is not an expression.
+    if (!ancestor.isExpression()) break;
+
+    if (isSelectablePath(ancestor)) {
+      result = ancestor;
+    }
+  }
+
+  return result;
+}

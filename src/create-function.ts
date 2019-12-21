@@ -45,7 +45,7 @@ class CreateFunction implements Modification {
     update({
       code: `\nfunction ${this.name}(${this.args}) {\n  ${this.body}\n}${this.after}`,
       position: this.position,
-      name: this.name
+      name: `Create function "${this.name}"`
     });
   }
 

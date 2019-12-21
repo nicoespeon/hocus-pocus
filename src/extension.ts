@@ -4,9 +4,12 @@ import { createFunction } from "./create-function";
 import { Position, Selection, Code } from "./editor";
 import { Modification } from "./modification";
 
-const COMMANDS = {
-  createFunction: "hocusPocus.createFunction"
-};
+const COMMANDS = [
+  {
+    id: "hocusPocus.createFunction",
+    run: createFunction
+  }
+];
 const SUPPORTED_LANGUAGES = [
   "javascript",
   "javascriptreact",
@@ -21,19 +24,18 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  let disposable = vscode.commands.registerCommand(
-    COMMANDS.createFunction,
-    () => {
+  COMMANDS.forEach(({ id, run }) => {
+    let disposable = vscode.commands.registerCommand(id, () => {
       try {
-        const modification = createFunction(readCode(), currentSelection());
+        const modification = run(readCode(), currentSelection());
         apply(modification);
       } catch (err) {
         vscode.window.showErrorMessage(`Something went wrong: ${err}`);
       }
-    }
-  );
+    });
 
-  context.subscriptions.push(disposable);
+    context.subscriptions.push(disposable);
+  });
 
   SUPPORTED_LANGUAGES.forEach(language => {
     vscode.languages.registerCodeActionsProvider(
@@ -55,28 +57,35 @@ class ActionProvider implements vscode.CodeActionProvider {
     _context: vscode.CodeActionContext,
     _token: vscode.CancellationToken
   ): vscode.ProviderResult<(vscode.Command | vscode.CodeAction)[]> {
-    let modificationName = null;
     const code = document.getText();
     const selection = fromVSCodeSelectionOrRange(selectionOrRange);
 
-    try {
-      const modification = createFunction(code, selection);
-      modification.execute(({ name }) => (modificationName = name));
-    } catch (_) {
-      // Silently fail (typically, code can't be parsed)
-    }
+    return COMMANDS.map(({ id, run }) => {
+      let modificationName = null;
 
-    if (modificationName === null) return [];
+      try {
+        const modification = run(code, selection);
+        modification.execute(({ name }) => (modificationName = name));
+      } catch (_) {
+        // Silently fail (typically, code can't be parsed)
+      }
 
-    const title = `🔮 Create function "${modificationName}"`;
-    const action = new vscode.CodeAction(title);
-    action.command = {
-      command: COMMANDS.createFunction,
-      title
-    };
+      if (modificationName === null) return null;
 
-    return [action];
+      const title = `🔮 ${modificationName}`;
+      const action = new vscode.CodeAction(title);
+      action.command = {
+        command: id,
+        title
+      };
+
+      return action;
+    }).filter(notNull);
   }
+}
+
+function notNull<T>(item: T | null): item is T {
+  return item !== null;
 }
 
 function readCode(): Code {

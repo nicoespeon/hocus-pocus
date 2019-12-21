@@ -19,7 +19,7 @@ function readCode() {
   \${0:// Implement}
 }`,
       position: new Position(1, 0),
-      name: "readCode"
+      name: 'Create function "readCode"'
     });
   });
 
@@ -106,7 +106,7 @@ function write(code) {}`;
 function readCode(\${1:selection}, \${2:param2}, \${3:param3}) {
   \${0:// Implement}
 }`,
-      name: "readCode"
+      name: 'Create function "readCode"'
     });
   });
 

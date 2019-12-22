@@ -37,6 +37,14 @@ If you're the kind of developer who writes a function call as you'd like it exis
 
 ![][demo-create-function]
 
+### Create Variable
+
+Create a variable declaration from its identifier.
+
+Just like "Create Function", this can be very useful if you tend to write variable usage before declaring the variable.
+
+![][demo-create-variable]
+
 ## Release Notes
 
 [Have a look at our CHANGELOG][changelog] to get the details of all changes between versions.
@@ -109,6 +117,7 @@ Contributions of any kind are welcome!
 
 [demo-extension]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/showcase.gif?raw=true
 [demo-create-function]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-function.gif?raw=true
+[demo-create-variable]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-variable.gif?raw=true
 
 <!-- Logo -->
 

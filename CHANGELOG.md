@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **(New Feature)** Create Variable
+
 ## [1.0.0] - 2019-12-16 - I can create functions 🔮
 
 ### Added

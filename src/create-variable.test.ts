@@ -13,8 +13,7 @@ it("should create variable if cursor is on an undeclared variable", () => {
   const selection = Selection.cursorAt(0, 15);
 
   shouldUpdateCodeFor(code, selection, {
-    code: `const someVariable = $1;$0
-`,
+    code: "const someVariable = $1;$0\n",
     position: new Position(0, 0),
     name: 'Create variable "someVariable"'
   });
@@ -43,8 +42,7 @@ it("should respect code indentation", () => {
   const selection = Selection.cursorAt(2, 16);
 
   shouldUpdateCodeFor(code, selection, {
-    code: `const someVariable = $1;$0
-    `,
+    code: "const someVariable = $1;$0\n",
     position: new Position(2, 4)
   });
 });

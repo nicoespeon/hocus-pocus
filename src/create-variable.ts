@@ -32,8 +32,7 @@ class CreateVariable implements Modification {
     const { name } = this.path.node;
 
     update({
-      code: `const ${name} = $1;$0
-${this.indentation}`,
+      code: `const ${name} = $1;$0\n`,
       position: this.position,
       name: `Create variable "${name}"`
     });
@@ -41,10 +40,5 @@ ${this.indentation}`,
 
   private get position(): Position {
     return Selection.fromPath(t.earliestLinkedExpression(this.path)).start;
-  }
-
-  private get indentation(): string {
-    const level = this.position.character;
-    return " ".repeat(level);
   }
 }

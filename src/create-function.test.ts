@@ -35,6 +35,31 @@ function readCode() {
     });
   });
 
+  it("assignment called with await", () => {
+    const code =
+      "async function doSomethingAsync() { const code = await readCode(); }";
+    const selection = Selection.cursorAt(0, 60);
+
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+async function readCode() {
+  \${0:return undefined;}
+}`
+    });
+  });
+
+  it("await without assignment", () => {
+    const code = "async function doSomethingAsync() { await readCode(); }";
+    const selection = Selection.cursorAt(0, 45);
+
+    shouldUpdateCodeFor(code, selection, {
+      code: `
+async function readCode() {
+  \${0:// Implement}
+}`
+    });
+  });
+
   it("param of another call", () => {
     const code = "console.log(readCode());";
     const selection = Selection.cursorAt(0, 13);

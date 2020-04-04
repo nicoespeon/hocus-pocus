@@ -43,10 +43,17 @@ class CreateFunction implements Modification {
 
   execute(update: Update) {
     update({
-      code: `\nfunction ${this.name}(${this.args}) {\n  ${this.body}\n}${this.after}`,
+      code: `\n${this.modifier}function ${this.name}(${this.args}) {\n  ${this.body}\n}${this.after}`,
       position: this.position,
       name: `Create function "${this.name}"`
     });
+  }
+
+  private get modifier(): string {
+    if (this.match.parentPath.isAwaitExpression()) {
+      return "async ";
+    }
+    return "";
   }
 
   private get name(): string {
@@ -78,7 +85,11 @@ class CreateFunction implements Modification {
   }
 
   private get body(): string {
-    const isReturned = this.match.parentPath.isVariableDeclarator();
+    const parentPath = this.match.parentPath;
+    const isAwait = parentPath.isAwaitExpression();
+    const isReturned = isAwait
+      ? parentPath.parentPath.isVariableDeclarator()
+      : parentPath.isVariableDeclarator();
     const body = isReturned ? "return undefined;" : "// Implement";
     return `\${0:${body}}`;
   }

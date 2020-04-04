@@ -2,7 +2,7 @@
   "name": "hocus-pocus",
   "displayName": "Hocus Pocus",
   "description": "Make useful things appear out of the void, in JavaScript and TypeScript.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "nicoespeon",
   "author": "Nicolas Carlo <nicolascarlo.espeon@gmail.com>",
   "license": "MIT",

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2020-04-04 - I handle async functions 🔮
+
 ### Added
 
 - "Create Function" now adds `async` keyword if used with `await`, thanks to @automatensalat
@@ -37,6 +39,7 @@ async function doSomething() {}
 
 <!-- Links -->
 
-[unreleased]: https://github.com/nicoespeon/hocus-pocus/compare/1.1.0...HEAD
+[unreleased]: https://github.com/nicoespeon/hocus-pocus/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/nicoespeon/hocus-pocus/compare/5b3d351042d09ea26486598158069bce37b474b7...1.0.0

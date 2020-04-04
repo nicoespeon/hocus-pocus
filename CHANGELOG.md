@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- "Create Function" now adds `async` keyword if used with `await`, thanks to @automatensalat
+
+So this code:
+
+```js
+const result = await doSomething();
+```
+
+Will generate:
+
+```js
+async function doSomething() {}
+```
+
 ## [1.1.0] - 2019-12-22 - I can create variables 🔮
 
 ### Added

@@ -6,11 +6,7 @@ export { createShouldUpdateCodeFor, createShouldNotUpdateCodeFor };
 function createShouldUpdateCodeFor(
   fn: (code: Code, selection: Selection) => Modification
 ) {
-  return (
-    code: Code,
-    selection: Selection,
-    expectedOptions?: Partial<UpdateOptions>
-  ) => {
+  return ({ code, selection, expected }: ContextAndExpectations) => {
     const update = jest.fn();
 
     const modification = fn(code, selection);
@@ -18,8 +14,8 @@ function createShouldUpdateCodeFor(
 
     expect(update).toBeCalled();
 
-    if (expectedOptions) {
-      expect(update).toBeCalledWith(expect.objectContaining(expectedOptions));
+    if (expected) {
+      expect(update).toBeCalledWith(expect.objectContaining(expected));
     }
   };
 }
@@ -27,7 +23,7 @@ function createShouldUpdateCodeFor(
 function createShouldNotUpdateCodeFor(
   fn: (code: Code, selection: Selection) => Modification
 ) {
-  return (code: Code, selection: Selection) => {
+  return ({ code, selection }: Context) => {
     const update = jest.fn();
 
     const modification = fn(code, selection);
@@ -36,3 +32,12 @@ function createShouldNotUpdateCodeFor(
     expect(update).not.toBeCalled();
   };
 }
+
+type Context = {
+  code: Code;
+  selection: Selection;
+};
+
+type ContextAndExpectations = Context & {
+  expected?: Partial<UpdateOptions>;
+};

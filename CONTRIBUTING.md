@@ -6,15 +6,17 @@ Architecture decisions for this project [are documented here][adrs], using the [
 
 ## Table of Contents
 
-- [Getting started](#getting-started)
-- [Run the tests](#run-the-tests)
-  - [About tests](#about-tests)
-- [Useful resources to start changing the code](#useful-resources-to-start-changing-the-code)
-- [Code Style](#code-style)
-  - [Structure of TS files](#structure-of-ts-files)
-- [Debug locally](#debug-locally)
-- [Create a package and use it](#create-a-package-and-use-it)
-- [Open a PR and add acknowledge your contribution](#open-a-pr-and-add-acknowledge-your-contribution)
+- [Contributing to Hocus Pocus](#contributing-to-hocus-pocus)
+  - [Table of Contents](#table-of-contents)
+  - [Getting started](#getting-started)
+  - [Run the tests](#run-the-tests)
+    - [About tests](#about-tests)
+  - [Useful resources to start changing the code](#useful-resources-to-start-changing-the-code)
+  - [Code Style](#code-style)
+    - [Structure of TS files](#structure-of-ts-files)
+  - [Debug locally](#debug-locally)
+  - [Create a package and use it](#create-a-package-and-use-it)
+  - [Open a PR and add acknowledge your contribution](#open-a-pr-and-add-acknowledge-your-contribution)
 
 ## Getting started
 
@@ -49,7 +51,7 @@ We don't have VS Code integration tests. [We've documented why in this ADR][adr-
 
 Style formatting is managed by [Prettier][prettier]. It runs as a pre-commit hook, so you shouldn't have to worry about it 👐
 
-There a few conventions that we'd like to keep consistent and are not automatically enforced yet.
+There are a few conventions that we'd like to keep consistent and are not automatically enforced yet.
 
 ### Structure of TS files
 

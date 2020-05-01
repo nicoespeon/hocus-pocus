@@ -39,6 +39,8 @@ class CreateVariable implements Modification {
   }
 
   private get position(): Position {
-    return Selection.fromPath(t.earliestLinkedExpression(this.path)).start;
+    return Selection.fromPath(
+      t.closestAncestorBeforeWhichWeCanDeclare(this.path)
+    ).start;
   }
 }

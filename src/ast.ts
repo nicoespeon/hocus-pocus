@@ -124,7 +124,9 @@ function earliestLinkedExpression(path: SelectablePath): SelectablePath {
       !ancestor.isExpression() &&
       !ancestor.isObjectProperty() &&
       !ancestor.isVariableDeclarator() &&
-      !ancestor.isVariableDeclaration()
+      !ancestor.isVariableDeclaration() &&
+      !ancestor.isJSX() &&
+      !ancestor.isReturnStatement()
     ) {
       break;
     }

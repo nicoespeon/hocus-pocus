@@ -120,9 +120,16 @@ function earliestLinkedExpression(path: SelectablePath): SelectablePath {
 
   for (let ancestor of ancestors) {
     // Break the link at the first ancestor that is not an expression.
-    if (!ancestor.isExpression()) break;
+    if (
+      !ancestor.isExpression() &&
+      !ancestor.isObjectProperty() &&
+      !ancestor.isVariableDeclarator() &&
+      !ancestor.isVariableDeclaration()
+    ) {
+      break;
+    }
 
-    if (isSelectablePath(ancestor)) {
+    if (isSelectablePath<t.Node>(ancestor)) {
       result = ancestor;
     }
   }

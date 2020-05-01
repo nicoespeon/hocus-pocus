@@ -35,6 +35,16 @@ console.log(
   });
 });
 
+it("should create the variable just before usage (variable declaration)", () => {
+  shouldUpdateCodeFor({
+    code: `const user = { name: firstName };`,
+    selection: Selection.cursorAt(0, 23),
+    expected: {
+      position: new Position(0, 0)
+    }
+  });
+});
+
 it("should respect code indentation", () => {
   shouldUpdateCodeFor({
     code: `function sayHello() {

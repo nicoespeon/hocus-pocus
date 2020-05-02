@@ -33,6 +33,56 @@ let isActive: boolean`;
   expect(type).toBe("boolean");
 });
 
+it("should infer type literal from assignment", () => {
+  const code = `const name = "John"`;
+  const position = new Position(0, 6);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe(`"John"`);
+});
+
+it("should override inferred type with explicit one", () => {
+  const code = `const name: string = "John"`;
+  const position = new Position(0, 6);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe("string");
+});
+
+it("should infer generic from assignment (let)", () => {
+  const code = `let name = "John"`;
+  const position = new Position(0, 6);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe("string");
+});
+
+it("should infer generic from assignment (array)", () => {
+  const code = `const name = ["John"]`;
+  const position = new Position(0, 6);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe("string[]");
+});
+
+it("should infer type literal from generic assignment with 'as const'", () => {
+  const code = `const name = ["John"] as const`;
+  const position = new Position(0, 6);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe(`readonly ["John"]`);
+});
+
 it("should return any if code is empty", () => {
   const code = ``;
   const position = new Position(0, 0);

@@ -32,3 +32,33 @@ let isActive: boolean`;
 
   expect(type).toBe("boolean");
 });
+
+it("should return any if code is empty", () => {
+  const code = ``;
+  const position = new Position(0, 0);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe("any");
+});
+
+it("should return any if position is outside code range", () => {
+  const code = `let count: number`;
+  const position = new Position(12, 30);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe("any");
+});
+
+it("should return any if position is not on an identifier", () => {
+  const code = `let count: number`;
+  const position = new Position(0, 0);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe("any");
+});

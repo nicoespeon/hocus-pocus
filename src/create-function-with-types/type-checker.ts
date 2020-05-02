@@ -6,6 +6,7 @@ import {
 import * as ts from "typescript";
 
 import { Code, Position } from "../editor";
+import { TSPosition } from "./ts-position";
 
 export class TypeChecker {
   private fileName = "irrelevant.ts";
@@ -13,11 +14,7 @@ export class TypeChecker {
   constructor(private readonly code: Code) {}
 
   getTypeAt(position: Position): Type {
-    return this.getTypeAtPosition(this.toTSPosition(position));
-  }
-
-  private toTSPosition(position: Position): TSPosition {
-    return position.character;
+    return this.getTypeAtPosition(new TSPosition(this.code, position));
   }
 
   private getTypeAtPosition(position: TSPosition): Type {
@@ -32,7 +29,7 @@ export class TypeChecker {
       // @ts-ignore Internal method
       const node = ts.getTouchingPropertyName(
         program.getSourceFile(this.fileName),
-        position
+        position.value
       );
       const type = typeChecker.getTypeAtLocation(node);
 
@@ -43,7 +40,7 @@ export class TypeChecker {
       console.error("Failed to check type", {
         error,
         code: this.code,
-        position
+        position: position.value
       });
       return ANY_TYPE;
     }
@@ -74,4 +71,3 @@ export class TypeChecker {
 }
 
 type Type = string;
-type TSPosition = number;

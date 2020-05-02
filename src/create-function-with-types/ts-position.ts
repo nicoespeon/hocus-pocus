@@ -7,7 +7,7 @@ export class TSPosition {
   ) {}
 
   get value(): number {
-    let result = 0;
+    let result = this.position.line;
 
     for (let i = 0; i < this.position.line; i++) {
       const line = this.codeLines[i];

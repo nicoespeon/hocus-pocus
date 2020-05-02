@@ -15,15 +15,15 @@ it("should take Position character when at line 0", () => {
   expect(tsPosition.value).toBe(4);
 });
 
-it("should consider previous lines length when not at line 0", () => {
+it("should add 1 per new line", () => {
   const position = new Position(1, 0);
 
   const tsPosition = new TSPosition(code, position);
 
-  expect(tsPosition.value).toBe(22);
+  expect(tsPosition.value).toBe(23);
 });
 
-it("should not count empty lines", () => {
+it("should handle empty lines", () => {
   const code = `const hello = "world";
 
 
@@ -33,7 +33,7 @@ it("should not count empty lines", () => {
 
   const tsPosition = new TSPosition(code, position);
 
-  expect(tsPosition.value).toBe(22);
+  expect(tsPosition.value).toBe(25);
 });
 
 it("should count trailing spaces", () => {
@@ -44,7 +44,7 @@ it("should count trailing spaces", () => {
 
   const tsPosition = new TSPosition(code, position);
 
-  expect(tsPosition.value).toBe(24);
+  expect(tsPosition.value).toBe(25);
 });
 
 it("should work if Position is outside of code range", () => {
@@ -53,5 +53,5 @@ it("should work if Position is outside of code range", () => {
 
   const tsPosition = new TSPosition(code, position);
 
-  expect(tsPosition.value).toBe(22);
+  expect(tsPosition.value).toBe(26);
 });

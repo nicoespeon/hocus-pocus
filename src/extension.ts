@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 
 import { createFunction } from "./create-function";
 import { createVariable } from "./create-variable";
+import { createClass } from "./create-class";
 import { Position, Selection, Code } from "./editor";
 import { Modification } from "./modification";
 
@@ -13,6 +14,10 @@ const COMMANDS = [
   {
     id: "hocusPocus.createVariable",
     run: createVariable
+  },
+  {
+    id: "hocusPocus.createClass",
+    run: createClass
   }
 ];
 const SUPPORTED_LANGUAGES = [

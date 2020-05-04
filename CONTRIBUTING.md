@@ -6,17 +6,15 @@ Architecture decisions for this project [are documented here][adrs], using the [
 
 ## Table of Contents
 
-- [Contributing to Hocus Pocus](#contributing-to-hocus-pocus)
-  - [Table of Contents](#table-of-contents)
-  - [Getting started](#getting-started)
-  - [Run the tests](#run-the-tests)
-    - [About tests](#about-tests)
-  - [Useful resources to start changing the code](#useful-resources-to-start-changing-the-code)
-  - [Code Style](#code-style)
-    - [Structure of TS files](#structure-of-ts-files)
-  - [Debug locally](#debug-locally)
-  - [Create a package and use it](#create-a-package-and-use-it)
-  - [Open a PR and add acknowledge your contribution](#open-a-pr-and-add-acknowledge-your-contribution)
+- [Getting started](#getting-started)
+- [Run the tests](#run-the-tests)
+  - [About tests](#about-tests)
+- [Useful resources to start changing the code](#useful-resources-to-start-changing-the-code)
+- [Code Style](#code-style)
+  - [Structure of TS files](#structure-of-ts-files)
+- [Debug locally](#debug-locally)
+- [Create a package and use it](#create-a-package-and-use-it)
+- [Open a PR and add acknowledge your contribution](#open-a-pr-and-add-acknowledge-your-contribution)
 
 ## Getting started
 

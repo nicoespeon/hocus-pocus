@@ -12,7 +12,7 @@ export { Selectable, SelectableNode, SelectablePath };
 export { isSelectablePath, isSelectableNode };
 export { traverseCode };
 export { isDeclared, isMemberExpressionProperty };
-export { topLevelAncestor, earliestLinkedExpression };
+export { topLevelAncestor, closestAncestorBeforeWhichWeCanDeclare };
 
 interface Selection {
   start: Position;
@@ -114,18 +114,33 @@ function topLevelAncestor(path: NodePath): SelectablePath {
   return ancestors[ancestors.length - 1] || path;
 }
 
-function earliestLinkedExpression(path: SelectablePath): SelectablePath {
+function closestAncestorBeforeWhichWeCanDeclare(
+  path: SelectablePath
+): SelectablePath {
   const ancestors = path.getAncestry();
   let result: SelectablePath = path;
 
   for (let ancestor of ancestors) {
-    // Break the link at the first ancestor that is not an expression.
-    if (!ancestor.isExpression()) break;
+    if (canDeclareVariableIn(ancestor)) {
+      // Stop here so we get the ancestor before which we'll declare.
+      break;
+    }
 
-    if (isSelectablePath(ancestor)) {
+    if (isSelectablePath<t.Node>(ancestor)) {
       result = ancestor;
     }
   }
 
   return result;
+}
+
+function canDeclareVariableIn(ancestor: NodePath): boolean {
+  return (
+    !ancestor.isExpression() &&
+    !ancestor.isObjectProperty() &&
+    !ancestor.isVariableDeclarator() &&
+    !ancestor.isVariableDeclaration() &&
+    !ancestor.isJSX() &&
+    !ancestor.isReturnStatement()
+  );
 }

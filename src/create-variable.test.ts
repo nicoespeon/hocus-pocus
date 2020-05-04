@@ -35,6 +35,28 @@ console.log(
   });
 });
 
+it("should create the variable just before usage (variable declaration)", () => {
+  shouldUpdateCodeFor({
+    code: `const user = { name: firstName };`,
+    selection: Selection.cursorAt(0, 23),
+    expected: {
+      position: new Position(0, 0)
+    }
+  });
+});
+
+it("should create the variable just before usage (JSX attribute)", () => {
+  shouldUpdateCodeFor({
+    code: `function MyButton() {
+  return <button onClick={handleClick} />
+}`,
+    selection: Selection.cursorAt(1, 26),
+    expected: {
+      position: new Position(1, 2)
+    }
+  });
+});
+
 it("should respect code indentation", () => {
   shouldUpdateCodeFor({
     code: `function sayHello() {

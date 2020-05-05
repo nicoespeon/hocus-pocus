@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "nickebbitt",
+      "name": "Nick Ebbitt",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5111725?v=4",
+      "profile": "https://nickebbitt.github.io/",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "hocus-pocus",
+  "projectOwner": "nicoespeon",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

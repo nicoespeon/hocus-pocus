@@ -1,4 +1,7 @@
 # 🔮‍ Hocus Pocus
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![][logo-hocus-pocus]
 
@@ -71,6 +74,18 @@ To help you get your feet wet and become familiar with our contribution process,
 ## Contributors
 
 Thanks goes to these wonderful people ([emoji key][all-contributors-emoji]):
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://nickebbitt.github.io/"><img src="https://avatars3.githubusercontent.com/u/5111725?v=4" width="100px;" alt=""/><br /><sub><b>Nick Ebbitt</b></sub></a><br /><a href="https://github.com/nicoespeon/hocus-pocus/commits?author=nickebbitt" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

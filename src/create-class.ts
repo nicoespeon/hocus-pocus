@@ -78,7 +78,12 @@ class CreateClass implements Modification {
   }
 
   private get body(): string {
-    const body = `constructor(${this.args}) {\n    // Implement\n  }`;
+    let body = "";
+    if (this.args.length > 0) {
+      body = `constructor(${this.args}) {\n    // Implement\n  }`;
+    } else {
+      body = `// Implement`;
+    }
     return `\${0:${body}}`;
   }
 }

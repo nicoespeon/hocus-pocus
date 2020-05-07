@@ -16,9 +16,7 @@ describe("create class declaration from a new expression", () => {
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor() {
-    // Implement
-  }}
+  \${0:// Implement}
 }`,
         position: new Position(1, 0),
         name: 'Create class "ReadCode"'
@@ -33,9 +31,7 @@ class ReadCode {
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor() {
-    // Implement
-  }}
+  \${0:// Implement}
 }`
       }
     });
@@ -49,9 +45,7 @@ class ReadCode {
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor() {
-    // Implement
-  }}
+  \${0:// Implement}
 }`
       }
     });
@@ -64,9 +58,7 @@ class ReadCode {
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor() {
-    // Implement
-  }}
+  \${0:// Implement}
 }`
       }
     });
@@ -87,9 +79,7 @@ write(code);`,
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor() {
-    // Implement
-  }}
+  \${0:// Implement}
 }
 
 `
@@ -106,9 +96,7 @@ write(code);`,
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor() {
-    // Implement
-  }}
+  \${0:// Implement}
 }
 `
       }
@@ -126,9 +114,7 @@ write(code);`,
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor() {
-    // Implement
-  }}
+  \${0:// Implement}
 }`
       }
     });
@@ -173,9 +159,7 @@ class ReadCode {
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor() {
-    // Implement
-  }}
+  \${0:// Implement}
 }`,
         position: new Position(5, 0)
       }

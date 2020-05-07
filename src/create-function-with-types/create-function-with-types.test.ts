@@ -25,6 +25,21 @@ function readCode() {
   });
 });
 
+it("with literal arguments", () => {
+  shouldUpdateCodeFor({
+    code: `readCode("hello", true);`,
+    selection: Selection.cursorAt(0, 0),
+    expected: {
+      code: `
+function readCode(\${1:param1}: "hello", \${2:param2}: true) {
+  \${0:// Implement}
+}`,
+      position: new Position(1, 0),
+      name: 'Create function "readCode"'
+    }
+  });
+});
+
 it("should not update code if call expression is already declared", () => {
   shouldNotUpdateCodeFor({
     code: `readCode();

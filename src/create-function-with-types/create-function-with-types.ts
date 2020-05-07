@@ -1,7 +1,8 @@
-import { Code, Selection } from "../editor";
+import { Code, Selection, Position } from "../editor";
 import { Modification, NoModification } from "../modification";
 import { Match, isMatch, CreateFunction } from "../create-function";
 import * as t from "../ast";
+import { TypeChecker } from "./type-checker";
 
 export { createFunctionWithTypes };
 
@@ -30,11 +31,18 @@ function createFunctionWithTypes(
 
 class CreateFunctionWithTypes extends CreateFunction {
   protected get args(): string {
+    const typeChecker = new TypeChecker(this.code);
+
     return this.match.node.arguments
-      .map((argument, i) =>
-        t.isIdentifier(argument) ? argument.name : `param${i + 1}`
-      )
-      .map((argument, i) => `\${${i + 1}:${argument}}`)
+      .map((argument, i) => {
+        const name = t.isIdentifier(argument) ? argument.name : `param${i + 1}`;
+        const position = t.isSelectableNode(argument)
+          ? Position.fromAST(argument.loc.start)
+          : new Position(0, 0);
+        const type = typeChecker.getTypeAt(position);
+
+        return `\${${i + 1}:${name}}: ${type}`;
+      })
       .join(", ");
   }
 }

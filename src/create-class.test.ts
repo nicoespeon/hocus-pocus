@@ -138,9 +138,9 @@ class Write {
       expected: {
         code: `
 class ReadCode {
-  \${0:constructor(\${1:selection}, \${2:param2}, \${3:param3}) {
-    // Implement
-  }}
+  constructor(\${1:selection}, \${2:param2}, \${3:param3}) {
+    \${0:// Implement}
+  }
 }`,
         name: 'Create class "ReadCode"'
       }

@@ -34,7 +34,7 @@ type Match = t.NodePath<
 >;
 
 class CreateFunction implements Modification {
-  private match: Match;
+  protected match: Match;
   private code: Code;
 
   constructor(match: Match, code: Code) {
@@ -76,7 +76,7 @@ class CreateFunction implements Modification {
     return "";
   }
 
-  private get args(): string {
+  protected get args(): string {
     return this.match.node.arguments
       .map((argument, i) =>
         t.isIdentifier(argument) ? argument.name : `param${i + 1}`

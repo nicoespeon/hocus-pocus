@@ -28,4 +28,13 @@ function createFunctionWithTypes(
   return new CreateFunctionWithTypes(match, code);
 }
 
-class CreateFunctionWithTypes extends CreateFunction {}
+class CreateFunctionWithTypes extends CreateFunction {
+  protected get args(): string {
+    return this.match.node.arguments
+      .map((argument, i) =>
+        t.isIdentifier(argument) ? argument.name : `param${i + 1}`
+      )
+      .map((argument, i) => `\${${i + 1}:${argument}}`)
+      .join(", ");
+  }
+}

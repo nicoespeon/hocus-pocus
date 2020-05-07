@@ -25,5 +25,7 @@ function createFunctionWithTypes(
     return new NoModification();
   }
 
-  return new CreateFunction(match, code);
+  return new CreateFunctionWithTypes(match, code);
 }
+
+class CreateFunctionWithTypes extends CreateFunction {}

@@ -3,6 +3,7 @@ import { Position, Selection, Code } from "./editor";
 import * as t from "./ast";
 
 export { createFunction };
+export { Match, isMatch, CreateFunction };
 
 function createFunction(code: Code, selection: Selection): Modification {
   let match: Match | undefined;

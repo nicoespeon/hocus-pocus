@@ -80,11 +80,11 @@ class CreateClass implements Modification {
   private get body(): string {
     let body = "";
     if (this.args.length > 0) {
-      body = `constructor(${this.args}) {\n    // Implement\n  }`;
+      body = `constructor(${this.args}) {\n    \${0:// Implement}\n  }`;
     } else {
-      body = `// Implement`;
+      body = `\${0:// Implement}`;
     }
-    return `\${0:${body}}`;
+    return `${body}`;
   }
 }
 

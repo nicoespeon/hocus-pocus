@@ -115,6 +115,7 @@ Contributions of any kind are welcome!
 
 [demo-extension]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/showcase.gif?raw=true
 [demo-create-function]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-function.gif?raw=true
+[demo-create-variable]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-variable.gif?raw=true
 
 <!-- Logo -->
 

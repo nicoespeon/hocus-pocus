@@ -17,8 +17,10 @@ describe("create class declaration from a new expression", () => {
         code: `
 class ReadCode {
   \${0:// Implement}
-}`,
-        position: new Position(1, 0),
+}
+
+`,
+        position: new Position(0, 0),
         name: 'Create class "ReadCode"'
       }
     });
@@ -32,7 +34,10 @@ class ReadCode {
         code: `
 class ReadCode {
   \${0:// Implement}
-}`
+}
+
+`,
+        position: new Position(0, 0)
       }
     });
   });
@@ -46,7 +51,10 @@ class ReadCode {
         code: `
 class ReadCode {
   \${0:// Implement}
-}`
+}
+
+`,
+        position: new Position(0, 0)
       }
     });
   });
@@ -59,7 +67,10 @@ class ReadCode {
         code: `
 class ReadCode {
   \${0:// Implement}
-}`
+}
+
+`,
+        position: new Position(0, 0)
       }
     });
   });
@@ -82,7 +93,8 @@ class ReadCode {
   \${0:// Implement}
 }
 
-`
+`,
+        position: new Position(0, 0)
       }
     });
   });
@@ -98,6 +110,7 @@ write(code);`,
 class ReadCode {
   \${0:// Implement}
 }
+
 `
       }
     });
@@ -115,7 +128,9 @@ write(code);`,
         code: `
 class ReadCode {
   \${0:// Implement}
-}`
+}
+
+`
       }
     });
   });
@@ -141,7 +156,9 @@ class ReadCode {
   constructor(\${1:selection}, \${2:param2}, \${3:param3}) {
     \${0:// Implement}
   }
-}`,
+}
+
+`,
         name: 'Create class "ReadCode"'
       }
     });
@@ -160,8 +177,39 @@ class ReadCode {
         code: `
 class ReadCode {
   \${0:// Implement}
-}`,
-        position: new Position(5, 0)
+}
+
+`,
+        position: new Position(0, 0)
+      }
+    });
+  });
+
+  it("multiple layers of nesting", () => {
+    shouldUpdateCodeFor({
+      code: `it("should read code", () => {
+
+function doSomething() {
+  
+  function doSomethingElse() {
+    const code = new ReadCode();
+
+    expect(code).toBe("hello");
+  }
+  
+}
+        
+});
+`,
+      selection: Selection.cursorAt(5, 22),
+      expected: {
+        code: `
+class ReadCode {
+  \${0:// Implement}
+}
+
+`,
+        position: new Position(0, 0)
       }
     });
   });

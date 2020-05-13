@@ -12,7 +12,11 @@ export { Selectable, SelectableNode, SelectablePath };
 export { isSelectablePath, isSelectableNode };
 export { traverseCode };
 export { isDeclared, isMemberExpressionProperty };
-export { topLevelAncestor, closestAncestorBeforeWhichWeCanDeclare };
+export {
+  topLevelAncestor,
+  closestAncestorBeforeWhichWeCanDeclare,
+  closestAncestorBeforeWhichWeCanDeclareAClass
+};
 
 interface Selection {
   start: Position;
@@ -136,6 +140,42 @@ function closestAncestorBeforeWhichWeCanDeclare(
 
 function canDeclareVariableIn(ancestor: NodePath): boolean {
   return (
+    !ancestor.isExpression() &&
+    !ancestor.isObjectProperty() &&
+    !ancestor.isVariableDeclarator() &&
+    !ancestor.isVariableDeclaration() &&
+    !ancestor.isJSX() &&
+    !ancestor.isReturnStatement()
+  );
+}
+
+function closestAncestorBeforeWhichWeCanDeclareAClass(
+  path: SelectablePath
+): SelectablePath {
+  const ancestors = path.getAncestry();
+  let result: SelectablePath = path;
+
+  for (let ancestor of ancestors) {
+    if (canDeclareClassIn(ancestor)) {
+      // Stop here so we get the ancestor before which we'll declare.
+      break;
+    }
+
+    if (isSelectablePath<t.Node>(ancestor)) {
+      result = ancestor;
+    }
+  }
+
+  return result;
+}
+
+function canDeclareClassIn(ancestor: NodePath): boolean {
+  return (
+    !ancestor.isArrowFunctionExpression() &&
+    !ancestor.isBlockStatement() &&
+    !ancestor.isAwaitExpression() &&
+    !ancestor.isExpressionStatement() &&
+    !ancestor.isFunctionDeclaration() &&
     !ancestor.isExpression() &&
     !ancestor.isObjectProperty() &&
     !ancestor.isVariableDeclarator() &&

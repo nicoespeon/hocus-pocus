@@ -54,10 +54,9 @@ class CreateClass implements Modification {
   }
 
   private get position(): Position {
-    const ancestor = t.topLevelAncestor(this.match);
-    return Position.fromAST(ancestor.node.loc.end)
-      .putAtNextLine()
-      .putAtStartOfLine();
+    return Selection.fromPath(
+      t.closestAncestorBeforeWhichWeCanDeclareAClass(this.match)
+    ).start;
   }
 
   private get after(): string {

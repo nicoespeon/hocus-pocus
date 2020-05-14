@@ -40,9 +40,8 @@ function readCode(\${1:param1}: "hello", \${2:param2}: true) {
   });
 });
 
-it.skip("with literal arguments and let assignment", () => {
+it("with literal arguments and let assignment", () => {
   shouldUpdateCodeFor({
-    // TODO: check typeChecker get the correct type
     code: `let name = "John";
 readCode(name);`,
     selection: Selection.cursorAt(1, 0),

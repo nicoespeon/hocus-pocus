@@ -1,8 +1,3 @@
-import {
-  createDefaultMapFromNodeModules,
-  createSystem,
-  createVirtualLanguageServiceHost
-} from "@typescript/vfs";
 import * as ts from "typescript";
 
 import { Code, Position } from "../editor";
@@ -46,26 +41,13 @@ export class TypeChecker {
   }
 
   private createTSProgram(): ts.Program | undefined {
-    const languageServiceHost = this.createTSLanguageServiceHost();
-    const languageServer = ts.createLanguageService(languageServiceHost);
-    return languageServer.getProgram();
-  }
+    const host: ts.CompilerHost = {
+      ...ts.createCompilerHost({}),
+      getSourceFile: (fileName, languageVersion) =>
+        ts.createSourceFile(fileName, this.code, languageVersion)
+    };
 
-  private createTSLanguageServiceHost(): ts.LanguageServiceHost {
-    const tsCompilerOptions = {};
-
-    const fsMap = createDefaultMapFromNodeModules(tsCompilerOptions);
-    fsMap.set(this.fileName, this.code);
-
-    const system = createSystem(fsMap);
-    const { languageServiceHost } = createVirtualLanguageServiceHost(
-      system,
-      [this.fileName],
-      tsCompilerOptions,
-      ts
-    );
-
-    return languageServiceHost;
+    return ts.createProgram([this.fileName], {}, host);
   }
 }
 

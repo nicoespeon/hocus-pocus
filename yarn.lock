@@ -388,13 +388,6 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@typescript/vfs@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@typescript/vfs/-/vfs-1.0.0.tgz#542cea6b11ceed2afb4fa7c9b8800eadd13da0db"
-  integrity sha512-Yyv2Ah7egLxs7TI2YPadkOQEJsREj8AOcXNdHRMAcRKGpD55iiLc7TsOd2WpqEuFF6oZO3U8xEJ9z+0N54sXhQ==
-  dependencies:
-    debug "^4.1.1"
-
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.8.5.tgz#51b1c5fe6576a34953bf4b253df9f0d490d9e359"

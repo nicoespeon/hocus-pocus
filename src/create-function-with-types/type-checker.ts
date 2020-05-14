@@ -33,8 +33,7 @@ export class TypeChecker {
       );
       const type = typeChecker.getTypeAtLocation(node);
 
-      // @ts-ignore Internal method
-      return typeChecker.writeType(type);
+      return typeChecker.typeToString(type);
     } catch (error) {
       // Since we're using internal methods, we can't rely on type checking.
       console.error("Failed to check type", {

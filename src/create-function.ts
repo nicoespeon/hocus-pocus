@@ -1,5 +1,5 @@
 import { Modification, Update, NoModification } from "./modification";
-import { Position, Selection, Code } from "./editor";
+import { Position, Selection, Code, isEmpty } from "./editor";
 import * as t from "./ast";
 
 export { createFunction };
@@ -93,8 +93,4 @@ class CreateFunction implements Modification {
     const body = isReturned ? "return undefined;" : "// Implement";
     return `\${0:${body}}`;
   }
-}
-
-function isEmpty(code: Code | undefined): boolean {
-  return !!code && code.trim() !== "";
 }

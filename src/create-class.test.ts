@@ -13,8 +13,7 @@ describe("create class declaration from a new expression", () => {
       code: "new ReadCode();",
       selection: Selection.cursorAt(0, 0),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 
@@ -30,8 +29,7 @@ class ReadCode {
       code: "const code = new ReadCode();",
       selection: Selection.cursorAt(0, 13),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 
@@ -47,8 +45,7 @@ class ReadCode {
         "async function doSomethingAsync() { const code = await new ReadCode(); }",
       selection: Selection.cursorAt(0, 60),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 
@@ -63,8 +60,7 @@ class ReadCode {
       code: "async function doSomethingAsync() { await new ReadCode(); }",
       selection: Selection.cursorAt(0, 45),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 
@@ -87,8 +83,7 @@ class ReadCode {
 write(code);`,
       selection: Selection.cursorAt(0, 13),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 
@@ -105,8 +100,7 @@ class ReadCode {
 write(code);`,
       selection: Selection.cursorAt(0, 13),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 
@@ -124,8 +118,7 @@ class ReadCode {
 write(code);`,
       selection: Selection.cursorAt(0, 13),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 
@@ -150,8 +143,7 @@ class Write {
       code: `new ReadCode(selection, "hello", 12);`,
       selection: Selection.cursorAt(0, 0),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   constructor(\${1:selection}, \${2:param2}, \${3:param3}) {
     \${0:// Implement}
   }
@@ -173,8 +165,7 @@ class ReadCode {
 `,
       selection: Selection.cursorAt(1, 15),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 
@@ -189,21 +180,20 @@ class ReadCode {
       code: `it("should read code", () => {
 
 function doSomething() {
-  
+
   function doSomethingElse() {
     const code = new ReadCode();
 
     expect(code).toBe("hello");
   }
-  
+
 }
-        
+
 });
 `,
       selection: Selection.cursorAt(5, 22),
       expected: {
-        code: `
-class ReadCode {
+        code: `class ReadCode {
   \${0:// Implement}
 }
 

@@ -43,7 +43,7 @@ class CreateClass implements Modification {
 
   execute(update: Update) {
     update({
-      code: `\nclass ${this.name} {\n  ${this.body}\n}${this.after}`,
+      code: `class ${this.name} {\n  ${this.body}\n}${this.after}`,
       position: this.position,
       name: `Create class "${this.name}"`
     });

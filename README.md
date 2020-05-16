@@ -46,6 +46,8 @@ Create a class declaration from its identifier.
 
 Just like "Create Function", this can be very useful if you tend to write class usage before declaring the class.
 
+![][demo-create-class]
+
 ## Release Notes
 
 [Have a look at our CHANGELOG][changelog] to get the details of all changes between versions.
@@ -117,6 +119,7 @@ Contributions of any kind are welcome!
 [demo-extension]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/showcase.gif?raw=true
 [demo-create-function]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-function.gif?raw=true
 [demo-create-variable]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-variable.gif?raw=true
+[demo-create-class]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-class.gif?raw=true
 
 <!-- Logo -->
 

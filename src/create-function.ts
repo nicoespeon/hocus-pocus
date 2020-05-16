@@ -1,5 +1,5 @@
 import { Modification, Update, NoModification } from "./modification";
-import { Position, Selection, Code, isEmpty } from "./editor";
+import { Position, Selection, Code, isFilled } from "./editor";
 import * as t from "./ast";
 
 export { createFunction };
@@ -70,8 +70,8 @@ class CreateFunction implements Modification {
   private get after(): string {
     const codeAfterPosition = this.code.split("\n").slice(this.position.line);
 
-    if (isEmpty(codeAfterPosition[0])) return "\n\n";
-    if (isEmpty(codeAfterPosition[1])) return "\n";
+    if (isFilled(codeAfterPosition[0])) return "\n\n";
+    if (isFilled(codeAfterPosition[1])) return "\n";
     return "";
   }
 

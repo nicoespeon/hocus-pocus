@@ -1,7 +1,7 @@
-export { Code, isEmpty };
+export { Code, isFilled };
 
 type Code = string;
 
-function isEmpty(code: Code | undefined): boolean {
+function isFilled(code: Code | undefined): boolean {
   return !!code && code.trim() !== "";
 }

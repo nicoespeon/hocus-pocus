@@ -1,9 +1,6 @@
 import { createClass } from "./create-class";
 import { Selection, Position } from "./editor";
-import {
-  createShouldUpdateCodeFor,
-  createShouldNotUpdateCodeFor
-} from "./test-helpers";
+import { createShouldUpdateCodeFor } from "./test-helpers";
 
 const shouldUpdateCodeFor = createShouldUpdateCodeFor(createClass);
 

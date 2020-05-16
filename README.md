@@ -2,7 +2,7 @@
 
 ![][logo-hocus-pocus]
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 [![Build Status](https://travis-ci.org/nicoespeon/hocus-pocus.svg?branch=master)](https://travis-ci.org/nicoespeon/hocus-pocus)
 ![](https://img.shields.io/badge/it%27s-magic-purple.svg)
 
@@ -84,6 +84,7 @@ Thanks goes to these wonderful people ([emoji key][all-contributors-emoji]):
   <tr>
     <td align="center"><a href="https://nicoespeon.com"><img src="https://github.com/nicoespeon.png" width="100px;" alt="Nicolas Carlo"/><br /><sub><b>Nicolas Carlo</b></sub></a><br /><a href="#question-nicoespeon" title="Answering Questions">💬</a> <a href="https://github.com/nicoespeon/hocus-pocus/commits?author=nicoespeon" title="Code">💻</a> <a href="https://github.com/nicoespeon/hocus-pocus/commits?author=nicoespeon" title="Documentation">📖</a><br /><a href="#review-nicoespeon" title="Reviewed Pull Requests">👀</a> <a href="#ideas-nicoespeon" title="Ideas">🤔</a></td>
     <td align="center"><a href="https://github.com/automatensalat"><img src="https://github.com/automatensalat.png" width="100px;" alt="Tobias Hann"/><br /><sub><b>Tobias Hann</b></sub></a><br /><a href="https://github.com/nicoespeon/hocus-pocus/commits?author=automatensalat" title="Code">💻</a> <a href="#ideas-automatensalat" title="Ideas">🤔</a></td>
+    <td align="center"><a href="https://nickebbitt.github.io/"><img src="https://github.com/nickebbitt.png" width="100px;" alt=""/><br /><sub><b>Nick Ebbitt</b></sub></a><br /><a href="https://github.com/nicoespeon/hocus-pocus/commits?author=nickebbitt" title="Code">💻</a> <a href="#ideas-nickebbitt" title="Ideas">🤔</a></td>
   </tr>
 </table>
 <!-- markdownlint-enable -->

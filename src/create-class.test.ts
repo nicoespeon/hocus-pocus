@@ -6,7 +6,6 @@ import {
 } from "./test-helpers";
 
 const shouldUpdateCodeFor = createShouldUpdateCodeFor(createClass);
-const shouldNotUpdateCodeFor = createShouldNotUpdateCodeFor(createClass);
 
 describe("create class declaration from a new expression", () => {
   it("with nothing else", () => {

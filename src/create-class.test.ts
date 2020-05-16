@@ -93,36 +93,36 @@ write(code);`,
     });
   });
 
-  it("doesn't add unnecessary blank lines (1 blank line in-between)", () => {
+  it("add 1 blank line between previous statement and class declaration", () => {
     shouldUpdateCodeFor({
-      code: `const code = new ReadCode();
-
-write(code);`,
-      selection: Selection.cursorAt(0, 13),
+      code: `console.log("say something");
+const code = new ReadCode();`,
+      selection: Selection.cursorAt(1, 13),
       expected: {
-        code: `class ReadCode {
+        code: `
+class ReadCode {
   \${0:// Implement}
 }
 
-`
+`,
+        position: new Position(1, 0)
       }
     });
   });
 
-  it("doesn't add unnecessary blank lines (2+ blank lines in-between)", () => {
+  it("doesn't add unnecessary blank lines", () => {
     shouldUpdateCodeFor({
-      code: `const code = new ReadCode();
+      code: `console.log("say something");
 
-
-
-write(code);`,
-      selection: Selection.cursorAt(0, 13),
+const code = new ReadCode();`,
+      selection: Selection.cursorAt(2, 13),
       expected: {
         code: `class ReadCode {
   \${0:// Implement}
 }
 
-`
+`,
+        position: new Position(2, 0)
       }
     });
   });

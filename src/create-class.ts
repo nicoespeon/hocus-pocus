@@ -43,7 +43,7 @@ class CreateClass implements Modification {
 
   execute(update: Update) {
     update({
-      code: `class ${this.name} {\n  ${this.body}\n}${this.after}`,
+      code: `${this.before}class ${this.name} {\n  ${this.body}\n}\n\n`,
       position: this.position,
       name: `Create class "${this.name}"`
     });
@@ -59,12 +59,13 @@ class CreateClass implements Modification {
     ).start;
   }
 
-  private get after(): string {
-    const codeAfterPosition = this.code.split("\n").slice(this.position.line);
+  private get before(): string {
+    const codeBeforePosition = this.code
+      .split("\n")
+      .slice(0, this.position.line);
 
-    if (isEmpty(codeAfterPosition[0])) return "\n\n";
-    if (isEmpty(codeAfterPosition[1])) return "\n";
-    return "";
+    if (!last(codeBeforePosition)) return "";
+    return "\n";
   }
 
   private get args(): string {
@@ -87,6 +88,6 @@ class CreateClass implements Modification {
   }
 }
 
-function isEmpty(code: Code | undefined): boolean {
-  return !!code && code.trim() !== "";
+function last<T>(array: T[]): T | undefined {
+  return array[array.length - 1];
 }

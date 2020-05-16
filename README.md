@@ -40,6 +40,12 @@ Just like "Create Function", this can be very useful if you tend to write variab
 
 ![][demo-create-variable]
 
+### Create Class
+
+Create a class declaration from its identifier.
+
+Just like "Create Function", this can be very useful if you tend to write class usage before declaring the class.
+
 ## Release Notes
 
 [Have a look at our CHANGELOG][changelog] to get the details of all changes between versions.

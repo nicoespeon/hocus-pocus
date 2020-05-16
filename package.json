@@ -88,6 +88,11 @@
         "command": "hocusPocus.createVariable",
         "title": "Create Variable",
         "category": "Hocus Pocus"
+      },
+      {
+        "command": "hocusPocus.createClass",
+        "title": "Create Class",
+        "category": "Hocus Pocus"
       }
     ]
   },

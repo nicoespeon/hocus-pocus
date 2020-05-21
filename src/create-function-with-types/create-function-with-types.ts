@@ -1,5 +1,5 @@
 import { Code, Selection, Position } from "../editor";
-import { Modification, NoModification } from "../modification";
+import { Modification, NoModification, Update } from "../modification";
 import { Match, isMatch, CreateFunction } from "../create-function";
 import * as t from "../ast";
 import { TypeChecker } from "./type-checker";
@@ -30,6 +30,14 @@ function createFunctionWithTypes(
 }
 
 class CreateFunctionWithTypes extends CreateFunction {
+  execute(update: Update) {
+    update({
+      code: `\n${this.modifier}function ${this.name}(${this.args})${this.returnType} {\n  ${this.body}\n}${this.after}`,
+      position: this.position,
+      name: `Create function "${this.name}"`
+    });
+  }
+
   protected get args(): string {
     const typeChecker = new TypeChecker(this.code);
 
@@ -44,5 +52,9 @@ class CreateFunctionWithTypes extends CreateFunction {
         return `\${${i + 1}:${name}}: ${type}`;
       })
       .join(", ");
+  }
+
+  private get returnType(): string {
+    return "";
   }
 }

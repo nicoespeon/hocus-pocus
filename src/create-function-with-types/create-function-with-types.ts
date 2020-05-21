@@ -3,12 +3,14 @@ import { Modification, NoModification, Update } from "../modification";
 import { Match, isMatch, CreateFunction } from "../create-function";
 import * as t from "../ast";
 import { TypeChecker } from "./type-checker";
+import { Logger, NoopLogger } from "../logger";
 
 export { createFunctionWithTypes };
 
 function createFunctionWithTypes(
   code: Code,
-  selection: Selection
+  selection: Selection,
+  logger: Logger = new NoopLogger()
 ): Modification {
   let match: Match | undefined;
 
@@ -26,15 +28,15 @@ function createFunctionWithTypes(
     return new NoModification();
   }
 
-  return new CreateFunctionWithTypes(match, code);
+  return new CreateFunctionWithTypes(match, code, logger);
 }
 
 class CreateFunctionWithTypes extends CreateFunction {
   private typeChecker: TypeChecker;
 
-  constructor(match: Match, code: Code) {
+  constructor(match: Match, code: Code, logger: Logger) {
     super(match, code);
-    this.typeChecker = new TypeChecker(code);
+    this.typeChecker = new TypeChecker(code, logger);
   }
 
   execute(update: Update) {

@@ -7,11 +7,15 @@ import {
 
 import { Code, Position } from "../editor";
 import { TSPosition } from "./ts-position";
+import { Logger, NoopLogger } from "../logger";
 
 export class TypeChecker {
   private fileName = "irrelevant.ts";
 
-  constructor(private readonly code: Code) {}
+  constructor(
+    private readonly code: Code,
+    private logger: Logger = new NoopLogger()
+  ) {}
 
   getTypeAt(position: Position): Type {
     return this.getTypeAtPosition(new TSPosition(this.code, position));
@@ -55,7 +59,7 @@ export class TypeChecker {
       return typeChecker.typeToString(type);
     } catch (error) {
       // Since we're using internal methods, we can't rely on type checking.
-      console.error("Failed to check type", {
+      this.logger.error("Failed to check type", {
         error,
         code: this.code,
         position: position.value

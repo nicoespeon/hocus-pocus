@@ -50,25 +50,25 @@ class CreateFunction implements Modification {
     });
   }
 
-  private get modifier(): string {
+  protected get modifier(): string {
     if (this.match.parentPath.isAwaitExpression()) {
       return "async ";
     }
     return "";
   }
 
-  private get name(): string {
+  protected get name(): string {
     return this.match.node.callee.name;
   }
 
-  private get position(): Position {
+  protected get position(): Position {
     const ancestor = t.topLevelAncestor(this.match);
     return Position.fromAST(ancestor.node.loc.end)
       .putAtNextLine()
       .putAtStartOfLine();
   }
 
-  private get after(): string {
+  protected get after(): string {
     const codeAfterPosition = this.code.split("\n").slice(this.position.line);
 
     if (isEmpty(codeAfterPosition[0])) return "\n\n";
@@ -85,7 +85,7 @@ class CreateFunction implements Modification {
       .join(", ");
   }
 
-  private get body(): string {
+  protected get body(): string {
     const parentPath = this.match.parentPath;
     const isAwait = parentPath.isAwaitExpression();
     const isReturned = isAwait

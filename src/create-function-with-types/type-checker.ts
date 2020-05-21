@@ -23,8 +23,7 @@ export class TypeChecker {
     const program = this.createTSProgram();
     if (!program) return ANY_TYPE;
 
-    const type = this.getTypeAtPositionWithProgram(position, program);
-    if (!type) return ANY_TYPE;
+    let type = this.getTypeAtPositionWithProgram(position, program);
 
     // Current implementation of TS Program can't resolve certain types
     // like `string[]`, it returns `{}` instead.
@@ -33,13 +32,10 @@ export class TypeChecker {
       const program = this.createTSProgramWithVirtualFileSystem();
       if (!program) return ANY_TYPE;
 
-      const type = this.getTypeAtPositionWithProgram(position, program);
-      if (!type) return ANY_TYPE;
-
-      return type;
+      type = this.getTypeAtPositionWithProgram(position, program);
     }
 
-    return type;
+    return type || ANY_TYPE;
   }
 
   private getTypeAtPositionWithProgram(
@@ -64,7 +60,6 @@ export class TypeChecker {
         code: this.code,
         position: position.value
       });
-      return;
     }
   }
 

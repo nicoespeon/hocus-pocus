@@ -1,4 +1,9 @@
 import * as ts from "typescript";
+import {
+  createDefaultMapFromNodeModules,
+  createSystem,
+  createVirtualLanguageServiceHost
+} from "@typescript/vfs";
 
 import { Code, Position } from "../editor";
 import { TSPosition } from "./ts-position";
@@ -20,6 +25,19 @@ export class TypeChecker {
 
     const type = this.getTypeAtPositionWithProgram(position, program);
     if (!type) return ANY_TYPE;
+
+    // Current implementation of TS Program can't resolve certain types
+    // like `string[]`, it returns `{}` instead.
+    // In this scenario, fallback on the VFS approach that seems to work.
+    if (type === "{}") {
+      const program = this.createTSProgramWithVirtualFileSystem();
+      if (!program) return ANY_TYPE;
+
+      const type = this.getTypeAtPositionWithProgram(position, program);
+      if (!type) return ANY_TYPE;
+
+      return type;
+    }
 
     return type;
   }
@@ -58,6 +76,29 @@ export class TypeChecker {
     };
 
     return ts.createProgram([this.fileName], {}, host);
+  }
+
+  private createTSProgramWithVirtualFileSystem(): ts.Program | undefined {
+    const languageServiceHost = this.createTSLanguageServiceHost();
+    const languageServer = ts.createLanguageService(languageServiceHost);
+    return languageServer.getProgram();
+  }
+
+  private createTSLanguageServiceHost(): ts.LanguageServiceHost {
+    const tsCompilerOptions = {};
+
+    const fsMap = createDefaultMapFromNodeModules(tsCompilerOptions);
+    fsMap.set(this.fileName, this.code);
+
+    const system = createSystem(fsMap);
+    const { languageServiceHost } = createVirtualLanguageServiceHost(
+      system,
+      [this.fileName],
+      tsCompilerOptions,
+      ts
+    );
+
+    return languageServiceHost;
   }
 }
 

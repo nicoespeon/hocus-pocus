@@ -74,8 +74,7 @@ const firstName = name;`;
   expect(type).toBe("string");
 });
 
-// TODO: this pattern used to work with a language service
-it.skip("should infer generic from assignment (array)", () => {
+it("should infer generic from assignment (array)", () => {
   const code = `const name = ["John"]`;
   const position = new Position(0, 6);
   const typeChecker = new TypeChecker(code);

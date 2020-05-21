@@ -1,9 +1,9 @@
+import * as ts from "typescript";
 import {
   createDefaultMapFromNodeModules,
   createSystem,
   createVirtualLanguageServiceHost
 } from "@typescript/vfs";
-import * as ts from "typescript";
 
 import { Code, Position } from "../editor";
 import { TSPosition } from "./ts-position";
@@ -23,6 +23,25 @@ export class TypeChecker {
     const program = this.createTSProgram();
     if (!program) return ANY_TYPE;
 
+    let type = this.getTypeAtPositionWithProgram(position, program);
+
+    // Current implementation of TS Program can't resolve certain types
+    // like `string[]`, it returns `{}` instead.
+    // In this scenario, fallback on the VFS approach that seems to work.
+    if (type === "{}") {
+      const program = this.createTSProgramWithVirtualFileSystem();
+      if (!program) return ANY_TYPE;
+
+      type = this.getTypeAtPositionWithProgram(position, program);
+    }
+
+    return type || ANY_TYPE;
+  }
+
+  private getTypeAtPositionWithProgram(
+    position: TSPosition,
+    program: ts.Program
+  ): Type | undefined {
     const typeChecker = program.getTypeChecker();
 
     try {
@@ -33,8 +52,7 @@ export class TypeChecker {
       );
       const type = typeChecker.getTypeAtLocation(node);
 
-      // @ts-ignore Internal method
-      return typeChecker.writeType(type);
+      return typeChecker.typeToString(type);
     } catch (error) {
       // Since we're using internal methods, we can't rely on type checking.
       console.error("Failed to check type", {
@@ -42,11 +60,20 @@ export class TypeChecker {
         code: this.code,
         position: position.value
       });
-      return ANY_TYPE;
     }
   }
 
   private createTSProgram(): ts.Program | undefined {
+    const host: ts.CompilerHost = {
+      ...ts.createCompilerHost({}),
+      getSourceFile: (fileName, languageVersion) =>
+        ts.createSourceFile(fileName, this.code, languageVersion)
+    };
+
+    return ts.createProgram([this.fileName], {}, host);
+  }
+
+  private createTSProgramWithVirtualFileSystem(): ts.Program | undefined {
     const languageServiceHost = this.createTSLanguageServiceHost();
     const languageServer = ts.createLanguageService(languageServiceHost);
     return languageServer.getProgram();

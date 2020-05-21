@@ -63,6 +63,17 @@ it("should infer generic from assignment (let)", () => {
   expect(type).toBe("string");
 });
 
+it("should return the type from identifier", () => {
+  const code = `let name = "John";
+const firstName = name;`;
+  const position = new Position(1, 19);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe("string");
+});
+
 it("should infer generic from assignment (array)", () => {
   const code = `const name = ["John"]`;
   const position = new Position(0, 6);

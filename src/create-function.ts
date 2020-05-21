@@ -3,6 +3,7 @@ import { Position, Selection, Code, isFilled } from "./editor";
 import * as t from "./ast";
 
 export { createFunction };
+export { Match, isMatch, CreateFunction };
 
 function createFunction(code: Code, selection: Selection): Modification {
   let match: Match | undefined;
@@ -33,13 +34,7 @@ type Match = t.NodePath<
 >;
 
 class CreateFunction implements Modification {
-  private match: Match;
-  private code: Code;
-
-  constructor(match: Match, code: Code) {
-    this.match = match;
-    this.code = code;
-  }
+  constructor(protected match: Match, protected code: Code) {}
 
   execute(update: Update) {
     update({
@@ -49,25 +44,25 @@ class CreateFunction implements Modification {
     });
   }
 
-  private get modifier(): string {
+  protected get modifier(): string {
     if (this.match.parentPath.isAwaitExpression()) {
       return "async ";
     }
     return "";
   }
 
-  private get name(): string {
+  protected get name(): string {
     return this.match.node.callee.name;
   }
 
-  private get position(): Position {
+  protected get position(): Position {
     const ancestor = t.topLevelAncestor(this.match);
     return Position.fromAST(ancestor.node.loc.end)
       .putAtNextLine()
       .putAtStartOfLine();
   }
 
-  private get after(): string {
+  protected get after(): string {
     const codeAfterPosition = this.code.split("\n").slice(this.position.line);
 
     if (isFilled(codeAfterPosition[0])) return "\n\n";
@@ -75,7 +70,7 @@ class CreateFunction implements Modification {
     return "";
   }
 
-  private get args(): string {
+  protected get args(): string {
     return this.match.node.arguments
       .map((argument, i) =>
         t.isIdentifier(argument) ? argument.name : `param${i + 1}`
@@ -84,7 +79,7 @@ class CreateFunction implements Modification {
       .join(", ");
   }
 
-  private get body(): string {
+  protected get body(): string {
     const parentPath = this.match.parentPath;
     const isAwait = parentPath.isAwaitExpression();
     const isReturned = isAwait

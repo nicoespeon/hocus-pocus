@@ -1,30 +1,36 @@
 import * as vscode from "vscode";
 
 import { createFunction } from "./create-function";
+import { createFunctionWithTypes } from "./create-function-with-types";
 import { createVariable } from "./create-variable";
 import { createClass } from "./create-class";
 import { Position, Selection, Code } from "./editor";
 import { Modification } from "./modification";
 
+const JS_LANGUAGES = ["javascript", "javascriptreact"];
+const TS_LANGUAGES = ["typescript", "typescriptreact"];
+const ALL_LANGUAGES = [...JS_LANGUAGES, ...TS_LANGUAGES];
 const COMMANDS = [
   {
     id: "hocusPocus.createFunction",
-    run: createFunction
+    run: createFunction,
+    languages: JS_LANGUAGES
+  },
+  {
+    id: "hocusPocus.createFunctionWithTypes",
+    run: createFunctionWithTypes,
+    languages: TS_LANGUAGES
   },
   {
     id: "hocusPocus.createVariable",
-    run: createVariable
+    run: createVariable,
+    languages: ALL_LANGUAGES
   },
   {
     id: "hocusPocus.createClass",
-    run: createClass
+    run: createClass,
+    languages: ALL_LANGUAGES
   }
-];
-const SUPPORTED_LANGUAGES = [
-  "javascript",
-  "javascriptreact",
-  "typescript",
-  "typescriptreact"
 ];
 
 export function activate(context: vscode.ExtensionContext) {
@@ -47,10 +53,10 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable);
   });
 
-  SUPPORTED_LANGUAGES.forEach(language => {
+  ALL_LANGUAGES.forEach(language => {
     vscode.languages.registerCodeActionsProvider(
       language,
-      new ActionProvider(),
+      new ActionProvider(language),
       {
         providedCodeActionKinds: [vscode.CodeActionKind.QuickFix]
       }
@@ -61,6 +67,8 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {}
 
 class ActionProvider implements vscode.CodeActionProvider {
+  constructor(private readonly language: string) {}
+
   provideCodeActions(
     document: vscode.TextDocument,
     selectionOrRange: vscode.Range | vscode.Selection,
@@ -70,27 +78,29 @@ class ActionProvider implements vscode.CodeActionProvider {
     const code = document.getText();
     const selection = fromVSCodeSelectionOrRange(selectionOrRange);
 
-    return COMMANDS.map(({ id, run }) => {
-      let modificationName = null;
+    return COMMANDS.filter(({ languages }) => languages.includes(this.language))
+      .map(({ id, run }) => {
+        let modificationName = null;
 
-      try {
-        const modification = run(code, selection);
-        modification.execute(({ name }) => (modificationName = name));
-      } catch (_) {
-        // Silently fail (typically, code can't be parsed)
-      }
+        try {
+          const modification = run(code, selection);
+          modification.execute(({ name }) => (modificationName = name));
+        } catch {
+          // Silently fail (typically, code can't be parsed)
+        }
 
-      if (modificationName === null) return null;
+        if (modificationName === null) return null;
 
-      const title = `🔮 ${modificationName}`;
-      const action = new vscode.CodeAction(title);
-      action.command = {
-        command: id,
-        title
-      };
+        const title = `🔮 ${modificationName}`;
+        const action = new vscode.CodeAction(title);
+        action.command = {
+          command: id,
+          title
+        };
 
-      return action;
-    }).filter(notNull);
+        return action;
+      })
+      .filter(notNull);
   }
 }
 

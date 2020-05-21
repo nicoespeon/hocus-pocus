@@ -72,6 +72,7 @@
   },
   "activationEvents": [
     "onCommand:hocusPocus.createFunction",
+    "onCommand:hocusPocus.createFunctionWithTypes",
     "onCommand:hocusPocus.createVariable",
     "onLanguage:javascript",
     "onLanguage:javascriptreact",
@@ -82,6 +83,11 @@
     "commands": [
       {
         "command": "hocusPocus.createFunction",
+        "title": "Create Function",
+        "category": "Hocus Pocus"
+      },
+      {
+        "command": "hocusPocus.createFunctionWithTypes",
         "title": "Create Function",
         "category": "Hocus Pocus"
       },

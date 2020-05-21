@@ -2,6 +2,7 @@
 
 "use strict";
 
+const ReplacePlugin = require("replace-in-file-webpack-plugin");
 const path = require("path");
 
 /** @type {import('webpack').Configuration} */
@@ -47,7 +48,42 @@ const config = {
         ]
       }
     ]
-  }
+  },
+
+  plugins: [
+    /**
+     * `@typescript/vfs` uses `path.dirname(require.resolve('typescript'))`
+     * But webpack replaces this with `path.dirname(336)` which is invalid!
+     * => replace the original code with `eval()` to make it work
+     *
+     * See https://github.com/webpack/webpack/issues/1554
+     */
+    new ReplacePlugin([
+      // This replaces the source code before compilation.
+      {
+        dir: "node_modules/@typescript/vfs/dist",
+        files: ["vfs.cjs.development.js", "vfs.esm.js"],
+        rules: [
+          {
+            // We carefully match this with parenthesis to avoid a recursion.
+            search: "(require.resolve('typescript'))",
+            replace: `(eval("require.resolve('typescript')"))`
+          }
+        ]
+      },
+      {
+        dir: "node_modules/@typescript/vfs/dist",
+        files: ["vfs.cjs.production.min.js"],
+        rules: [
+          {
+            // The production build uses different quotes.
+            search: '(require.resolve("typescript"))',
+            replace: `(eval("require.resolve('typescript')"))`
+          }
+        ]
+      }
+    ])
+  ]
 };
 
 module.exports = config;

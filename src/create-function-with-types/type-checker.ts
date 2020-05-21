@@ -18,6 +18,16 @@ export class TypeChecker {
     const program = this.createTSProgram();
     if (!program) return ANY_TYPE;
 
+    const type = this.getTypeAtPositionWithProgram(position, program);
+    if (!type) return ANY_TYPE;
+
+    return type;
+  }
+
+  private getTypeAtPositionWithProgram(
+    position: TSPosition,
+    program: ts.Program
+  ): Type | undefined {
     const typeChecker = program.getTypeChecker();
 
     try {
@@ -36,7 +46,7 @@ export class TypeChecker {
         code: this.code,
         position: position.value
       });
-      return ANY_TYPE;
+      return;
     }
   }
 

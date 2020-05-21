@@ -13,7 +13,7 @@ describe("create function declaration from a call expression", () => {
     shouldUpdateCodeFor({
       code: "readCode();",
       selection: Selection.cursorAt(0, 0),
-      expected: {
+      expectedSnippet: {
         code: `
 function readCode() {
   \${0:// Implement}
@@ -28,7 +28,7 @@ function readCode() {
     shouldUpdateCodeFor({
       code: "const code = readCode();",
       selection: Selection.cursorAt(0, 13),
-      expected: {
+      expectedSnippet: {
         code: `
 function readCode() {
   \${0:return undefined;}
@@ -42,7 +42,7 @@ function readCode() {
       code:
         "async function doSomethingAsync() { const code = await readCode(); }",
       selection: Selection.cursorAt(0, 60),
-      expected: {
+      expectedSnippet: {
         code: `
 async function readCode() {
   \${0:return undefined;}
@@ -55,7 +55,7 @@ async function readCode() {
     shouldUpdateCodeFor({
       code: "async function doSomethingAsync() { await readCode(); }",
       selection: Selection.cursorAt(0, 45),
-      expected: {
+      expectedSnippet: {
         code: `
 async function readCode() {
   \${0:// Implement}
@@ -76,7 +76,7 @@ async function readCode() {
       code: `const code = readCode();
 write(code);`,
       selection: Selection.cursorAt(0, 13),
-      expected: {
+      expectedSnippet: {
         code: `
 function readCode() {
   \${0:return undefined;}
@@ -93,7 +93,7 @@ function readCode() {
 
 write(code);`,
       selection: Selection.cursorAt(0, 13),
-      expected: {
+      expectedSnippet: {
         code: `
 function readCode() {
   \${0:return undefined;}
@@ -111,7 +111,7 @@ function readCode() {
 
 write(code);`,
       selection: Selection.cursorAt(0, 13),
-      expected: {
+      expectedSnippet: {
         code: `
 function readCode() {
   \${0:return undefined;}
@@ -133,7 +133,7 @@ function write(code) {}`,
     shouldUpdateCodeFor({
       code: `readCode(selection, "hello", 12);`,
       selection: Selection.cursorAt(0, 0),
-      expected: {
+      expectedSnippet: {
         code: `
 function readCode(\${1:selection}, \${2:param2}, \${3:param3}) {
   \${0:// Implement}
@@ -152,7 +152,7 @@ function readCode(\${1:selection}, \${2:param2}, \${3:param3}) {
 });
 `,
       selection: Selection.cursorAt(1, 15),
-      expected: {
+      expectedSnippet: {
         code: `
 function readCode() {
   \${0:return undefined;}

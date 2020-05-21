@@ -12,7 +12,7 @@ it("should create variable if cursor is on an undeclared variable", () => {
   shouldUpdateCodeFor({
     code: "console.log(someVariable)",
     selection: Selection.cursorAt(0, 15),
-    expected: {
+    expectedSnippet: {
       code: "const someVariable = $1;$0\n",
       position: new Position(0, 0),
       name: 'Create variable "someVariable"'
@@ -29,7 +29,7 @@ console.log(
   someVariable
 )`,
     selection: Selection.cursorAt(4, 2),
-    expected: {
+    expectedSnippet: {
       position: new Position(3, 0)
     }
   });
@@ -39,7 +39,7 @@ it("should create the variable just before usage (variable declaration)", () => 
   shouldUpdateCodeFor({
     code: `const user = { name: firstName };`,
     selection: Selection.cursorAt(0, 23),
-    expected: {
+    expectedSnippet: {
       position: new Position(0, 0)
     }
   });
@@ -51,7 +51,7 @@ it("should create the variable just before usage (JSX attribute)", () => {
   return <button onClick={handleClick} />
 }`,
     selection: Selection.cursorAt(1, 26),
-    expected: {
+    expectedSnippet: {
       position: new Position(1, 2)
     }
   });
@@ -65,7 +65,7 @@ it("should respect code indentation", () => {
   }
 }`,
     selection: Selection.cursorAt(2, 16),
-    expected: {
+    expectedSnippet: {
       code: "const someVariable = $1;$0\n",
       position: new Position(2, 4)
     }

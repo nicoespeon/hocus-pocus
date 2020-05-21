@@ -14,7 +14,7 @@ it("with no argument", () => {
   shouldUpdateCodeFor({
     code: "readCode();",
     selection: Selection.cursorAt(0, 0),
-    expected: {
+    expectedSnippet: {
       code: `
 function readCode() {
   \${0:// Implement}
@@ -29,7 +29,7 @@ it("with literal arguments", () => {
   shouldUpdateCodeFor({
     code: `readCode("hello", true);`,
     selection: Selection.cursorAt(0, 0),
-    expected: {
+    expectedSnippet: {
       code: `
 function readCode(\${1:param1}: "hello", \${2:param2}: true) {
   \${0:// Implement}
@@ -45,7 +45,7 @@ it("with literal arguments and let assignment", () => {
     code: `let name = "John";
 readCode(name);`,
     selection: Selection.cursorAt(1, 0),
-    expected: {
+    expectedSnippet: {
       code: `
 function readCode(\${1:name}: string) {
   \${0:// Implement}
@@ -61,7 +61,7 @@ it("with a return value", () => {
     code: `let name = "John";
 const result: string = readCode(name);`,
     selection: Selection.cursorAt(1, 23),
-    expected: {
+    expectedSnippet: {
       code: `
 function readCode(\${1:name}: string): string {
   \${0:return undefined;}

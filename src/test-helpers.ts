@@ -6,7 +6,11 @@ export { createShouldUpdateCodeFor, createShouldNotUpdateCodeFor };
 function createShouldUpdateCodeFor(
   fn: (code: Code, selection: Selection) => Modification
 ) {
-  return ({ code, selection, expected }: ContextAndExpectations) => {
+  return ({
+    code,
+    selection,
+    expectedSnippet: expected
+  }: ContextAndExpectations) => {
     const update = jest.fn();
 
     const modification = fn(code, selection);
@@ -39,5 +43,5 @@ type Context = {
 };
 
 type ContextAndExpectations = Context & {
-  expected?: Partial<UpdateOptions>;
+  expectedSnippet?: Partial<UpdateOptions>;
 };

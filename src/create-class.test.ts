@@ -9,7 +9,7 @@ describe("create class declaration from a new expression", () => {
     shouldUpdateCodeFor({
       code: "new ReadCode();",
       selection: Selection.cursorAt(0, 0),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   \${0:// Implement}
 }
@@ -25,7 +25,7 @@ describe("create class declaration from a new expression", () => {
     shouldUpdateCodeFor({
       code: "const code = new ReadCode();",
       selection: Selection.cursorAt(0, 13),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   \${0:// Implement}
 }
@@ -41,7 +41,7 @@ describe("create class declaration from a new expression", () => {
       code:
         "async function doSomethingAsync() { const code = await new ReadCode(); }",
       selection: Selection.cursorAt(0, 60),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   \${0:// Implement}
 }
@@ -56,7 +56,7 @@ describe("create class declaration from a new expression", () => {
     shouldUpdateCodeFor({
       code: "async function doSomethingAsync() { await new ReadCode(); }",
       selection: Selection.cursorAt(0, 45),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   \${0:// Implement}
 }
@@ -79,7 +79,7 @@ describe("create class declaration from a new expression", () => {
       code: `const code = new ReadCode();
 write(code);`,
       selection: Selection.cursorAt(0, 13),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   \${0:// Implement}
 }
@@ -95,7 +95,7 @@ write(code);`,
       code: `console.log("say something");
 const code = new ReadCode();`,
       selection: Selection.cursorAt(1, 13),
-      expected: {
+      expectedSnippet: {
         code: `
 class ReadCode {
   \${0:// Implement}
@@ -113,7 +113,7 @@ class ReadCode {
 
 const code = new ReadCode();`,
       selection: Selection.cursorAt(2, 13),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   \${0:// Implement}
 }
@@ -139,7 +139,7 @@ class Write {
     shouldUpdateCodeFor({
       code: `new ReadCode(selection, "hello", 12);`,
       selection: Selection.cursorAt(0, 0),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   constructor(\${1:selection}, \${2:param2}, \${3:param3}) {
     \${0:// Implement}
@@ -161,7 +161,7 @@ class Write {
 });
 `,
       selection: Selection.cursorAt(1, 15),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   \${0:// Implement}
 }
@@ -189,7 +189,7 @@ function doSomething() {
 });
 `,
       selection: Selection.cursorAt(5, 22),
-      expected: {
+      expectedSnippet: {
         code: `class ReadCode {
   \${0:// Implement}
 }

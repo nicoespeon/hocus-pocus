@@ -55,6 +55,16 @@ class CreateFunctionWithTypes extends CreateFunction {
   }
 
   private get returnType(): string {
+    const { parent } = this.match;
+
+    if (t.isVariableDeclarator(parent) && t.isSelectableNode(parent)) {
+      const typeChecker = new TypeChecker(this.code);
+      const position = Position.fromAST(parent.loc.start);
+      const type = typeChecker.getTypeAt(position);
+
+      return `: ${type}`;
+    }
+
     return "";
   }
 }

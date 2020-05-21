@@ -56,6 +56,22 @@ function readCode(\${1:name}: string) {
   });
 });
 
+it("with a return value", () => {
+  shouldUpdateCodeFor({
+    code: `let name = "John";
+const result: string = readCode(name);`,
+    selection: Selection.cursorAt(1, 23),
+    expected: {
+      code: `
+function readCode(\${1:name}: string): string {
+  \${0:return undefined;}
+}`,
+      position: new Position(2, 0),
+      name: 'Create function "readCode"'
+    }
+  });
+});
+
 it("should not update code if call expression is already declared", () => {
   shouldNotUpdateCodeFor({
     code: `readCode();

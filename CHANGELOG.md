@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- "Create Function" now adds the inferred types when used from TypeScript files
+
 ## [1.3.0] - 2020-05-16
 
 ### Added

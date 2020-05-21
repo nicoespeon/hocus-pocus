@@ -34,13 +34,7 @@ type Match = t.NodePath<
 >;
 
 class CreateFunction implements Modification {
-  protected match: Match;
-  protected code: Code;
-
-  constructor(match: Match, code: Code) {
-    this.match = match;
-    this.code = code;
-  }
+  constructor(protected match: Match, protected code: Code) {}
 
   execute(update: Update) {
     update({

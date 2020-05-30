@@ -85,6 +85,34 @@ it("should create the variable just before usage (while statement)", () => {
   });
 });
 
+it("should create the variable just before usage (for…of statement)", () => {
+  shouldUpdateCodeFor({
+    code: `function test() {
+  for (let item of items) {
+    // ...
+  }
+}`,
+    selection: Selection.cursorAt(1, 19),
+    expectedSnippet: {
+      position: new Position(1, 2)
+    }
+  });
+});
+
+it("should create the variable just before usage (for…in statement)", () => {
+  shouldUpdateCodeFor({
+    code: `function test() {
+  for (let item in items) {
+    // ...
+  }
+}`,
+    selection: Selection.cursorAt(1, 19),
+    expectedSnippet: {
+      position: new Position(1, 2)
+    }
+  });
+});
+
 it("should respect code indentation", () => {
   shouldUpdateCodeFor({
     code: `function sayHello() {

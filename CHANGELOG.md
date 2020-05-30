@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2020-05-29
+
 ### Changed
 
 - "Create Function" will use the generic type instead of the type literal. The generic is more useful and probably what you'd expect.
@@ -76,7 +78,8 @@ async function doSomething() {}
 
 <!-- Links -->
 
-[unreleased]: https://github.com/nicoespeon/hocus-pocus/compare/1.4.0...HEAD
+[unreleased]: https://github.com/nicoespeon/hocus-pocus/compare/1.5.0...HEAD
+[1.5.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.2.1...1.3.0
 [1.2.1]: https://github.com/nicoespeon/hocus-pocus/compare/1.2.0...1.2.1

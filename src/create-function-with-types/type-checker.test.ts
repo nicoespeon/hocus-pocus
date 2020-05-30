@@ -94,6 +94,23 @@ it("should infer type literal from generic assignment with 'as const'", () => {
   expect(type).toBe(`readonly ["John"]`);
 });
 
+it("should infer type of enum", () => {
+  const code = `enum Bla {
+  A = 1,
+  B = 2,
+}
+
+function bla() {
+  doSomething(Bla.A);
+}`;
+  const position = new Position(6, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe(`Bla`);
+});
+
 it("should return any if code is empty", () => {
   const code = ``;
   const position = new Position(0, 0);

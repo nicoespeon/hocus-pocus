@@ -56,7 +56,7 @@ export class TypeChecker {
       );
       const type = typeChecker.getTypeAtLocation(node);
 
-      return typeChecker.typeToString(type);
+      return this.normalizeType(typeChecker.typeToString(type));
     } catch (error) {
       // Since we're using internal methods, we can't rely on type checking.
       this.logger.error("Failed to check type", {
@@ -65,6 +65,10 @@ export class TypeChecker {
         position: position.value
       });
     }
+  }
+
+  private normalizeType(type: Type): Type {
+    return type.replace("typeof ", "");
   }
 
   private createTSProgram(): ts.Program | undefined {

@@ -11,6 +11,7 @@ import { Logger, NoopLogger } from "../logger";
 
 export class TypeChecker {
   private fileName = "irrelevant.ts";
+  private UNRESOLVED_TYPE = "{}";
 
   constructor(
     private readonly code: Code,
@@ -32,7 +33,7 @@ export class TypeChecker {
     // Current implementation of TS Program can't resolve certain types
     // like `string[]`, it returns `{}` instead.
     // In this scenario, fallback on the VFS approach that seems to work.
-    if (type === "{}") {
+    if (type === this.UNRESOLVED_TYPE) {
       const program = this.createTSProgramWithVirtualFileSystem();
       if (!program) return ANY_TYPE;
 

@@ -69,7 +69,26 @@ export class TypeChecker {
   }
 
   private normalizeType(type: Type): Type {
-    return type.replace("typeof ", "");
+    if (type === this.UNRESOLVED_TYPE) return type;
+
+    type = type.replace("typeof ", "");
+
+    try {
+      /**
+       * When inferred type is a narrow type literal, we get the generic type.
+       *
+       * The type literal is more accurate, but in practice we generate code
+       * from one example. We usually want to generalize to the generic type.
+       *
+       * E.g. `functionToCreate("Oops, something went wrong");`
+       *      => `functionToCreate(message: string)`
+       */
+      return typeof eval(type);
+    } catch {
+      // `type` couldn't be evaluated, fallback on its value.
+    }
+
+    return type;
   }
 
   private createTSProgram(): ts.Program | undefined {

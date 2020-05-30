@@ -33,14 +33,14 @@ let isActive: boolean`;
   expect(type).toBe("boolean");
 });
 
-it("should infer type literal from assignment", () => {
+it("should infer a generic from assignment", () => {
   const code = `const name = "John"`;
   const position = new Position(0, 6);
   const typeChecker = new TypeChecker(code);
 
   const type = typeChecker.getTypeAt(position);
 
-  expect(type).toBe(`"John"`);
+  expect(type).toBe("string");
 });
 
 it("should override inferred type with explicit one", () => {

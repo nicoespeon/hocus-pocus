@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- "Create Function" will use the generic type instead of the type literal. The generic is more useful and probably what you'd expect.
+
+```ts
+doSomething("hello");
+
+// Used to create 😐
+function doSomething(param1: "hello") {}
+
+// Now creates 😃
+function doSomething(param1: string) {}
+```
+
 ### Fixed
 
 - "Create Variable" created a mess when used in some patterns (if, while, for statements). It now works as expected.

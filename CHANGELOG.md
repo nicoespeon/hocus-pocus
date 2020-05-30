@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- "Create Variable" created a mess when used in some patterns (if, while, for statements). It now works as expected.
+
 ## [1.4.0] - 2020-05-21
 
 ### Added

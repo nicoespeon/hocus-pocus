@@ -71,6 +71,20 @@ it("should create the variable just before usage (if condition)", () => {
   });
 });
 
+it("should create the variable just before usage (while statement)", () => {
+  shouldUpdateCodeFor({
+    code: `function test(n) {
+  while (n > max) {
+    // ...
+  }
+}`,
+    selection: Selection.cursorAt(1, 13),
+    expectedSnippet: {
+      position: new Position(1, 2)
+    }
+  });
+});
+
 it("should respect code indentation", () => {
   shouldUpdateCodeFor({
     code: `function sayHello() {

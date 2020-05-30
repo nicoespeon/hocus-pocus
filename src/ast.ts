@@ -146,7 +146,8 @@ function canDeclareVariableIn(ancestor: NodePath): boolean {
     !ancestor.isVariableDeclaration() &&
     !ancestor.isJSX() &&
     !ancestor.isReturnStatement() &&
-    !ancestor.isIfStatement()
+    !ancestor.isIfStatement() &&
+    !ancestor.isWhileStatement()
   );
 }
 

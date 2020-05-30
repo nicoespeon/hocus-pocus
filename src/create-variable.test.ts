@@ -57,6 +57,20 @@ it("should create the variable just before usage (JSX attribute)", () => {
   });
 });
 
+it("should create the variable just before usage (if condition)", () => {
+  shouldUpdateCodeFor({
+    code: `function test(n) {
+  if (n > max) {
+    // ...
+  }
+}`,
+    selection: Selection.cursorAt(1, 10),
+    expectedSnippet: {
+      position: new Position(1, 2)
+    }
+  });
+});
+
 it("should respect code indentation", () => {
   shouldUpdateCodeFor({
     code: `function sayHello() {

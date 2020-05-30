@@ -31,7 +31,7 @@ it("with literal arguments", () => {
     selection: Selection.cursorAt(0, 0),
     expectedSnippet: {
       code: `
-function readCode(\${1:param1}: "hello", \${2:param2}: true) {
+function readCode(\${1:param1}: string, \${2:param2}: boolean) {
   \${0:// Implement}
 }`,
       position: new Position(1, 0),

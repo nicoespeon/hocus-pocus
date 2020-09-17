@@ -44,7 +44,7 @@ class CreateClass implements Modification {
   execute(update: Update) {
     update({
       code: `${this.before}class ${this.name} {\n  ${this.body}\n}\n\n`,
-      position: this.position,
+      positionOrSelection: this.position,
       name: `Create class "${this.name}"`
     });
   }

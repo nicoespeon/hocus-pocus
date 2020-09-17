@@ -15,7 +15,7 @@ describe("create class declaration from a new expression", () => {
 }
 
 `,
-        position: new Position(0, 0),
+        positionOrSelection: new Position(0, 0),
         name: 'Create class "ReadCode"'
       }
     });
@@ -31,7 +31,7 @@ describe("create class declaration from a new expression", () => {
 }
 
 `,
-        position: new Position(0, 0)
+        positionOrSelection: new Position(0, 0)
       }
     });
   });
@@ -47,7 +47,7 @@ describe("create class declaration from a new expression", () => {
 }
 
 `,
-        position: new Position(0, 0)
+        positionOrSelection: new Position(0, 0)
       }
     });
   });
@@ -62,7 +62,7 @@ describe("create class declaration from a new expression", () => {
 }
 
 `,
-        position: new Position(0, 0)
+        positionOrSelection: new Position(0, 0)
       }
     });
   });
@@ -85,7 +85,7 @@ write(code);`,
 }
 
 `,
-        position: new Position(0, 0)
+        positionOrSelection: new Position(0, 0)
       }
     });
   });
@@ -102,7 +102,7 @@ class ReadCode {
 }
 
 `,
-        position: new Position(1, 0)
+        positionOrSelection: new Position(1, 0)
       }
     });
   });
@@ -119,7 +119,7 @@ const code = new ReadCode();`,
 }
 
 `,
-        position: new Position(2, 0)
+        positionOrSelection: new Position(2, 0)
       }
     });
   });
@@ -167,7 +167,7 @@ class Write {
 }
 
 `,
-        position: new Position(0, 0)
+        positionOrSelection: new Position(0, 0)
       }
     });
   });
@@ -195,7 +195,7 @@ function doSomething() {
 }
 
 `,
-        position: new Position(0, 0)
+        positionOrSelection: new Position(0, 0)
       }
     });
   });

@@ -14,7 +14,7 @@ it("should create variable if cursor is on an undeclared variable", () => {
     selection: Selection.cursorAt(0, 15),
     expectedSnippet: {
       code: "const someVariable = $1;$0\n",
-      position: new Position(0, 0),
+      positionOrSelection: new Position(0, 0),
       name: 'Create variable "someVariable"'
     }
   });
@@ -30,7 +30,7 @@ console.log(
 )`,
     selection: Selection.cursorAt(4, 2),
     expectedSnippet: {
-      position: new Position(3, 0)
+      positionOrSelection: new Position(3, 0)
     }
   });
 });
@@ -40,7 +40,7 @@ it("should create the variable just before usage (variable declaration)", () => 
     code: `const user = { name: firstName };`,
     selection: Selection.cursorAt(0, 23),
     expectedSnippet: {
-      position: new Position(0, 0)
+      positionOrSelection: new Position(0, 0)
     }
   });
 });
@@ -52,7 +52,7 @@ it("should create the variable just before usage (JSX attribute)", () => {
 }`,
     selection: Selection.cursorAt(1, 26),
     expectedSnippet: {
-      position: new Position(1, 2)
+      positionOrSelection: new Position(1, 2)
     }
   });
 });
@@ -66,7 +66,7 @@ it("should create the variable just before usage (if condition)", () => {
 }`,
     selection: Selection.cursorAt(1, 10),
     expectedSnippet: {
-      position: new Position(1, 2)
+      positionOrSelection: new Position(1, 2)
     }
   });
 });
@@ -80,7 +80,7 @@ it("should create the variable just before usage (while statement)", () => {
 }`,
     selection: Selection.cursorAt(1, 13),
     expectedSnippet: {
-      position: new Position(1, 2)
+      positionOrSelection: new Position(1, 2)
     }
   });
 });
@@ -94,7 +94,7 @@ it("should create the variable just before usage (for…of statement)", () => {
 }`,
     selection: Selection.cursorAt(1, 19),
     expectedSnippet: {
-      position: new Position(1, 2)
+      positionOrSelection: new Position(1, 2)
     }
   });
 });
@@ -108,7 +108,7 @@ it("should create the variable just before usage (for…in statement)", () => {
 }`,
     selection: Selection.cursorAt(1, 19),
     expectedSnippet: {
-      position: new Position(1, 2)
+      positionOrSelection: new Position(1, 2)
     }
   });
 });
@@ -123,7 +123,7 @@ it("should respect code indentation", () => {
     selection: Selection.cursorAt(2, 16),
     expectedSnippet: {
       code: "const someVariable = $1;$0\n",
-      position: new Position(2, 4)
+      positionOrSelection: new Position(2, 4)
     }
   });
 });

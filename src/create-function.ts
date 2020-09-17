@@ -39,7 +39,7 @@ class CreateFunction implements Modification {
   execute(update: Update) {
     update({
       code: `\n${this.modifier}function ${this.name}(${this.args}) {\n  ${this.body}\n}${this.after}`,
-      position: this.position,
+      positionOrSelection: this.position,
       name: `Create function "${this.name}"`
     });
   }

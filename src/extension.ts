@@ -132,12 +132,24 @@ function apply(modification: Modification) {
   const editor = getActiveEditor();
   const edit = new vscode.WorkspaceEdit();
 
-  modification.execute(({ code, position }) => {
+  modification.execute(({ code, positionOrSelection }) => {
     const snippet = new vscode.SnippetString(code);
-    return editor.insertSnippet(snippet, toVSCodePosition(position));
+    return editor.insertSnippet(
+      snippet,
+      positionOrSelection instanceof Position
+        ? toVSCodePosition(positionOrSelection)
+        : toVSCodeRange(positionOrSelection)
+    );
   });
 
   vscode.workspace.applyEdit(edit);
+}
+
+function toVSCodeRange(selection: Selection): vscode.Range {
+  return new vscode.Range(
+    toVSCodePosition(selection.start),
+    toVSCodePosition(selection.end)
+  );
 }
 
 function fromVSCodeSelectionOrRange(

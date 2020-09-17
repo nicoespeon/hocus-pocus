@@ -33,7 +33,7 @@ class CreateVariable implements Modification {
 
     update({
       code: `const ${name} = $1;$0\n`,
-      position: this.position,
+      positionOrSelection: this.position,
       name: `Create variable "${name}"`
     });
   }

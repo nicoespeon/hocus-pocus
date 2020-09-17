@@ -19,7 +19,7 @@ it("with no argument", () => {
 function readCode() {
   \${0:// Implement}
 }`,
-      position: new Position(1, 0),
+      positionOrSelection: new Position(1, 0),
       name: 'Create function "readCode"'
     }
   });
@@ -34,7 +34,7 @@ it("with literal arguments", () => {
 function readCode(\${1:param1}: string, \${2:param2}: boolean) {
   \${0:// Implement}
 }`,
-      position: new Position(1, 0),
+      positionOrSelection: new Position(1, 0),
       name: 'Create function "readCode"'
     }
   });
@@ -50,7 +50,7 @@ readCode(name);`,
 function readCode(\${1:name}: string) {
   \${0:// Implement}
 }`,
-      position: new Position(2, 0),
+      positionOrSelection: new Position(2, 0),
       name: 'Create function "readCode"'
     }
   });
@@ -66,7 +66,7 @@ const result: string = readCode(name);`,
 function readCode(\${1:name}: string): string {
   \${0:return undefined;}
 }`,
-      position: new Position(2, 0),
+      positionOrSelection: new Position(2, 0),
       name: 'Create function "readCode"'
     }
   });

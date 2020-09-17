@@ -42,7 +42,7 @@ class CreateFunctionWithTypes extends CreateFunction {
   execute(update: Update) {
     update({
       code: `\n${this.modifier}function ${this.name}(${this.args})${this.returnType} {\n  ${this.body}\n}${this.after}`,
-      position: this.position,
+      positionOrSelection: this.position,
       name: `Create function "${this.name}"`
     });
   }

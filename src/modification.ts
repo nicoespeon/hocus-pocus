@@ -1,4 +1,4 @@
-import { Position, Code } from "./editor";
+import { Position, Code, Selection } from "./editor";
 
 export { Modification, Update, UpdateOptions };
 export { NoModification };
@@ -11,7 +11,7 @@ type Update = (options: UpdateOptions) => void;
 
 type UpdateOptions = {
   code: Code;
-  position: Position;
+  positionOrSelection: Position | Selection;
   name: string;
 };
 

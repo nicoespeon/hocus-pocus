@@ -18,7 +18,7 @@ describe("create function declaration from a call expression", () => {
 function readCode() {
   \${0:// Implement}
 }`,
-        position: new Position(1, 0),
+        positionOrSelection: new Position(1, 0),
         name: 'Create function "readCode"'
       }
     });
@@ -157,7 +157,7 @@ function readCode(\${1:selection}, \${2:param2}, \${3:param3}) {
 function readCode() {
   \${0:return undefined;}
 }`,
-        position: new Position(5, 0)
+        positionOrSelection: new Position(5, 0)
       }
     });
   });

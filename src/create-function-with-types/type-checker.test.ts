@@ -111,6 +111,20 @@ function bla() {
   expect(type).toBe(`Bla`);
 });
 
+it("should infer type of a union string", () => {
+  const code = `type Values = "one" | "two";
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(3, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe(`Values`);
+});
+
 it("should return any if code is empty", () => {
   const code = ``;
   const position = new Position(0, 0);

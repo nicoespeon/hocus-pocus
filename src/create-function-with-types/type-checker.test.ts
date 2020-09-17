@@ -154,3 +154,22 @@ it("should return any if position is not on an identifier", () => {
 
   expect(type).toBe("any");
 });
+
+it("should resolve literal values of a union string", () => {
+  const code = `type Values = "one" | "two";
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(3, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`"one"`, `"two"`]);
+});
+
+// TODO: test for nested union things
+// TODO: test for mix of types in union
+// TODO: test for enum
+// TODO: test for mix of enums and unions mixed

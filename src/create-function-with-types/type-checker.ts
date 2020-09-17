@@ -91,6 +91,56 @@ export class TypeChecker {
     return type;
   }
 
+  getLiteralValuesAt(position: Position): string[] {
+    // TODO: use similar logic to create program than to get the type
+    const program = this.createTSProgram();
+    if (!program) return [];
+
+    return this.getLiteralValuesAtPositionWithProgram(
+      new TSPosition(this.code, position),
+      program
+    );
+  }
+
+  // TODO: refactor duplication with getTypeAtPosition()
+  private getLiteralValuesAtPositionWithProgram(
+    position: TSPosition,
+    program: ts.Program
+  ): LiteralValue[] {
+    const typeChecker = program.getTypeChecker();
+
+    try {
+      // @ts-ignore Internal method
+      const node = ts.getTouchingPropertyName(
+        program.getSourceFile(this.fileName),
+        position.value
+      );
+      const type = typeChecker.getTypeAtLocation(node);
+
+      return (
+        type.aliasSymbol?.declarations[0]
+          .getText()
+          // type Values = "one" | "two";
+          .replace(";", "")
+          // type Values = "one" | "two"
+          .split("=")[1]
+          // ` "one" | "two"`
+          .split("|")
+          // [` "one" `, ` "two"`]
+          .map(value => value.trim()) || []
+      );
+    } catch (error) {
+      // Since we're using internal methods, we can't rely on type checking.
+      this.logger.error("Failed to retrieve base type", {
+        error,
+        code: this.code,
+        position: position.value
+      });
+
+      return [];
+    }
+  }
+
   private createTSProgram(): ts.Program | undefined {
     const host: ts.CompilerHost = {
       ...ts.createCompilerHost({}),
@@ -126,3 +176,4 @@ export class TypeChecker {
 }
 
 type Type = string;
+type LiteralValue = string;

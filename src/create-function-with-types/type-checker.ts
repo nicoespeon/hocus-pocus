@@ -47,20 +47,16 @@ export class TypeChecker {
     position: TSPosition,
     program: ts.Program
   ): Type | undefined {
+    const node = this.getNodeAtPosition(position, program);
+    if (!node) return;
+
     const typeChecker = program.getTypeChecker();
 
     try {
-      // @ts-ignore Internal method
-      const node = ts.getTouchingPropertyName(
-        program.getSourceFile(this.fileName),
-        position.value
-      );
       const type = typeChecker.getTypeAtLocation(node);
-
       return this.normalizeType(typeChecker.typeToString(type));
     } catch (error) {
-      // Since we're using internal methods, we can't rely on type checking.
-      this.logger.error("Failed to check type", {
+      this.logger.error("Failed to get type", {
         error,
         code: this.code,
         position: position.value
@@ -92,7 +88,6 @@ export class TypeChecker {
   }
 
   getLiteralValuesAt(position: Position): string[] {
-    // TODO: use similar logic to create program than to get the type
     const program = this.createTSProgram();
     if (!program) return [];
 
@@ -102,42 +97,93 @@ export class TypeChecker {
     );
   }
 
-  // TODO: refactor duplication with getTypeAtPosition()
   private getLiteralValuesAtPositionWithProgram(
     position: TSPosition,
     program: ts.Program
   ): LiteralValue[] {
+    const NO_VALUE: LiteralValue[] = [];
+
+    const node = this.getNodeAtPosition(position, program);
+    if (!node) return NO_VALUE;
+
     const typeChecker = program.getTypeChecker();
 
     try {
-      // @ts-ignore Internal method
-      const node = ts.getTouchingPropertyName(
-        program.getSourceFile(this.fileName),
-        position.value
-      );
-      const type = typeChecker.getTypeAtLocation(node);
-
-      return (
-        type.aliasSymbol?.declarations[0]
-          .getText()
-          // type Values = "one" | "two";
-          .replace(";", "")
-          // type Values = "one" | "two"
-          .split("=")[1]
-          // ` "one" | "two"`
-          .split("|")
-          // [` "one" `, ` "two"`]
-          .map(value => value.trim()) || []
+      return this.resolveLiteralValues(
+        node => this.getFirstDeclaration(typeChecker, node),
+        node,
+        []
       );
     } catch (error) {
-      // Since we're using internal methods, we can't rely on type checking.
-      this.logger.error("Failed to retrieve base type", {
+      this.logger.error("Failed to retrieve literal type", {
         error,
         code: this.code,
         position: position.value
       });
 
-      return [];
+      return NO_VALUE;
+    }
+  }
+
+  private getFirstDeclaration(
+    typeChecker: ts.TypeChecker,
+    node: ts.Node
+  ): ts.Declaration | undefined {
+    return typeChecker.getTypeAtLocation(node).aliasSymbol?.declarations[0];
+  }
+
+  private resolveLiteralValues(
+    getFirstDeclaration: (node: ts.Node) => ts.Declaration | undefined,
+    node: ts.Node,
+    values: LiteralValue[]
+  ): LiteralValue[] {
+    const is_literal = node.kind === 187;
+    const is_identifier = node.kind === 75;
+    const parent_is_type_declaration = node.parent.kind === 247;
+
+    if (is_literal) return values.concat(node.getText());
+
+    if (is_identifier && !parent_is_type_declaration) {
+      const firstDeclaration = getFirstDeclaration(node);
+      if (!firstDeclaration) return values;
+
+      return this.resolveLiteralValues(
+        getFirstDeclaration,
+        firstDeclaration,
+        values
+      );
+    }
+
+    if (node.getChildCount() > 0) {
+      return values.concat(
+        ...node
+          .getChildren()
+          .map(child =>
+            this.resolveLiteralValues(getFirstDeclaration, child, values)
+          )
+      );
+    }
+
+    return values;
+  }
+
+  private getNodeAtPosition(
+    position: TSPosition,
+    program: ts.Program
+  ): ts.Node | undefined {
+    try {
+      // @ts-expect-error Internal method
+      return ts.getTouchingPropertyName(
+        program.getSourceFile(this.fileName),
+        position.value
+      );
+    } catch (error) {
+      // Since we're using internal methods, we can't rely on type checking.
+      this.logger.error("Failed to get TS node", {
+        error,
+        code: this.code,
+        position: position.value
+      });
     }
   }
 

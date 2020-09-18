@@ -169,7 +169,21 @@ function bla(value: Values) {
   expect(type).toEqual([`"one"`, `"two"`]);
 });
 
-// TODO: test for nested union things
+it("should resolve literal values of a nested union string", () => {
+  const code = `type Values = "one" | "two" | OtherValues | "five";
+type OtherValues = "three" | "four";
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(4, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`"one"`, `"two"`, `"three"`, `"four"`, `"five"`]);
+});
+
 // TODO: test for mix of types in union
 // TODO: test for enum
 // TODO: test for mix of enums and unions mixed

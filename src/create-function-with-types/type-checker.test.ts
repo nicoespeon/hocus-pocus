@@ -184,6 +184,20 @@ function bla(value: Values) {
   expect(type).toEqual([`"one"`, `"two"`, `"three"`, `"four"`, `"five"`]);
 });
 
-// TODO: test for mix of types in union
+it("should resolve mixed literal values", () => {
+  const code = `type Values = "one" | 2 | OtherValues | "five";
+type OtherValues = true | "four";
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(4, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`"one"`, `2`, `true`, `"four"`, `"five"`]);
+});
+
 // TODO: test for enum
 // TODO: test for mix of enums and unions mixed

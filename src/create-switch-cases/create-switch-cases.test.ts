@@ -16,9 +16,9 @@ function doSomething(value: Values) {
     selection: Selection.cursorAt(4, 0),
     expectedSnippet: {
       code: `
-    case "one":
-    case "two":
-    case "three":`,
+    case "one":$1
+    case "two":$2
+    case "three":$3`,
       position: new Position(4, 0),
       name: "Create all cases"
     }

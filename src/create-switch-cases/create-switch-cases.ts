@@ -37,22 +37,23 @@ class CreateSwitchCases implements Modification {
   }
 
   execute(update: Update) {
+    if (!t.isSelectablePath(this.path)) return;
+    const selection = Selection.fromPath(this.path);
     const discriminantPath = this.path.get("discriminant");
     // TODO: is it OK or should it be resolved before?
     if (!t.isSelectablePath(discriminantPath)) return;
 
-    // TODO: find correct position
     // TODO: indentation
     // TODO: add stops in snippet
     // TODO: restrict usage so it doesn't execute if no case
     const indentation = "    ";
-    const selection = Selection.fromPath(discriminantPath);
-    const type = this.typeChecker.getLiteralValuesAt(selection.start);
+    const discriminantStart = Selection.fromPath(discriminantPath).start;
+    const type = this.typeChecker.getLiteralValuesAt(discriminantStart);
     const cases = type.map(value => `${indentation}case ${value}:`).join("\n");
 
     update({
       code: `\n${cases}`,
-      position: new Position(4, 0),
+      position: selection.end.putAtPreviousLine().putAtStartOfLine(),
       name: `Create all cases`
     });
   }

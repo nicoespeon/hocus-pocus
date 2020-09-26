@@ -53,7 +53,7 @@ class CreateSwitchCases implements Modification {
     update({
       code: `\n${cases}`,
       position: new Position(4, 0),
-      name: `TODO: find a name`
+      name: `Create all cases`
     });
   }
 }

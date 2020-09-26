@@ -20,7 +20,7 @@ function doSomething(value: Values) {
     case "two":
     case "three":`,
       position: new Position(4, 0),
-      name: "TODO: find a name"
+      name: "Create all cases"
     }
   });
 });

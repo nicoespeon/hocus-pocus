@@ -47,6 +47,10 @@ class Position {
     return new Position(this.line, 999999999);
   }
 
+  putAtPreviousLine(): Position {
+    return new Position(this.line - 1, this.character);
+  }
+
   putAtNextLine(): Position {
     return new Position(this.line + 1, this.character);
   }

@@ -16,7 +16,6 @@ function createSwitchCases(
   t.traverseCode(code, {
     SwitchStatement(path) {
       if (!selection.isInsidePath(path)) return;
-      // if (t.isDeclared(path.node.callee, path)) return;
 
       result = new CreateSwitchCases(path, code, logger);
     }
@@ -39,14 +38,18 @@ class CreateSwitchCases implements Modification {
   execute(update: Update) {
     if (!t.isSelectablePath(this.path)) return;
     const selection = Selection.fromPath(this.path);
+
+    const INDENTATION_CHAR = " ";
+    const INDENTATION_WIDTH = 2;
+    const indentation = INDENTATION_CHAR.repeat(
+      selection.start.character + INDENTATION_WIDTH
+    );
+
     const discriminantPath = this.path.get("discriminant");
-    // TODO: is it OK or should it be resolved before?
     if (!t.isSelectablePath(discriminantPath)) return;
 
-    // TODO: indentation
     // TODO: add stops in snippet
     // TODO: restrict usage so it doesn't execute if no case
-    const indentation = "    ";
     const discriminantStart = Selection.fromPath(discriminantPath).start;
     const type = this.typeChecker.getLiteralValuesAt(discriminantStart);
     const cases = type.map(value => `${indentation}case ${value}:`).join("\n");

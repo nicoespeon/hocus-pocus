@@ -1,8 +1,12 @@
 import { createSwitchCases } from "./create-switch-cases";
 import { Selection, Position } from "../editor";
-import { createShouldUpdateCodeFor } from "../test-helpers";
+import {
+  createShouldUpdateCodeFor,
+  createShouldNotUpdateCodeFor
+} from "../test-helpers";
 
 const shouldUpdateCodeFor = createShouldUpdateCodeFor(createSwitchCases);
+const shouldNotUpdateCodeFor = createShouldNotUpdateCodeFor(createSwitchCases);
 
 it("with an union string", () => {
   shouldUpdateCodeFor({
@@ -47,5 +51,16 @@ function doSomething(value: Values) {
       position: new Position(8, 0),
       name: "Create all cases"
     }
+  });
+});
+
+it("with an any", () => {
+  shouldNotUpdateCodeFor({
+    code: `function doSomething(value: any) {
+  switch (value) {
+
+  }
+}`,
+    selection: Selection.cursorAt(2, 0)
   });
 });

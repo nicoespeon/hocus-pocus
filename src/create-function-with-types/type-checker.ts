@@ -139,9 +139,24 @@ export class TypeChecker {
   ): LiteralValue[] {
     const is_literal = node.kind === 187;
     const is_identifier = node.kind === 75;
-    const parent_is_type_declaration = node.parent.kind === 247;
+    const is_enum_body = node.kind === 323 && node.parent.kind === 248;
+    const parent_is_type_declaration = [247, 248].includes(node.parent.kind);
 
     if (is_literal) return values.concat(node.getText());
+
+    if (is_enum_body) {
+      const [, enumName] =
+        node.parent.getFullText().match(/^enum (\w+) /) || [];
+      if (!enumName) return values;
+
+      return values.concat(
+        node
+          .getFullText()
+          .split(",")
+          .map(text => text.split("=")[0].trim())
+          .map(enumValue => `${enumName}.${enumValue}`)
+      );
+    }
 
     if (is_identifier && !parent_is_type_declaration) {
       const firstDeclaration = getFirstDeclaration(node);

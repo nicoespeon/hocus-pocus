@@ -199,5 +199,19 @@ function bla(value: Values) {
   expect(type).toEqual([`"one"`, `2`, `true`, `"four"`, `"five"`]);
 });
 
-// TODO: test for enum
-// TODO: test for mix of enums and unions mixed
+it("should resolve literal values of an enum", () => {
+  const code = `enum Values {
+  One,
+  Two = "two"
+};
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(5, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`Values.One`, `Values.Two`]);
+});

@@ -24,3 +24,28 @@ function doSomething(value: Values) {
     }
   });
 });
+
+it("with an enum", () => {
+  shouldUpdateCodeFor({
+    code: `enum Values {
+  One = "one",
+  Two = "two",
+  Three = "three"
+}
+
+function doSomething(value: Values) {
+  switch (value) {
+
+  }
+}`,
+    selection: Selection.cursorAt(8, 0),
+    expectedSnippet: {
+      code: `
+    case Values.One:$1
+    case Values.Two:$2
+    case Values.Three:$3`,
+      position: new Position(8, 0),
+      name: "Create all cases"
+    }
+  });
+});

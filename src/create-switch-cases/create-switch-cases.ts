@@ -1,4 +1,4 @@
-import { Code, Selection, Position } from "../editor";
+import { Code, Selection } from "../editor";
 import { Modification, NoModification, Update } from "../modification";
 import * as t from "../ast";
 import { TypeChecker } from "../create-function-with-types/type-checker";

@@ -74,6 +74,8 @@
     "onCommand:hocusPocus.createFunction",
     "onCommand:hocusPocus.createFunctionWithTypes",
     "onCommand:hocusPocus.createVariable",
+    "onCommand:hocusPocus.createClass",
+    "onCommand:hocusPocus.createSwitchCases",
     "onLanguage:javascript",
     "onLanguage:javascriptreact",
     "onLanguage:typescript",
@@ -99,6 +101,11 @@
       {
         "command": "hocusPocus.createClass",
         "title": "Create Class",
+        "category": "Hocus Pocus"
+      },
+      {
+        "command": "hocusPocus.createSwitchCases",
+        "title": "Create Switch Cases",
         "category": "Hocus Pocus"
       }
     ]

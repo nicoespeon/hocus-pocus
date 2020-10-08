@@ -58,16 +58,30 @@ class CreateSwitchCases implements Modification {
     if (!t.isSelectablePath(discriminantPath)) return NO_CASE;
 
     const discriminantStart = Selection.fromPath(discriminantPath).start;
-    const type = this.typeChecker.getLiteralValuesAt(discriminantStart);
+    const casesToGenerate = this.typeChecker.getLiteralValuesAt(
+      discriminantStart
+    );
 
-    return type
+    const NO_VALUE = null;
+    const existingCases = this.path.node.cases
+      .map(caseNode => {
+        try {
+          // @ts-ignore It's not typed, so let's try/catch to be safe 🤠
+          return caseNode.test.extra.raw;
+        } catch {
+          return NO_VALUE;
+        }
+      })
+      .filter(value => value !== NO_VALUE);
+
+    return casesToGenerate
+      .filter(value => !existingCases.includes(value))
       .map(
         (value, index) =>
           `${this.indentation}case ${value}:\n${this.indentation +
             this.oneLevelIndentation}$${index + 1}\n`
       )
-      .join("\n")
-      .trimEnd();
+      .join("\n");
   }
 
   protected get indentation(): string {
@@ -86,7 +100,7 @@ class CreateSwitchCases implements Modification {
   protected INDENTATION_WIDTH = 2;
 
   protected get position(): Position {
-    return this.selection.end.putAtPreviousLine().putAtStartOfLine();
+    return this.selection.end.putAtStartOfLine();
   }
 }
 

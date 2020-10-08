@@ -87,6 +87,31 @@ function doSomething(value: Values) {
   });
 });
 
+it("with existing cases", () => {
+  shouldUpdateCodeFor({
+    code: `type Values = "one" | "two" | "three";
+
+function doSomething(value: Values) {
+  switch (value) {
+    case "one":
+      doSomething();
+      break;
+
+    case "three":
+      break;
+  }
+}`,
+    selection: Selection.cursorAt(4, 0),
+    expectedSnippet: {
+      code: `    case "two":
+      $1
+`,
+      position: new Position(10, 0),
+      name: "Create all cases"
+    }
+  });
+});
+
 it("with an any", () => {
   shouldNotUpdateCodeFor({
     code: `function doSomething(value: any) {

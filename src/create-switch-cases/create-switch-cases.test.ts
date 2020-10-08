@@ -52,6 +52,26 @@ function doSomething(value: Values) {
   });
 });
 
+it("with an one-line switch", () => {
+  shouldUpdateCodeFor({
+    code: `type Values = "one" | "two" | "three";
+
+function doSomething(value: Values) {
+  switch (value) {}
+}`,
+    selection: Selection.cursorAt(3, 18),
+    expectedSnippet: {
+      code: `
+    case "one":$1
+    case "two":$2
+    case "three":$3
+  `,
+      position: new Position(3, 18),
+      name: "Create all cases"
+    }
+  });
+});
+
 it("with an any", () => {
   shouldNotUpdateCodeFor({
     code: `function doSomething(value: any) {

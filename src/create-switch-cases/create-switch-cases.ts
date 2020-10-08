@@ -17,7 +17,11 @@ function createSwitchCases(
     SwitchStatement(path) {
       if (!selection.isInsidePath(path)) return;
 
-      result = new CreateSwitchCases(path, code, logger);
+      if (Selection.fromPath(path).isOneLine) {
+        result = new CreateOneLineSwitchCases(path, code, logger, selection);
+      } else {
+        result = new CreateSwitchCases(path, code, logger);
+      }
     }
   });
 
@@ -26,7 +30,7 @@ function createSwitchCases(
 
 class CreateSwitchCases implements Modification {
   private typeChecker: TypeChecker;
-  private selection: Selection;
+  protected selection: Selection;
 
   constructor(
     private path: t.NodePath<t.SwitchStatement> & t.SelectablePath,
@@ -47,14 +51,8 @@ class CreateSwitchCases implements Modification {
     });
   }
 
-  private get cases(): string {
+  protected get cases(): string {
     const NO_CASE = "";
-
-    const INDENTATION_CHAR = " ";
-    const INDENTATION_WIDTH = 2;
-    const indentation = INDENTATION_CHAR.repeat(
-      this.selection.start.character + INDENTATION_WIDTH
-    );
 
     const discriminantPath = this.path.get("discriminant");
     if (!t.isSelectablePath(discriminantPath)) return NO_CASE;
@@ -63,12 +61,45 @@ class CreateSwitchCases implements Modification {
     const type = this.typeChecker.getLiteralValuesAt(discriminantStart);
 
     return type
-      .map((value, index) => `${indentation}case ${value}:$${index + 1}`)
+      .map((value, index) => `${this.indentation}case ${value}:$${index + 1}`)
       .join("\n")
       .trimStart();
   }
 
-  private get position(): Position {
+  protected get indentation(): string {
+    const INDENTATION_WIDTH = 2;
+
+    return this.INDENTATION_CHAR.repeat(
+      this.selection.start.character + INDENTATION_WIDTH
+    );
+  }
+
+  protected INDENTATION_CHAR = " ";
+
+  protected get position(): Position {
     return this.selection.end.putAtPreviousLine().putAtStartOfLine();
+  }
+}
+
+class CreateOneLineSwitchCases extends CreateSwitchCases {
+  constructor(
+    path: t.NodePath<t.SwitchStatement> & t.SelectablePath,
+    code: Code,
+    logger: Logger,
+    private userSelection: Selection
+  ) {
+    super(path, code, logger);
+  }
+
+  protected get cases(): string {
+    const closingBraceIndentation = this.INDENTATION_CHAR.repeat(
+      this.selection.start.character
+    );
+
+    return `\n${this.indentation}${super.cases}\n${closingBraceIndentation}`;
+  }
+
+  protected get position(): Position {
+    return this.userSelection.start;
   }
 }

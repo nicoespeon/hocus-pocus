@@ -56,7 +56,7 @@ class CreateSwitchCases implements Modification {
     if (cases.length === 0) return;
 
     update({
-      code: `\n${cases}`,
+      code: `${cases.trimStart()}`,
       position: selection.end.putAtPreviousLine().putAtStartOfLine(),
       name: `Create all cases`
     });

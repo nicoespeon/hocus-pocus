@@ -215,3 +215,21 @@ function bla(value: Values) {
 
   expect(type).toEqual([`Values.One`, `Values.Two`]);
 });
+
+it("should work if there are other type declarations before", () => {
+  const code = `type Others = "one" | "two";
+enum Values {
+  One,
+  Two = "two"
+};
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(6, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`Values.One`, `Values.Two`]);
+});

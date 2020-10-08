@@ -146,7 +146,10 @@ export class TypeChecker {
 
     if (is_enum_body) {
       const [, enumName] =
-        node.parent.getFullText().match(/^enum (\w+) /) || [];
+        node.parent
+          .getFullText()
+          .trim()
+          .match(/^enum (\w+) /) || [];
       if (!enumName) return values;
 
       return values.concat(

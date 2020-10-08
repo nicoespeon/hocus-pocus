@@ -67,7 +67,7 @@ class CreateSwitchCases implements Modification {
             this.oneLevelIndentation}$${index + 1}\n`
       )
       .join("\n")
-      .trim();
+      .trimEnd();
   }
 
   protected get indentation(): string {
@@ -101,7 +101,7 @@ class CreateOneLineSwitchCases extends CreateSwitchCases {
   }
 
   protected get cases(): string {
-    return `\n${this.indentation}${super.cases}\n${this.switchBaseIndentation}`;
+    return `\n${super.cases}\n${this.switchBaseIndentation}`;
   }
 
   protected get position(): Position {

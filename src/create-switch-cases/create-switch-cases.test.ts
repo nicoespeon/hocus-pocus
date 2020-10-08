@@ -19,7 +19,7 @@ function doSomething(value: Values) {
 }`,
     selection: Selection.cursorAt(4, 0),
     expectedSnippet: {
-      code: `case "one":
+      code: `    case "one":
       $1
 
     case "two":
@@ -48,7 +48,7 @@ function doSomething(value: Values) {
 }`,
     selection: Selection.cursorAt(8, 0),
     expectedSnippet: {
-      code: `case Values.One:
+      code: `    case Values.One:
       $1
 
     case Values.Two:

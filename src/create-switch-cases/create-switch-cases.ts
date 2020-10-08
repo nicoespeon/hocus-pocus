@@ -61,20 +61,29 @@ class CreateSwitchCases implements Modification {
     const type = this.typeChecker.getLiteralValuesAt(discriminantStart);
 
     return type
-      .map((value, index) => `${this.indentation}case ${value}:$${index + 1}`)
+      .map(
+        (value, index) =>
+          `${this.indentation}case ${value}:\n${this.indentation +
+            this.oneLevelIndentation}$${index + 1}\n`
+      )
       .join("\n")
-      .trimStart();
+      .trim();
   }
 
   protected get indentation(): string {
-    const INDENTATION_WIDTH = 2;
+    return this.switchBaseIndentation + this.oneLevelIndentation;
+  }
 
-    return this.INDENTATION_CHAR.repeat(
-      this.selection.start.character + INDENTATION_WIDTH
-    );
+  protected get switchBaseIndentation(): string {
+    return this.INDENTATION_CHAR.repeat(this.selection.start.character);
+  }
+
+  protected get oneLevelIndentation(): string {
+    return this.INDENTATION_CHAR.repeat(this.INDENTATION_WIDTH);
   }
 
   protected INDENTATION_CHAR = " ";
+  protected INDENTATION_WIDTH = 2;
 
   protected get position(): Position {
     return this.selection.end.putAtPreviousLine().putAtStartOfLine();
@@ -92,11 +101,7 @@ class CreateOneLineSwitchCases extends CreateSwitchCases {
   }
 
   protected get cases(): string {
-    const closingBraceIndentation = this.INDENTATION_CHAR.repeat(
-      this.selection.start.character
-    );
-
-    return `\n${this.indentation}${super.cases}\n${closingBraceIndentation}`;
+    return `\n${this.indentation}${super.cases}\n${this.switchBaseIndentation}`;
   }
 
   protected get position(): Position {

@@ -97,7 +97,7 @@ class ActionProvider implements vscode.CodeActionProvider {
 
         if (modificationName === null) return null;
 
-        const title = `🔮 ${modificationName}`;
+        const title = `${modificationName} 🔮`;
         const action = new vscode.CodeAction(title);
         action.command = {
           command: id,

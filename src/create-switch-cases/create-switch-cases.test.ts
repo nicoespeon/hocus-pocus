@@ -26,8 +26,9 @@ function doSomething(value: Values) {
       $2
 
     case "three":
-      $3`,
-      position: new Position(4, 0),
+      $3
+`,
+      position: new Position(5, 0),
       name: "Create all cases"
     }
   });
@@ -55,8 +56,9 @@ function doSomething(value: Values) {
       $2
 
     case Values.Three:
-      $3`,
-      position: new Position(8, 0),
+      $3
+`,
+      position: new Position(9, 0),
       name: "Create all cases"
     }
   });
@@ -80,6 +82,7 @@ function doSomething(value: Values) {
 
     case "three":
       $3
+
   `,
       position: new Position(3, 18),
       name: "Create all cases"

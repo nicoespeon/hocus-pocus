@@ -157,6 +157,7 @@ export class TypeChecker {
       return values.concat(
         node
           .getFullText()
+          .replace(/,$/, "")
           .split(",")
           .map(text => text.split("=")[0].trim())
           .map(enumValue => `${enumName}.${enumValue}`)

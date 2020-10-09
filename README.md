@@ -48,6 +48,14 @@ Just like "Create Function", this can be very useful if you tend to write class 
 
 ![][demo-create-class]
 
+### Create Switch Cases
+
+Create all missing cases of a switch statement made over an union type or an enum.
+
+Very convenient when you need to generate a switch statement to handle each scenario. If some cases are already present, it will complete the remaining ones.
+
+![][demo-create-switch-cases]
+
 ## Release Notes
 
 [Have a look at our CHANGELOG][changelog] to get the details of all changes between versions.
@@ -121,6 +129,7 @@ Contributions of any kind are welcome!
 [demo-create-function]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-function.gif?raw=true
 [demo-create-variable]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-variable.gif?raw=true
 [demo-create-class]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-class.gif?raw=true
+[demo-create-switch-cases]: https://github.com/nicoespeon/hocus-pocus/blob/master/assets/features/create-switch-cases.gif?raw=true
 
 <!-- Logo -->
 

@@ -90,7 +90,7 @@ function doSomething(value: Values) {
   });
 });
 
-it("with existing cases", () => {
+it("with existing cases (union type)", () => {
   shouldUpdateCodeFor({
     code: `type Values = "one" | "two" | "three";
 
@@ -110,6 +110,35 @@ function doSomething(value: Values) {
       $1
 `,
       position: new Position(10, 0),
+      name: "Create all cases"
+    }
+  });
+});
+
+it("with existing cases (enum)", () => {
+  shouldUpdateCodeFor({
+    code: `enum Values {
+  One,
+  Two,
+  Three
+}
+
+function doSomething(value: Values) {
+  switch (value) {
+    case Values.One:
+      doSomething();
+      break;
+
+    case Values.Three:
+      break;
+  }
+}`,
+    selection: Selection.cursorAt(10, 0),
+    expectedSnippet: {
+      code: `    case Values.Two:
+      $1
+`,
+      position: new Position(14, 0),
       name: "Create all cases"
     }
   });

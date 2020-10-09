@@ -62,17 +62,9 @@ class CreateSwitchCases implements Modification {
       discriminantStart
     );
 
-    const NO_VALUE = null;
-    const existingCases = this.path.node.cases
-      .map(caseNode => {
-        try {
-          // @ts-ignore It's not typed, so let's try/catch to be safe 🤠
-          return caseNode.test.extra.raw;
-        } catch {
-          return NO_VALUE;
-        }
-      })
-      .filter(value => value !== NO_VALUE);
+    const existingCases = this.path.node.cases.map(caseNode =>
+      t.print(caseNode.test)
+    );
 
     return casesToGenerate
       .filter(value => !existingCases.includes(value))

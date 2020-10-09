@@ -129,7 +129,9 @@ export class TypeChecker {
     typeChecker: ts.TypeChecker,
     node: ts.Node
   ): ts.Declaration | undefined {
-    return typeChecker.getTypeAtLocation(node).aliasSymbol?.declarations[0];
+    const type = typeChecker.getTypeAtLocation(node);
+    const symbol = type.aliasSymbol || type.symbol;
+    return symbol.declarations[0];
   }
 
   private resolveLiteralValues(

@@ -49,6 +49,7 @@
   "dependencies": {
     "@babel/parser": "7.7.5",
     "@babel/traverse": "7.7.4",
+    "@babel/generator": "7.7.4",
     "@typescript/vfs": "1.0.0",
     "typescript": "3.8.3"
   },
@@ -74,6 +75,8 @@
     "onCommand:hocusPocus.createFunction",
     "onCommand:hocusPocus.createFunctionWithTypes",
     "onCommand:hocusPocus.createVariable",
+    "onCommand:hocusPocus.createClass",
+    "onCommand:hocusPocus.createSwitchCases",
     "onLanguage:javascript",
     "onLanguage:javascriptreact",
     "onLanguage:typescript",
@@ -99,6 +102,11 @@
       {
         "command": "hocusPocus.createClass",
         "title": "Create Class",
+        "category": "Hocus Pocus"
+      },
+      {
+        "command": "hocusPocus.createSwitchCases",
+        "title": "Create Switch Cases",
         "category": "Hocus Pocus"
       }
     ]

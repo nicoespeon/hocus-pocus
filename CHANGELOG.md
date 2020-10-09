@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **(New Feature)** Create Switch Cases
+
+### Changed
+
+- We moved the 🔮 emoji at the end of the Quick Fix title for accessibility. Now you can type the first character of the title to select it with your keyboard!
+
 ## [1.5.0] - 2020-05-29
 
 ### Changed

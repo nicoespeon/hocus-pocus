@@ -1,6 +1,7 @@
 import { parse } from "@babel/parser";
 import traverse, { TraverseOptions, Scope } from "@babel/traverse";
 import { NodePath } from "@babel/traverse";
+import generate from "@babel/generator";
 import * as t from "@babel/types";
 
 import { Code } from "./editor";
@@ -10,7 +11,7 @@ export { NodePath } from "@babel/traverse";
 export { Selection, Position };
 export { Selectable, SelectableNode, SelectablePath };
 export { isSelectablePath, isSelectableNode };
-export { traverseCode };
+export { traverseCode, print };
 export { isDeclared, isMemberExpressionProperty };
 export {
   topLevelAncestor,
@@ -76,6 +77,11 @@ function traverseCode(code: Code, options: TraverseOptions) {
     }),
     options
   );
+}
+
+function print(ast: t.Node | null): string {
+  if (!ast) return "";
+  return generate(ast).code;
 }
 
 function isDeclared(id: t.Identifier, path: NodePath): boolean {

@@ -4,6 +4,7 @@ import { createFunction } from "./create-function";
 import { createFunctionWithTypes } from "./create-function-with-types";
 import { createVariable } from "./create-variable";
 import { createClass } from "./create-class";
+import { createSwitchCases } from "./create-switch-cases";
 import { Position, Selection, Code } from "./editor";
 import { Modification } from "./modification";
 
@@ -29,6 +30,11 @@ const COMMANDS = [
   {
     id: "hocusPocus.createClass",
     run: createClass,
+    languages: ALL_LANGUAGES
+  },
+  {
+    id: "hocusPocus.createSwitchCases",
+    run: createSwitchCases,
     languages: ALL_LANGUAGES
   }
 ];
@@ -91,7 +97,7 @@ class ActionProvider implements vscode.CodeActionProvider {
 
         if (modificationName === null) return null;
 
-        const title = `🔮 ${modificationName}`;
+        const title = `${modificationName} 🔮`;
         const action = new vscode.CodeAction(title);
         action.command = {
           command: id,

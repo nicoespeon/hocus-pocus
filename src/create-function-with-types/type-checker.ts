@@ -47,20 +47,16 @@ export class TypeChecker {
     position: TSPosition,
     program: ts.Program
   ): Type | undefined {
+    const node = this.getNodeAtPosition(position, program);
+    if (!node) return;
+
     const typeChecker = program.getTypeChecker();
 
     try {
-      // @ts-ignore Internal method
-      const node = ts.getTouchingPropertyName(
-        program.getSourceFile(this.fileName),
-        position.value
-      );
       const type = typeChecker.getTypeAtLocation(node);
-
       return this.normalizeType(typeChecker.typeToString(type));
     } catch (error) {
-      // Since we're using internal methods, we can't rely on type checking.
-      this.logger.error("Failed to check type", {
+      this.logger.error("Failed to get type", {
         error,
         code: this.code,
         position: position.value
@@ -89,6 +85,127 @@ export class TypeChecker {
     }
 
     return type;
+  }
+
+  getLiteralValuesAt(position: Position): string[] {
+    const program = this.createTSProgram();
+    if (!program) return [];
+
+    return this.getLiteralValuesAtPositionWithProgram(
+      new TSPosition(this.code, position),
+      program
+    );
+  }
+
+  private getLiteralValuesAtPositionWithProgram(
+    position: TSPosition,
+    program: ts.Program
+  ): LiteralValue[] {
+    const NO_VALUE: LiteralValue[] = [];
+
+    const node = this.getNodeAtPosition(position, program);
+    if (!node) return NO_VALUE;
+
+    const typeChecker = program.getTypeChecker();
+
+    try {
+      return this.resolveLiteralValues(
+        node => this.getFirstDeclaration(typeChecker, node),
+        node,
+        []
+      );
+    } catch (error) {
+      this.logger.error("Failed to retrieve literal type", {
+        error,
+        code: this.code,
+        position: position.value
+      });
+
+      return NO_VALUE;
+    }
+  }
+
+  private getFirstDeclaration(
+    typeChecker: ts.TypeChecker,
+    node: ts.Node
+  ): ts.Declaration | undefined {
+    const type = typeChecker.getTypeAtLocation(node);
+    const symbol = type.aliasSymbol || type.symbol;
+    return symbol.declarations[0];
+  }
+
+  private resolveLiteralValues(
+    getFirstDeclaration: (node: ts.Node) => ts.Declaration | undefined,
+    node: ts.Node,
+    values: LiteralValue[]
+  ): LiteralValue[] {
+    const is_literal = node.kind === 187;
+    const is_identifier = node.kind === 75;
+    const is_enum_body = node.kind === 323 && node.parent.kind === 248;
+    const parent_is_type_declaration = [247, 248].includes(node.parent.kind);
+
+    if (is_literal) return values.concat(node.getText());
+
+    if (is_enum_body) {
+      const [, enumName] =
+        node.parent
+          .getFullText()
+          .trim()
+          .match(/^enum (\w+) /) || [];
+      if (!enumName) return values;
+
+      return values.concat(
+        node
+          .getFullText()
+          .replace(/,$/, "")
+          .split(",")
+          .map(text => text.split("=")[0].trim())
+          .map(enumValue => `${enumName}.${enumValue}`)
+      );
+    }
+
+    if (is_identifier && !parent_is_type_declaration) {
+      const firstDeclaration = getFirstDeclaration(node);
+      if (!firstDeclaration) return values;
+
+      return this.resolveLiteralValues(
+        getFirstDeclaration,
+        firstDeclaration,
+        values
+      );
+    }
+
+    if (node.getChildCount() > 0) {
+      return values.concat(
+        ...node
+          .getChildren()
+          .map(child =>
+            this.resolveLiteralValues(getFirstDeclaration, child, values)
+          )
+      );
+    }
+
+    return values;
+  }
+
+  private getNodeAtPosition(
+    position: TSPosition,
+    program: ts.Program
+  ): ts.Node | undefined {
+    try {
+      // @ts-ignore Internal method
+      return ts.getTouchingPropertyName(
+        program.getSourceFile(this.fileName),
+        position.value
+      );
+    } catch (error) {
+      // Since we're using internal methods, we can't rely on type checking.
+      this.logger.error("Failed to get TS node", {
+        error,
+        code: this.code,
+        position: position.value
+      });
+    }
   }
 
   private createTSProgram(): ts.Program | undefined {
@@ -126,3 +243,4 @@ export class TypeChecker {
 }
 
 type Type = string;
+type LiteralValue = string;

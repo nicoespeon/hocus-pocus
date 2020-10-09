@@ -111,6 +111,20 @@ function bla() {
   expect(type).toBe(`Bla`);
 });
 
+it("should infer type of a union string", () => {
+  const code = `type Values = "one" | "two";
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(3, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getTypeAt(position);
+
+  expect(type).toBe(`Values`);
+});
+
 it("should return any if code is empty", () => {
   const code = ``;
   const position = new Position(0, 0);
@@ -139,4 +153,117 @@ it("should return any if position is not on an identifier", () => {
   const type = typeChecker.getTypeAt(position);
 
   expect(type).toBe("any");
+});
+
+it("should resolve literal values of a union string", () => {
+  const code = `type Values = "one" | "two";
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(3, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`"one"`, `"two"`]);
+});
+
+it("should resolve literal values of a nested union string", () => {
+  const code = `type Values = "one" | "two" | OtherValues | "five";
+type OtherValues = "three" | "four";
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(4, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`"one"`, `"two"`, `"three"`, `"four"`, `"five"`]);
+});
+
+it("should resolve mixed literal values", () => {
+  const code = `type Values = "one" | 2 | OtherValues | "five";
+type OtherValues = true | "four";
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(4, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`"one"`, `2`, `true`, `"four"`, `"five"`]);
+});
+
+it("should resolve literal values of an enum", () => {
+  const code = `enum Values {
+  One,
+  Two
+};
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(5, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`Values.One`, `Values.Two`]);
+});
+
+it("should resolve literal values of an enum with aliases", () => {
+  const code = `enum Values {
+  One = 1,
+  Two = "two"
+};
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(5, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`Values.One`, `Values.Two`]);
+});
+
+it("should resolve literal values of an enum with trailing comma", () => {
+  const code = `enum Values {
+  One = 1,
+  Two,
+};
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(5, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`Values.One`, `Values.Two`]);
+});
+
+it("should work if there are other type declarations before", () => {
+  const code = `type Others = "one" | "two";
+enum Values {
+  One,
+  Two = "two"
+};
+
+function bla(value: Values) {
+  doSomething(value);
+}`;
+  const position = new Position(6, 15);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([`Values.One`, `Values.Two`]);
 });

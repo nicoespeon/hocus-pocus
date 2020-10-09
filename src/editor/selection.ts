@@ -31,7 +31,11 @@ class Selection {
   }
 
   get isMultiLines(): boolean {
-    return !this.start.isSameLineThan(this.end);
+    return !this.isOneLine;
+  }
+
+  get isOneLine(): boolean {
+    return this.start.isSameLineThan(this.end);
   }
 
   get height(): number {

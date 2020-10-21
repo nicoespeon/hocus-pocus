@@ -74,6 +74,8 @@
   "activationEvents": [
     "onCommand:hocusPocus.createFunction",
     "onCommand:hocusPocus.createFunctionWithTypes",
+    "onCommand:hocusPocus.createArrowFunction",
+    "onCommand:hocusPocus.createArrowFunctionWithTypes",
     "onCommand:hocusPocus.createVariable",
     "onCommand:hocusPocus.createClass",
     "onCommand:hocusPocus.createSwitchCases",

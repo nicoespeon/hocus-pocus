@@ -95,6 +95,16 @@
         "category": "Hocus Pocus"
       },
       {
+        "command": "hocusPocus.createArrowFunction",
+        "title": "Create Arrow Function",
+        "category": "Hocus Pocus"
+      },
+      {
+        "command": "hocusPocus.createArrowFunctionWithTypes",
+        "title": "Create Arrow Function",
+        "category": "Hocus Pocus"
+      },
+      {
         "command": "hocusPocus.createVariable",
         "title": "Create Variable",
         "category": "Hocus Pocus"

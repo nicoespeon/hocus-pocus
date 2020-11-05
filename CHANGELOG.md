@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2020-11-05
+
 ### Added
 
 - Create Switch Cases now handles inferred union types. So now it can infer things like:
@@ -106,7 +108,8 @@ async function doSomething() {}
 
 <!-- Links -->
 
-[unreleased]: https://github.com/nicoespeon/hocus-pocus/compare/1.6.0...HEAD
+[unreleased]: https://github.com/nicoespeon/hocus-pocus/compare/1.7.0...HEAD
+[1.7.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.6.0...1.7.0
 [1.6.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/nicoespeon/hocus-pocus/compare/1.3.0...1.4.0

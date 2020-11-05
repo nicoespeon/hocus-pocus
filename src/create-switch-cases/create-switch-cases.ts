@@ -57,9 +57,9 @@ class CreateSwitchCases implements Modification {
     const discriminantPath = this.path.get("discriminant");
     if (!t.isSelectablePath(discriminantPath)) return NO_CASE;
 
-    const discriminantStart = Selection.fromPath(discriminantPath).start;
+    const discriminantEnd = Selection.fromPath(discriminantPath).end;
     const casesToGenerate = this.typeChecker.getLiteralValuesAt(
-      discriminantStart
+      discriminantEnd
     );
 
     const existingCases = this.path.node.cases.map(caseNode =>

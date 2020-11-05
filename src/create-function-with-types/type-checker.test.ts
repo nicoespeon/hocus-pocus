@@ -267,3 +267,26 @@ function bla(value: Values) {
 
   expect(type).toEqual([`Values.One`, `Values.Two`]);
 });
+
+it("should work with inferred types", () => {
+  const code = `type Actions =
+  | { type: "listTokens"; payload: { page: number } }
+  | { type: "renameToken"; payload: {} & { id: string } }
+  | { type: "removeToken"; payload: {} }
+  | { type: "createToken" };
+
+function bla(action: Actions) {
+  doSomething(action.type);
+}`;
+  const position = new Position(7, 22);
+  const typeChecker = new TypeChecker(code);
+
+  const type = typeChecker.getLiteralValuesAt(position);
+
+  expect(type).toEqual([
+    `"listTokens"`,
+    `"renameToken"`,
+    `"removeToken"`,
+    `"createToken"`
+  ]);
+});

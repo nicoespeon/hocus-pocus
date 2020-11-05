@@ -110,6 +110,7 @@ export class TypeChecker {
 
     try {
       return this.resolveLiteralValues(
+        typeChecker,
         node => this.getFirstDeclaration(typeChecker, node),
         node,
         []
@@ -131,10 +132,11 @@ export class TypeChecker {
   ): ts.Declaration | undefined {
     const type = typeChecker.getTypeAtLocation(node);
     const symbol = type.aliasSymbol || type.symbol;
-    return symbol.declarations[0];
+    return symbol?.declarations[0];
   }
 
   private resolveLiteralValues(
+    typeChecker: ts.TypeChecker,
     getFirstDeclaration: (node: ts.Node) => ts.Declaration | undefined,
     node: ts.Node,
     values: LiteralValue[]
@@ -166,9 +168,17 @@ export class TypeChecker {
 
     if (is_identifier && !parent_is_type_declaration) {
       const firstDeclaration = getFirstDeclaration(node);
-      if (!firstDeclaration) return values;
+      if (!firstDeclaration) {
+        const type = typeChecker.getTypeAtLocation(node);
+        if (type.isUnion()) {
+          return type.types.map(v => (v.isLiteral() ? `"${v.value}"` : ""));
+        }
+
+        return values;
+      }
 
       return this.resolveLiteralValues(
+        typeChecker,
         getFirstDeclaration,
         firstDeclaration,
         values
@@ -180,7 +190,12 @@ export class TypeChecker {
         ...node
           .getChildren()
           .map(child =>
-            this.resolveLiteralValues(getFirstDeclaration, child, values)
+            this.resolveLiteralValues(
+              typeChecker,
+              getFirstDeclaration,
+              child,
+              values
+            )
           )
       );
     }

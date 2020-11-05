@@ -144,6 +144,39 @@ function doSomething(value: Values) {
   });
 });
 
+it("with inferred union type", () => {
+  shouldUpdateCodeFor({
+    code: `type Actions =
+  | { type: "listTokens"; payload: { page: number } }
+  | { type: "renameToken"; payload: {} & { id: string } }
+  | { type: "removeToken"; payload: {} }
+  | { type: "createToken" };
+
+function doSomething(action: Actions) {
+  switch (action.type) {
+
+  }
+}`,
+    selection: Selection.cursorAt(8, 0),
+    expectedSnippet: {
+      code: `    case "listTokens":
+      $1
+
+    case "renameToken":
+      $2
+
+    case "removeToken":
+      $3
+
+    case "createToken":
+      $4
+`,
+      position: new Position(9, 0),
+      name: "Create all cases"
+    }
+  });
+});
+
 it("with an any", () => {
   shouldNotUpdateCodeFor({
     code: `function doSomething(value: any) {

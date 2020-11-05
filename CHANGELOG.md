@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Create Switch Cases now handles inferred union types. So now it can infer things like:
+
+```ts
+type Actions =
+  | { type: "listTokens"; payload: { page: number } }
+  | { type: "renameToken"; payload: {} & { id: string } }
+  | { type: "removeToken"; payload: {} }
+  | { type: "createToken" };
+
+function doSomething(action: Actions) {
+  // It will autocomplete with all types!
+  switch (action.type) {
+  }
+}
+```
+
 ## [1.6.0] - 2020-10-08
 
 ### Added

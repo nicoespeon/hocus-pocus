@@ -74,6 +74,8 @@
   "activationEvents": [
     "onCommand:hocusPocus.createFunction",
     "onCommand:hocusPocus.createFunctionWithTypes",
+    "onCommand:hocusPocus.createArrowFunction",
+    "onCommand:hocusPocus.createArrowFunctionWithTypes",
     "onCommand:hocusPocus.createVariable",
     "onCommand:hocusPocus.createClass",
     "onCommand:hocusPocus.createSwitchCases",
@@ -92,6 +94,16 @@
       {
         "command": "hocusPocus.createFunctionWithTypes",
         "title": "Create Function",
+        "category": "Hocus Pocus"
+      },
+      {
+        "command": "hocusPocus.createArrowFunction",
+        "title": "Create Arrow Function",
+        "category": "Hocus Pocus"
+      },
+      {
+        "command": "hocusPocus.createArrowFunctionWithTypes",
+        "title": "Create Arrow Function",
         "category": "Hocus Pocus"
       },
       {

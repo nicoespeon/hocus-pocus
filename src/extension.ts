@@ -1,7 +1,11 @@
 import * as vscode from "vscode";
 
 import { createFunction } from "./create-function";
-import { createFunctionWithTypes } from "./create-function-with-types";
+import { createArrowFunction } from "./create-arrow-function";
+import {
+  createArrowFunctionWithTypes,
+  createFunctionWithTypes
+} from "./create-function-with-types";
 import { createVariable } from "./create-variable";
 import { createClass } from "./create-class";
 import { createSwitchCases } from "./create-switch-cases";
@@ -20,6 +24,16 @@ const COMMANDS = [
   {
     id: "hocusPocus.createFunctionWithTypes",
     run: createFunctionWithTypes,
+    languages: TS_LANGUAGES
+  },
+  {
+    id: "hocusPocus.createArrowFunction",
+    run: createArrowFunction,
+    languages: JS_LANGUAGES
+  },
+  {
+    id: "hocusPocus.createArrowFunctionWithTypes",
+    run: createArrowFunctionWithTypes,
     languages: TS_LANGUAGES
   },
   {

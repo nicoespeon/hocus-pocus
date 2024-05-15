@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This extension was a cool POC but has not been updated in a while and won't be in the foreseeable future. I'm officially archiving it 😉
+
 # 🔮‍ Hocus Pocus
 
 ![][logo-hocus-pocus]
